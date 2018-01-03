@@ -1,0 +1,39 @@
+﻿@using DataAccess.Models
+@model List<Book>
+
+
+@{
+    ViewBag.Title = "Index";
+    Book book = ViewBag.Kniha as Book; //Přetypování / secure
+
+    // @model book -> Typový model
+}
+
+<h1>Výpis knih v lofově knihovně</h1>
+<hr/>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Název knihy</th>
+        <th>Autor</th>
+        <th>Rok vydání</th>
+    </tr>
+    
+    </thead>
+    
+    <tbody>
+        @foreach (Book b in Model)
+        {
+        <tr>
+            <td>@b.Id</td>
+            <td>@b.Name</td>
+            <td>@b.Author</td>
+            <td>@b.PublishedYear</td>
+
+        </tr>      
+        }
+
+    </tbody>
+</table>
