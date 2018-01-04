@@ -1,0 +1,25 @@
+﻿@model DataAccess.Models.Book
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail knihy @Model.Name</h2>
+
+<p>
+    Autor: @Model.Author
+</p>
+<p>
+    Rok vydání: @Model.PublishedYear
+</p>
+
+@{
+    if (ViewBag.Zobraz) // Ochrana proti nullovatelnosti
+    {
+        <p>DETAL RE</p>
+    }
+}
+
+@section SideBar
+{
+    <h4>Chcete knihu @Model.Name s 6% slevou?</h4>
+}

@@ -15,18 +15,46 @@ namespace LofovaChyse.Controllers
             string pozdrav = "Lof lof";
             int cislo = 12;
 
-            List<Book> books = new List<Book>();
-            books.Add(new Book() {Author = "Satan", Id = 1, Name = "Bible of the beast", PublishedYear = 666});
-            books.Add(new Book() { Author = "Satan2", Id = 2, Name = "Bible of the beast2", PublishedYear = 666 });
-            books.Add(new Book() { Author = "Satan3", Id = 3, Name = "Bible of the beast3", PublishedYear = 666 });
-            books.Add(new Book() { Author = "Satan4", Id = 4, Name = "Bible of the beast4", PublishedYear = 666 });
-
-
             // Potřebuju ulořit do kontaineru abych to dostal do view
             ViewBag.Pozdrav = pozdrav;
             ViewBag.Cislo = cislo;
 
-            return View(books); // Pasnu třídu
+            return View(Books.GetFakeList); // Passnu třídu
+        }
+
+        public ActionResult Detail(int? id, bool zobrazPopis)
+        {
+            Book b = (from Book book in Books.GetFakeList where book.Id == id select book).FirstOrDefault();
+            ViewBag.Zobraz = zobrazPopis;
+
+            return View(b);
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost] // post only
+        public ActionResult Add(Book book)
+        {
+            if (ModelState.IsValid)
+            {
+                Book b = new Book()
+                {
+                    Name = book.Name,
+                    Author = book.Author,
+                    PublishedYear = book.PublishedYear,
+                    Id = Books.Counter
+                };
+                Books.GetFakeList.Add(b);
+            }
+            else
+            {
+                return View("Create", book); // Vrátím vstupní data
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
