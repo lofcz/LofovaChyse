@@ -165,3 +165,11 @@ h6,
     .blog-footer p:last-child {
         margin-bottom: 0;
     }
+
+.input-validation-error {
+    background-color: bisque;
+}
+
+ .valid {
+     background-color: #ccffcc;
+ }
