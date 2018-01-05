@@ -18,6 +18,7 @@
 <table class="table table-bordered table-hover table-condensed">
     <thead>
     <tr>
+        <th>Obrázek</th>
         <th>ID</th>
         <th>Název knihy</th>
         <th>Autor</th>
@@ -29,13 +30,19 @@
     <tbody>
         @foreach (Book b in Model)
         {
-        <tr>
-            <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
-            <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title=b.Name, @class = ""})</td>
-            <td>@b.Author</td>
-            <td>@b.PublishedYear</td>
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(b.ImageName))
+                    {
+                        <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
+                    }
+                </td>
+                <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
+                <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
+                <td>@b.Author</td>
+                <td>@b.PublishedYear</td>
 
-        </tr>      
+            </tr>      
         }
 
     </tbody>

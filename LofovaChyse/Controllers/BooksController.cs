@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataAccess.Models;
+using LofovaChyse.Class;
 
 namespace LofovaChyse.Controllers
 {
@@ -36,7 +39,7 @@ namespace LofovaChyse.Controllers
         }
 
         [HttpPost] // post only
-        public ActionResult Add(Book book)
+        public ActionResult Add(Book book, HttpPostedFileBase picture)
         {
             if (ModelState.IsValid)
             {
@@ -45,8 +48,35 @@ namespace LofovaChyse.Controllers
                     Name = book.Name,
                     Author = book.Author,
                     PublishedYear = book.PublishedYear,
-                    Id = Books.Counter
+                    Id = Books.Counter,
+                    Description = book.Description
                 };
+               
+
+                if (picture != null)
+                {
+                    var z = picture.ContentLength;
+
+                    if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
+                    {
+                        Image image = Image.FromStream(picture.InputStream);
+                        image = ImageHelper.ScaleImage(image, 200, 200);
+
+
+                        Bitmap btmBitmap = new Bitmap(image);
+                        Guid guid = Guid.NewGuid();
+
+                        string imageName = guid.ToString() + ".png";
+                        btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+
+                        btmBitmap.Dispose();
+                        image.Dispose();
+
+                        b.ImageName = imageName;
+                    }
+                }
+
+                var bd = book.ImageName;
                 Books.GetFakeList.Add(b);
             }
             else
