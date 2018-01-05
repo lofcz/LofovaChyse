@@ -140,3 +140,13 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csprojResol
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csproj.CoreCompileInputs.cache
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.pdb
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\NHibernate.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Remotion.Linq.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Remotion.Linq.EagerFetching.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Antlr3.Runtime.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Iesi.Collections.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\NHibernate.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Remotion.Linq.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Remotion.Linq.EagerFetching.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Antlr3.Runtime.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Iesi.Collections.xml

@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataAccess.Dao;
 using DataAccess.Models;
 using LofovaChyse.Class;
 
@@ -18,11 +19,14 @@ namespace LofovaChyse.Controllers
             string pozdrav = "Lof lof";
             int cislo = 12;
 
-            // Potřebuju ulořit do kontaineru abych to dostal do view
+            // Potřebuju uložit do kontaineru abych to dostal do view
             ViewBag.Pozdrav = pozdrav;
             ViewBag.Cislo = cislo;
 
-            return View(Books.GetFakeList); // Passnu třídu
+            BookDao bookDao = new BookDao();
+            IList<Book> books = bookDao.GetAll();
+
+            return View(books); // Passnu třídu
         }
 
         public ActionResult Detail(int? id, bool zobrazPopis)
@@ -60,14 +64,14 @@ namespace LofovaChyse.Controllers
                     if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
                     {
                         Image image = Image.FromStream(picture.InputStream);
-                        image = ImageHelper.ScaleImage(image, 200, 200);
+                        Image smalImage = ImageHelper.ScaleImage(image, 200, 200);
 
 
-                        Bitmap btmBitmap = new Bitmap(image);
+                        Bitmap btmBitmap = new Bitmap(smalImage);
                         Guid guid = Guid.NewGuid();
 
-                        string imageName = guid.ToString() + ".png";
-                        btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+                        string imageName = guid.ToString() + ".jpg";
+                        btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName, ImageFormat.Jpeg); // Je potřeba namapovat cestu!
 
                         btmBitmap.Dispose();
                         image.Dispose();
@@ -76,8 +80,10 @@ namespace LofovaChyse.Controllers
                     }
                 }
 
-                var bd = book.ImageName;
                 Books.GetFakeList.Add(b);
+
+                // Notifikace
+                TempData["scs"] = "V pořádku";
             }
             else
             {

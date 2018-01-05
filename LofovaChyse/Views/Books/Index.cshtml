@@ -1,5 +1,5 @@
 ﻿@using DataAccess.Models
-@model List<Book>
+@model IList<Book>
 
 
 @{
@@ -28,22 +28,22 @@
     </thead>
     
     <tbody>
-        @foreach (Book b in Model)
-        {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(b.ImageName))
-                    {
-                        <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
-                    }
-                </td>
-                <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
-                <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
-                <td>@b.Author</td>
-                <td>@b.PublishedYear</td>
+    @foreach (Book b in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(b.ImageName))
+                {
+                    <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
+                }
+            </td>
+            <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
+            <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
+            <td>@b.Author</td>
+            <td>@b.PublishedYear</td>
 
-            </tr>      
-        }
+        </tr>      
+    }
 
     </tbody>
 </table>
