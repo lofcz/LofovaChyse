@@ -14,3 +14,4 @@ Hotové funkce:
 - Linkování k databázi
 - DaoModel
 - MasterPage + partialní layouty
+- Lazy loading
