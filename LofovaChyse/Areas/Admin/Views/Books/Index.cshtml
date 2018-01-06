@@ -12,6 +12,7 @@
 <h1>Výpis knih v lofově knihovně</h1>
 <hr/>
 
+<a href="@Url.Action("Create", "Books")" class="btn btn-default pull-right">Vytvoření nové knihy</a>
 <div class="clearfix"></div>
 
 <table class="table table-bordered table-hover table-condensed">
@@ -22,11 +23,7 @@
         <th>Název knihy</th>
         <th>Autor</th>
         <th>Rok vydání</th>
-        
-        @if (User.IsInRole("Knihovnik"))
-        {
-            <th><strong>[ACP] Akce</strong></th>
-        }
+        <th>Akce</th>
     </tr>
     
     </thead>
@@ -45,14 +42,10 @@
             <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
             <td>@b.Author</td>
             <td>@b.PublishedYear</td>
-            
-            @if (User.IsInRole("Knihovnik"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Books", new {id = b.Id}, null)
-                    @Html.ActionLink("Delete", "Delete", "Books", new {id = b.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');"})
-                </td>
-            }
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Books", new { id = b.Id }, null)
+                @Html.ActionLink("Delete", "Delete", "Books", new { id = b.Id }, new {onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');"})
+            </td>
         </tr>      
     }
 

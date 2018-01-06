@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace LofovaChyse.Controllers
+namespace LofovaChyse.Areas.Admin.Controllers
 {
     public class LoginController : Controller
     {
@@ -21,7 +21,7 @@ namespace LofovaChyse.Controllers
             if (Membership.ValidateUser(login, password))
             {
                 FormsAuthentication.SetAuthCookie(login, false);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new {area = ""});
             }
 
             TempData["error"] = "Přihlášení selhalo";

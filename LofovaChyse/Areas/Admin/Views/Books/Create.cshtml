@@ -1,0 +1,66 @@
+﻿@model DataAccess.Models.Book
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Vytvořit novou knihu</h2>
+
+@using (Html.BeginForm("Add", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype="multipart/form-data" })) // Umožní zpracovat nahrané soubory
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Název knihy</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Name)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Autor</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Author, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Author)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Rok vydání</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.PublishedYear, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.PublishedYear)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Popis</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(x => x.Description, new { @class = "form-control formatedtext" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Kategorie</label>
+        <div class="col-sm-10">
+            @Html.DropDownList("categoryId", new SelectList(ViewBag.Categories, "Id", "Name"), new {@class="form-control"})
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Obrázek</label>
+        <div class="col-sm-10">
+            <input type="file" name="picture"/>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Vytvořit knihu</button>
+        </div>
+    </div>
+}
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons' });</script>

@@ -1,0 +1,48 @@
+﻿@using DataAccess.Models
+@model IList<Book>
+
+
+@{
+    ViewBag.Title = "Index";
+    //Book book = ViewBag.Kniha as Book; //Přetypování / secure
+
+    // @model book -> Typový model
+}
+
+<h1>Výpis knih v lofově knihovně</h1>
+<hr />
+
+<a href="@Url.Action("Create", "Books")" class="btn btn-default pull-right">Vytvoření nové knihy</a>
+<div class="clearfix"></div>
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Obrázek</th>
+            <th>ID</th>
+            <th>Název knihy</th>
+            <th>Autor</th>
+            <th>Rok vydání</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @foreach (Book b in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(b.ImageName))
+                    {
+                        <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
+                    }
+                </td>
+                <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
+                <td>@Html.ActionLink(b.Name, "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "" })</td>
+                <td>@b.Author</td>
+                <td>@b.PublishedYear</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

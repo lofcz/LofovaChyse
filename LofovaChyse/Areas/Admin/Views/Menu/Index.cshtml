@@ -1,0 +1,18 @@
+﻿@model DataAccess.Models.KnihovnaUser
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+@if (Model.Role.Identificator == "knihovnik")
+{
+    <li><a href="@Url.Action("Index", "Books")">Správa knih</a></li>
+
+}
+else if (Model.Role.Identificator == "ctenar")
+{
+    <li><a href="@Url.Action("Index", "Books")">Výpis</a></li>
+}
+
+<li><a href="@Url.Action("Logout", "Login")">Odhlásit se</a></li>
