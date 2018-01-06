@@ -15,3 +15,5 @@ Hotové funkce:
 - DaoModel
 - MasterPage + partialní layouty
 - Lazy loading
+- Editování příspěvků
+- Notifikace
