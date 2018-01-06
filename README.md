@@ -25,3 +25,4 @@ Hotové funkce:
 - Lazy loading
 - Notifikace
 - ACP
+- Ukládání obrázků na server, automatický resize 
