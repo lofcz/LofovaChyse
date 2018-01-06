@@ -23,6 +23,7 @@
         <th>Název knihy</th>
         <th>Autor</th>
         <th>Rok vydání</th>
+        <th>Akce</th>
     </tr>
     
     </thead>
@@ -41,7 +42,7 @@
             <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
             <td>@b.Author</td>
             <td>@b.PublishedYear</td>
-
+            <td>@Html.ActionLink("Edit", "Edit", "Books", new {id = b.Id}, null)</td>
         </tr>      
     }
 
