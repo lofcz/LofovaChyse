@@ -8,12 +8,14 @@ ETA1: Q1 of 2018
 
 Hotové funkce:
 - Příspěvky
-- Detail příspěvků
-- Vytvoření příspěvku
+  - Render
+  - Přidat
+  - Upravit
+  - Smazat
+  - Detail
 - AJAX validace + WYSIWYG editor (sbohem bb)
 - Linkování k databázi
 - DaoModel
 - MasterPage + partialní layouty
 - Lazy loading
-- Editování příspěvků
 - Notifikace
