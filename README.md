@@ -13,6 +13,11 @@ Hotové funkce:
   - Upravit
   - Smazat
   - Detail
+- Uživatelé
+  - Přihlášení
+  - Odhlášení
+  - Role
+- Úrovně přístupu, autentifikace
 - AJAX validace + WYSIWYG editor (sbohem bb)
 - Linkování k databázi
 - DaoModel
