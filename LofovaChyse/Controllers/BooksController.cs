@@ -158,5 +158,25 @@ namespace LofovaChyse.Controllers
 
             return RedirectToAction("Index", "Books");
         }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                BookDao bookDao = new BookDao();
+                Book book = bookDao.GetbyId(id);
+
+                System.IO.File.Delete(Server.MapPath("~/Uploads/Book/") + book.ImageName);
+
+                bookDao.Delete(book);
+                TempData["scs"] = "Kniha " + book.Name + " byla smazána";
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return RedirectToAction("Index", "Books");
+        }
     }
 }

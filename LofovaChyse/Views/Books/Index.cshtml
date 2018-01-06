@@ -42,7 +42,10 @@
             <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
             <td>@b.Author</td>
             <td>@b.PublishedYear</td>
-            <td>@Html.ActionLink("Edit", "Edit", "Books", new {id = b.Id}, null)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Books", new { id = b.Id }, null)
+                @Html.ActionLink("Delete", "Delete", "Books", new { id = b.Id }, new {onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');"})
+            </td>
         </tr>      
     }
 
