@@ -39,6 +39,7 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
+        [Authorize(Roles = "knihovnik")]
         public ActionResult Create()
         {
             BookCategoryDao bookCategoryDao = new BookCategoryDao();
@@ -49,6 +50,7 @@ namespace LofovaChyse.Controllers
         }
 
         [HttpPost] // post only
+        [Authorize(Roles = "knihovnik")]
         public ActionResult Add(Book book, HttpPostedFileBase picture, int categoryId)
         {
             if (ModelState.IsValid)
@@ -105,6 +107,7 @@ namespace LofovaChyse.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "knihovnik")]
         public ActionResult Edit(int id)
         {
             BookDao bookDao = new BookDao();
@@ -116,6 +119,8 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
+        [Authorize(Roles = "knihovnik")]
+        [HttpPost]
         public ActionResult Update(Book book, HttpPostedFileBase picture, int categoryId)
         {
             try
@@ -159,6 +164,7 @@ namespace LofovaChyse.Controllers
             return RedirectToAction("Index", "Books");
         }
 
+        [Authorize(Roles = "knihovnik")]
         public ActionResult Delete(int id)
         {
             try
