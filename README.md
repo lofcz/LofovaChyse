@@ -13,6 +13,8 @@ ETA1: Q1 of 2018
   - Upravit
   - Smazat
   - Detail
+    - AJAX
+    - Synchronní
 - Uživatelé
   - Přihlášení
   - Odhlášení
