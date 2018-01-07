@@ -45,6 +45,14 @@ namespace LofovaChyse.Areas.Admin.Controllers
             return View(books); // Passnu třídu
         }
 
+        public ActionResult Search(string phrase)
+        {
+            BookDao bookDao = new BookDao();
+            IList<Book> books = bookDao.SearchBooks(phrase);
+
+            return View("IndexCtenar", books);
+        }
+
         public ActionResult Detail(int id, bool zobrazPopis)
         {
             BookDao bookDao = new BookDao();
