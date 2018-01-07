@@ -28,3 +28,5 @@ ETA1: Q1 of 2018
 - Ukládání obrázků na server, automatický resize 
 - Paginace
 - Vyhledávání
+  - Fulltext
+  - Kategorie
