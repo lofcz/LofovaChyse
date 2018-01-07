@@ -29,6 +29,8 @@ ETA1: Q1 of 2018
 - ACP
 - Ukládání obrázků na server, automatický resize 
 - Paginace
+  - AJAX
+  - Synchronní
 - Vyhledávání
   - Fulltext
   - Kategorie
