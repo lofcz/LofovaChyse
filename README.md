@@ -6,7 +6,7 @@ Open source board bulletin project. Descendant of svobodneForum.eu
 
 ETA1: Q1 of 2018
 
-Hotové funkce:
+## Hotové funkce:
 - Příspěvky
   - Render
   - Přidat
@@ -25,3 +25,4 @@ Hotové funkce:
 - Lazy loading
 - Notifikace
 - ACP
+- Ukládání obrázků na server, automatický resize 
