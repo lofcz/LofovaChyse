@@ -46,10 +46,24 @@ namespace LofovaChyse.Areas.Admin.Controllers
             return View(books);
         }
 
+        public JsonResult SearchBooks(string query)
+        {
+            BookDao bookDao = new BookDao();
+            IList<Book> books = bookDao.SearchBooks(query);
+
+            List<string> names = (from Book b in books select b.Name).ToList();
+            return Json(names, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Search(string phrase)
         {
             BookDao bookDao = new BookDao();
             IList<Book> books = bookDao.SearchBooks(phrase);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Index", books);
+            }
 
             return View("Index", books);
         }

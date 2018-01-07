@@ -9,6 +9,8 @@
     // @model book -> Typový model
 }
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -34,9 +36,9 @@
 
 <div class="panel">
     <div class="panel-body">
-        @using (Html.BeginForm("Search", "Books"))
+        @using (Ajax.BeginForm("Search", new AjaxOptions() {UpdateTargetId = "dynamicContent", InsertionMode = InsertionMode.Replace}))
         {
-            <input type="text" class="form-control" placeholder="Vyhledat knihu" name="phrase" />
+            <input type="text" class="form-control" placeholder="Vyhledat knihu" name="phrase" id="myInput"/>
             <input type="submit" class="btn btn-default" value="Hledat" />
         }
     </div>
@@ -118,4 +120,25 @@
 
         $('#myModal').modal('toggle');
     }
+</script>
+
+<script type="text/javascript">
+    $(function() {
+
+        $("#myInput").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '@Url.Action("SearchBooks", "Books")',
+                    dataType: "json",
+                    data: {
+                        query: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLenght: 1,
+        });
+    })
 </script>
