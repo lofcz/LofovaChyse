@@ -51,3 +51,15 @@
 
     </tbody>
 </table>
+
+<p>Počet položek na stránku: @ViewBag.PerPage</p>
+@if (ViewBag.Pages != null)
+{
+    <ul class="pagination">
+            
+        @for (int i = 1; i <= ViewBag.Pages; i++)
+        {
+            <li class="@(ViewBag.CurrentPage == i ? "active" : "")"><a href="@Url.Action("Index", "Books", new {page = i})">@i</a></li>
+        }
+    </ul>
+}

@@ -14,19 +14,28 @@ namespace LofovaChyse.Areas.Admin.Controllers
     public class BooksController : Controller
     {
         // GET: Books
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(int? page)
         {
             string pozdrav = "Lof lof";
             int cislo = 12;
+            int itemsOnPage = 2;
+            int pg = page.HasValue ? page.Value : 1;
+            int totalBooks;
+
 
             // Potřebuju uložit do kontaineru abych to dostal do view
             ViewBag.Pozdrav = pozdrav;
             ViewBag.Cislo = cislo;
 
             BookDao bookDao = new BookDao();
-            IList<Book> books = bookDao.GetAll();
+            IList<Book> books = bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks);
 
             KnihovnaUser user = new KnihovnaUserDao().GetByLogin(User.Identity.Name);
+
+            ViewBag.Pages = (int)Math.Ceiling((double) totalBooks / (double) itemsOnPage);
+            ViewBag.CurrentPage = pg;
+            ViewBag.PerPage = itemsOnPage;
 
             if (user.Role.Identificator == "ctenar")
             {
