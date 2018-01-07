@@ -12,12 +12,4 @@
     Rok vydání: @Model.PublishedYear
 </p>
 
-
-
-
-@{
-    if (ViewBag.Zobraz) // Ochrana proti nullovatelnosti
-    {
-        <p>@Html.Raw(Model.Description)</p>
-    }
-}
+<p>@Html.Raw(Model.Description)</p>

@@ -4,3 +4,22 @@
 <div>
     <a href="@Url.Action("Vypis", "Home")">Vypis</a>
 </div>
+
+<a href="#" onclick="getAjaxContent()">ajax</a>
+
+<div id="ajaxContent">
+
+</div>
+
+<script type="text/javascript">
+
+    function getAjaxContent() {
+        $(document).ready(function() {
+            $.get('@Url.Action("AjaxRequest", "Home")', function (data) {
+
+                    $('#ajaxContent').html(data);
+                });
+        });
+    }
+        
+</script>

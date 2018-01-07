@@ -6,6 +6,10 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/MicrosoftAjax.js"></script>
+    <script src="~/Scripts/MicrosoftMvcAjax.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
@@ -27,15 +31,17 @@
         </div>
     </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; LofovaChýše - CMS zítřka</p>
-        </footer>
-    </div>
+<div class="container body-content" id="dynamicContent">
+    @RenderBody()
+</div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div class="container body-content">
+    <hr />
+    <footer>
+        <p>&copy; LofovaChýše - CMS zítřka</p>
+    </footer>
+</div>
+
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>

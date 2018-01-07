@@ -9,18 +9,35 @@
     // @model book -> Typový model
 }
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Detail knihy</h4>
+            </div>
+            <div class="modal-body" id ="modalContent">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <h1>Výpis knih v lofově knihovně</h1>
-<hr/>
+<hr />
 
 <a href="@Url.Action("Create", "Books")" class="btn btn-default pull-right">Vytvoření nové knihy</a>
 <div class="clearfix"></div>
 
-<div class="panel" >
+<div class="panel">
     <div class="panel-body">
         @using (Html.BeginForm("Search", "Books"))
         {
-            <input type="text" class="form-control" placeholder="Vyhledat knihu" name="phrase"/>
-            <input type="submit" class="btn btn-default" value="Hledat"/>
+            <input type="text" class="form-control" placeholder="Vyhledat knihu" name="phrase" />
+            <input type="submit" class="btn btn-default" value="Hledat" />
         }
     </div>
 
@@ -49,9 +66,9 @@
         <th>Rok vydání</th>
         <th>Akce</th>
     </tr>
-    
+
     </thead>
-    
+
     <tbody>
     @foreach (Book b in Model)
     {
@@ -62,28 +79,43 @@
                     <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
                 }
             </td>
-            <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
-            <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
+            <td>
+                <a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a>
+            </td>
+            <td>
+                @Ajax.ActionLink(b.Name, "Detail", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow" })
+            </td>
             <td>@b.Author</td>
             <td>@b.PublishedYear</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", "Books", new { id = b.Id }, null)
-                @Html.ActionLink("Delete", "Delete", "Books", new { id = b.Id }, new {onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');"})
+                @Html.ActionLink("Delete", "Delete", "Books", new { id = b.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');" })
             </td>
-        </tr>      
+        </tr>
     }
 
     </tbody>
 </table>
 
+<div class="clearfix"></div>
+
 <p>Počet položek na stránku: @ViewBag.PerPage</p>
 @if (ViewBag.Pages != null)
 {
     <ul class="pagination">
-            
+
         @for (int i = 1; i <= ViewBag.Pages; i++)
         {
-            <li class="@(ViewBag.CurrentPage == i ? "active" : "")"><a href="@Url.Action("Index", "Books", new {page = i})">@i</a></li>
+            <li class="@(ViewBag.CurrentPage == i ? "active" : "")">
+                @Ajax.ActionLink(i.ToString(), "Index", new { page = i }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "dynamicContent" })
+            </li>
         }
     </ul>
 }
+
+<script type="text/javascript">
+    function openModelWindow() {
+
+        $('#myModal').modal('toggle');
+    }
+</script>

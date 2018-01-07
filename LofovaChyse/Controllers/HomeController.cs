@@ -32,5 +32,10 @@ namespace LofovaChyse.Controllers
         {
             return View();
         }
+
+        public ActionResult AjaxRequest()
+        {
+            return View();
+        }
     }
 }

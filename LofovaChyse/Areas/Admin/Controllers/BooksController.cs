@@ -38,12 +38,12 @@ namespace LofovaChyse.Areas.Admin.Controllers
             ViewBag.PerPage = itemsOnPage;
             ViewBag.Categories = new BookCategoryDao().GetAll();
 
-            if (user.Role.Identificator == "ctenar")
+            if (Request.IsAjaxRequest())
             {
-                return View("IndexCtenar", books);
+                return PartialView(books);
             }
 
-            return View(books); // Passnu třídu
+            return View(books);
         }
 
         public ActionResult Search(string phrase)
@@ -62,12 +62,17 @@ namespace LofovaChyse.Areas.Admin.Controllers
             return View("Index", books);
         }
 
-        public ActionResult Detail(int id, bool zobrazPopis)
+        public ActionResult Detail(int id, bool zobrazPopis = false)
         {
             BookDao bookDao = new BookDao();
             Book b = bookDao.GetbyId(id);
 
             ViewBag.Zobraz = zobrazPopis;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(b);
+            }
 
             return View(b);
         }
