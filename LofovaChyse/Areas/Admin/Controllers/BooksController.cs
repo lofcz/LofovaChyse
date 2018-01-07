@@ -36,6 +36,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             ViewBag.Pages = (int)Math.Ceiling((double) totalBooks / (double) itemsOnPage);
             ViewBag.CurrentPage = pg;
             ViewBag.PerPage = itemsOnPage;
+            ViewBag.Categories = new BookCategoryDao().GetAll();
 
             if (user.Role.Identificator == "ctenar")
             {
@@ -50,7 +51,15 @@ namespace LofovaChyse.Areas.Admin.Controllers
             BookDao bookDao = new BookDao();
             IList<Book> books = bookDao.SearchBooks(phrase);
 
-            return View("IndexCtenar", books);
+            return View("Index", books);
+        }
+
+        public ActionResult Category(int id)
+        {
+            IList<Book> books = new BookDao().GetBooksInCategoryId(id);
+            ViewBag.Categories = new BookCategoryDao().GetAll();
+
+            return View("Index", books);
         }
 
         public ActionResult Detail(int id, bool zobrazPopis)

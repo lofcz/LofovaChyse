@@ -26,6 +26,19 @@
 
 </div>
 
+<div class="panel">
+    <div class="panel-body">
+        @if (ViewBag.Categories != null)
+        {
+            foreach (BookCategory bc in ViewBag.Categories)
+            {
+                <a href="@Url.Action("Category", "Books", new {id = bc.Id})">@bc.Name</a>
+            }
+        }
+    </div>
+
+</div>
+
 <table class="table table-bordered table-hover table-condensed">
     <thead>
     <tr>
