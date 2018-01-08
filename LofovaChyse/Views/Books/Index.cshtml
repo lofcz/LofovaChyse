@@ -1,4 +1,5 @@
 ﻿@using DataAccess.Models
+@using LofovaChyse.Areas.Admin.Controllers
 @model IList<Book>
 
 
@@ -23,6 +24,11 @@
         <th>Autor</th>
         <th>Rok vydání</th>
         
+        @if (User.Identity.IsAuthenticated)
+        {
+            <th>Hodnotit</th>
+        }
+        
         @if (User.IsInRole("Knihovnik"))
         {
             <th><strong>[ACP] Akce</strong></th>
@@ -46,10 +52,28 @@
             <td>@b.Author</td>
             <td>@b.PublishedYear</td>
             
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td> 
+                    @{ 
+                        if (((LofovaChyse.Controllers.BooksController)ViewContext.Controller).CurrentUserRatedBook(b))
+                        {
+                            @Html.ActionLink("-1", "Rate", "Books", new {id = b.Id, value = 1}, null)
+                        }
+                        else
+                        {
+                            @Html.ActionLink("+1", "Rate", "Books", new {id = b.Id, value = 1}, null)
+                        }
+                    }
+
+                </td>
+            }
+            
             @if (User.IsInRole("Knihovnik"))
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", "Books", new {id = b.Id}, null)
+                    |
                     @Html.ActionLink("Delete", "Delete", "Books", new {id = b.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');"})
                 </td>
             }

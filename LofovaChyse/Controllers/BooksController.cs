@@ -39,6 +39,38 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
+        public ActionResult Rate(int id, int value)
+        {
+            BookLikesDao bookLikesDao = new BookLikesDao();
+            BookLikes like = new BookLikes();
+            like.Value = value;
+            like.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+            like.BookId = id;
+
+            bookLikesDao.Create(like);
+            return RedirectToAction("Index");
+        }
+
+        public bool CurrentUserRatedBook(Book b)
+        {
+            int id = b.Id;
+
+            BookLikesDao bookLikesDao = new BookLikesDao();
+            IList<BookLikes> list = bookLikesDao.GetAll();
+
+            int UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+
+            foreach (BookLikes bl in list)
+            {
+                if (bl.UserId == UserId && bl.BookId == id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         [Authorize(Roles = "knihovnik")]
         public ActionResult Create()
         {
