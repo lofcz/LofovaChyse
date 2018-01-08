@@ -35,3 +35,5 @@ ETA1: Q1 of 2018
   - Fulltext
   - Kategorie
   - Autocomplete
+- Hodnocení
+  - "To se mi líbí"
