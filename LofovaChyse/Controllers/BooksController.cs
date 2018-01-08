@@ -41,14 +41,70 @@ namespace LofovaChyse.Controllers
 
         public ActionResult Rate(int id, int value)
         {
-            BookLikesDao bookLikesDao = new BookLikesDao();
-            BookLikes like = new BookLikes();
-            like.Value = value;
-            like.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
-            like.BookId = id;
+            BookDao bookDao = new BookDao();
+            IList<Book> books = bookDao.GetAll();
 
-            bookLikesDao.Create(like);
-            return RedirectToAction("Index");
+            // Like
+            if (value == 1)
+            {
+                BookLikesDao bookLikesDao = new BookLikesDao();
+                IList<BookLikes> list = bookLikesDao.GetAll();
+
+                int UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+                BookLikes finalBL = null;
+
+                foreach (BookLikes bl in list)
+                {
+                    if (bl.UserId == UserId && bl.BookId == id)
+                    {
+                        finalBL = bl;
+                        break;
+                    }
+                }
+
+                if (finalBL == null)
+                {
+                    BookLikes like = new BookLikes();
+                    like.Value = value;
+                    like.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+                    like.BookId = id;
+
+                    bookLikesDao.Create(like);
+                }
+            }
+
+            // Unlike
+            if (value == -1)
+            {
+                BookLikesDao bookLikesDao = new BookLikesDao();
+                IList<BookLikes> list = bookLikesDao.GetAll();
+
+                int UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+                BookLikes finalBL = null;
+
+                foreach (BookLikes bl in list)
+                {
+                    if (bl.UserId == UserId && bl.BookId == id)
+                    {
+                        finalBL = bl;
+                        break;
+                    }
+                }
+
+                if (finalBL != null)
+                {
+                    bookLikesDao.Delete(finalBL);
+                }
+
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Index", books);
+            }
+
+           // return RedirectToAction("Index");
+            return View("Index", books);
         }
 
         public bool CurrentUserRatedBook(Book b)

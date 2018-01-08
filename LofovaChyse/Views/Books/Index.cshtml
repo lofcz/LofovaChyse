@@ -54,15 +54,16 @@
             
             @if (User.Identity.IsAuthenticated)
             {
-                <td> 
-                    @{ 
-                        if (((LofovaChyse.Controllers.BooksController)ViewContext.Controller).CurrentUserRatedBook(b))
+                <td>
+                    <p id="ajaxContent">Hodnotit</p>
+                    @{
+                        if (((LofovaChyse.Controllers.BooksController) ViewContext.Controller).CurrentUserRatedBook(b))
                         {
-                            @Html.ActionLink("-1", "Rate", "Books", new {id = b.Id, value = 1}, null)
+                            @Html.ActionLink("-1", "Rate", "Books", new {id = b.Id, value = -1}, null)
                         }
                         else
                         {
-                            @Html.ActionLink("+1", "Rate", "Books", new {id = b.Id, value = 1}, null)
+                            @Ajax.ActionLink("+1", "Rate", new { id = b.Id, value = 1 }, new AjaxOptions() {UpdateTargetId = "#ajaxContent", InsertionMode = InsertionMode.Replace})
                         }
                     }
 
