@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="BookLikes" table="knihovna_palce">
+    <id name="Id" column="id">
+      <generator class="native" />
+    </id>
+    <property name="BookId" column="book_id" />
+    <property name="UserId" column="user_id" />
+    <property name="Value" column="value" />
+  </class>
+
+</hibernate-mapping>

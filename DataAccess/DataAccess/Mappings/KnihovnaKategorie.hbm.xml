@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+  <class name="KnihovnaKategorie" table="knihovna_kategorie">
+    <id name="Id" column="cat_id">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="cat_name" />
+    <property name="Description" column="cat_description" />
+  </class>
+
+</hibernate-mapping>
+

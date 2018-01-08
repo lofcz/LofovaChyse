@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="Book" table="book">
+    <id name="Id" column="id">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="name" />
+    <property name="Author" column="author" />
+    <property name="PublishedYear" column="publishedYear" />
+    <property name="Description" column="description" />
+    <property name="ImageName" column="imageName" />
+    <many-to-one name="Category" column="category_id" foreign-key="post_by"></many-to-one>
+    <many-to-one name="Kategorie" column="kategorie_id" foreign-key="cat_id"></many-to-one>
+    <many-to-one name="OwnerId" column="vlastnik_id" foreign-key="user_id"></many-to-one>
+  </class>
+
+</hibernate-mapping>
