@@ -26,6 +26,21 @@ namespace LofovaChyse.Controllers
             BookDao bookDao = new BookDao();
             IList<Book> books = bookDao.GetAll();
 
+            if (User.Identity.IsAuthenticated)
+            {
+                foreach (Book b in books)
+                {
+                    if (CurrentUserRatedBook(b))
+                    {
+                        b.RateValue = -1;
+                    }
+                    else
+                    {
+                        b.RateValue = 1;
+                    }
+                }
+            }
+
             return View(books); // Passnu třídu
         }
 
@@ -96,6 +111,21 @@ namespace LofovaChyse.Controllers
                     bookLikesDao.Delete(finalBL);
                 }
 
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                foreach (Book b in books)
+                {
+                    if (CurrentUserRatedBook(b))
+                    {
+                        b.RateValue = -1;
+                    }
+                    else
+                    {
+                        b.RateValue = 1;
+                    }
+                }
             }
 
             if (Request.IsAjaxRequest())

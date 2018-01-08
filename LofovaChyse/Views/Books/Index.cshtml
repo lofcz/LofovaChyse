@@ -2,6 +2,13 @@
 @using LofovaChyse.Areas.Admin.Controllers
 @model IList<Book>
 
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/MicrosoftAjax.js"></script>
+<script src="~/Scripts/MicrosoftMvcAjax.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+
 
 @{
     ViewBag.Title = "Index";
@@ -10,78 +17,83 @@
     // @model book -> Typový model
 }
 
-<h1>Výpis knih v lofově knihovně</h1>
-<hr/>
+<div id="ajaxContent">
+    <h1>Výpis knih v lofově knihovně</h1>
+    <hr />
 
-<div class="clearfix"></div>
+    <div class="clearfix"></div>
 
-<table class="table table-bordered table-hover table-condensed">
-    <thead>
-    <tr>
-        <th>Obrázek</th>
-        <th>ID</th>
-        <th>Název knihy</th>
-        <th>Autor</th>
-        <th>Rok vydání</th>
-        
-        @if (User.Identity.IsAuthenticated)
-        {
-            <th>Hodnotit</th>
-        }
-        
-        @if (User.IsInRole("Knihovnik"))
-        {
-            <th><strong>[ACP] Akce</strong></th>
-        }
-    </tr>
-    
-    </thead>
-    
-    <tbody>
-    @foreach (Book b in Model)
-    {
-        <tr>
-            <td>
-                @if (!string.IsNullOrEmpty(b.ImageName))
+    <table class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Obrázek</th>
+                <th>ID</th>
+                <th>Název knihy</th>
+                <th>Autor</th>
+                <th>Rok vydání</th>
+
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
+                    <th>Hodnotit</th>
                 }
-            </td>
-            <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
-            <td>@Html.ActionLink(b.Name, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = ""})</td>
-            <td>@b.Author</td>
-            <td>@b.PublishedYear</td>
-            
-            @if (User.Identity.IsAuthenticated)
-            {
-            <td>
-                <p id="ajaxContent">Hodnotit</p>
-                @{
-                    if (((LofovaChyse.Controllers.BooksController)ViewContext.Controller).CurrentUserRatedBook(b))
-                    {
-                         @Html.ActionLink("-1", "Rate", "Books", new { id = b.Id, value = -1 }, null)
-                    }
-                    else
-                    {
-                        @Ajax.ActionLink("+1", "Rate", new { id = b.Id, value = 1 }, new AjaxOptions() { UpdateTargetId = "#ajaxContent", InsertionMode = InsertionMode.Replace })
-                    }
+
+                @if (User.IsInRole("Knihovnik"))
+                {
+                    <th><strong>[ACP] Akce</strong></th>
                 }
-                
-                <p>Celkové hodnocení: @(((LofovaChyse.Controllers.BooksController)ViewContext.Controller).BookRating(b.Id))</p>
+            </tr>
 
-            </td>
-            }
-            
-            @if (User.IsInRole("Knihovnik"))
+        </thead>
+
+        <tbody>
+            @foreach (Book b in Model)
             {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Books", new {id = b.Id}, null)
-                    |
-                    @Html.ActionLink("Delete", "Delete", "Books", new {id = b.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');"})
-                </td>
-            }
-        </tr>      
-    }
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(b.ImageName))
+                        {
+                            <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
+                        }
+                    </td>
+                    <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
+                    <td>@Html.ActionLink(b.Name, "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "" })</td>
+                    <td>@b.Author</td>
+                    <td>@b.PublishedYear</td>
 
-    </tbody>
-</table>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <td>
+                            <p>
+                                @b.RateValue
+                            </p>
+
+                            @{
+                                if (((LofovaChyse.Controllers.BooksController)ViewContext.Controller).CurrentUserRatedBook(b))
+                                {
+                                    @Html.ActionLink("-1", "Rate", "Books", new { id = b.Id, value = -1 }, null)
+                                }
+                                else
+                                {
+                                    @Ajax.ActionLink("+1", "Rate", new { id = b.Id, value = 1 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace })
+                                }
+                            }
+
+                            <p>Celkové hodnocení: @(((LofovaChyse.Controllers.BooksController)ViewContext.Controller).BookRating(b.Id))</p>
+
+                        </td>
+                    }
+
+                    @if (User.IsInRole("Knihovnik"))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Books", new { id = b.Id }, null)
+                            |
+                            @Html.ActionLink("Delete", "Delete", "Books", new { id = b.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');" })
+                        </td>
+                    }
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
