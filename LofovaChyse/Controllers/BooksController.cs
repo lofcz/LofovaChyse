@@ -107,6 +107,23 @@ namespace LofovaChyse.Controllers
             return View("Index", books);
         }
 
+        public string BookRating(int id)
+        {
+            int value = 0;
+            BookLikesDao bookLikesDao = new BookLikesDao();
+            IList<BookLikes> list = bookLikesDao.GetAll();
+
+            foreach (BookLikes bl in list)
+            {
+                if (bl.BookId == id)
+                {
+                    value += bl.Value;
+                }
+            }
+
+            return value.ToString();
+        }
+
         public bool CurrentUserRatedBook(Book b)
         {
             int id = b.Id;

@@ -54,20 +54,22 @@
             
             @if (User.Identity.IsAuthenticated)
             {
-                <td>
-                    <p id="ajaxContent">Hodnotit</p>
-                    @{
-                        if (((LofovaChyse.Controllers.BooksController) ViewContext.Controller).CurrentUserRatedBook(b))
-                        {
-                            @Html.ActionLink("-1", "Rate", "Books", new {id = b.Id, value = -1}, null)
-                        }
-                        else
-                        {
-                            @Ajax.ActionLink("+1", "Rate", new { id = b.Id, value = 1 }, new AjaxOptions() {UpdateTargetId = "#ajaxContent", InsertionMode = InsertionMode.Replace})
-                        }
+            <td>
+                <p id="ajaxContent">Hodnotit</p>
+                @{
+                    if (((LofovaChyse.Controllers.BooksController)ViewContext.Controller).CurrentUserRatedBook(b))
+                    {
+                         @Html.ActionLink("-1", "Rate", "Books", new { id = b.Id, value = -1 }, null)
                     }
+                    else
+                    {
+                        @Ajax.ActionLink("+1", "Rate", new { id = b.Id, value = 1 }, new AjaxOptions() { UpdateTargetId = "#ajaxContent", InsertionMode = InsertionMode.Replace })
+                    }
+                }
+                
+                <p>Celkové hodnocení: @(((LofovaChyse.Controllers.BooksController)ViewContext.Controller).BookRating(b.Id))</p>
 
-                </td>
+            </td>
             }
             
             @if (User.IsInRole("Knihovnik"))
