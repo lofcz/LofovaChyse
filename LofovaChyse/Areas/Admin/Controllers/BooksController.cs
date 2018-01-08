@@ -112,8 +112,10 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     Name = book.Name,
                     Author = book.Author,
                     PublishedYear = book.PublishedYear,
-                    Id = Books.Counter,
-                    Description = book.Description
+                    Id = Books.Counter(),
+                    Description = book.Description,
+                    OwnerId =  new KnihovnaUserDao().GetByLogin(User.Identity.Name),
+                    Kategorie = new KnihovnaKategorieDao().GetbyId(2)                 
                 };
 
 
@@ -167,6 +169,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
 
             Book b = bookDao.GetbyId(id);
             ViewBag.Categories = bookCategoryDao.GetAll();
+            ViewBag.UserId = b.OwnerId.Id;
+            ViewBag.Kategorie = b.Kategorie.Id;               
 
             return View(b);
         }
@@ -182,7 +186,15 @@ namespace LofovaChyse.Areas.Admin.Controllers
 
                 BookCategory bookCategory = bookCategoryDao.GetbyId(categoryId);
 
+                KnihovnaKategorieDao knihovnaKategorieDao = new KnihovnaKategorieDao();
+                KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+
+                KnihovnaKategorie knihovnaKategorie = book.Kategorie;
+               // KnihovnaUser knihovnaUser = knihovnaUserDao.GetbyId(book.OwnerId.Id);
+
                 book.Category = bookCategory;
+                book.Kategorie = knihovnaKategorie;
+             //   book.OwnerId = knihovnaUser;
 
                 if (picture != null)
                 {
@@ -209,7 +221,6 @@ namespace LofovaChyse.Areas.Admin.Controllers
             }
             catch (Exception e)
             {
-
                 throw;
             }
 

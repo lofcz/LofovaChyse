@@ -165,7 +165,7 @@ namespace LofovaChyse.Controllers
                     Name = book.Name,
                     Author = book.Author,
                     PublishedYear = book.PublishedYear,
-                    Id = Books.Counter,
+                    Id = Books.Counter(),
                     Description = book.Description
                 };
                

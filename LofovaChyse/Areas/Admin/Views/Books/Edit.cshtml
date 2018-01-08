@@ -13,6 +13,22 @@
     @Html.HiddenFor(x => x.ImageName)
 
     <div class="form-group">
+        <label class="col-sm-2 control-label">Autor knihy</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.OwnerId.Id, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.OwnerId.Id)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Kategorie</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Kategorie.Id, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Kategorie.Id)
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="col-sm-2 control-label">Název knihy</label>
         <div class="col-sm-10">
             @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
@@ -56,10 +72,10 @@
         <label class="col-sm-2 control-label">Obrázek</label>
         <div class="col-sm-10">
             <input type="file" name="picture" />
-            
+
             @if (!string.IsNullOrEmpty(Model.ImageName))
             {
-                <img src="@Url.Content("~/Uploads/Book/" + Model.ImageName)"/>
+                <img src="@Url.Content("~/Uploads/Book/" + Model.ImageName)" />
             }
         </div>
     </div>
