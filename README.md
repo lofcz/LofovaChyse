@@ -38,3 +38,4 @@ ETA1: Q1 of 2018
 - Hodnocení
   - "To se mi líbí"
     - AJAX
+- Menu autorouting
