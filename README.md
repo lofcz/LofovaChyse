@@ -6,6 +6,8 @@ Open source board bulletin project. Descendant of svobodneForum.eu
 
 ETA1: Q1 of 2018
 
+Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/wiki/1.0-P-DEV)
+
 ## Hotové funkce:
 - Příspěvky
   - Render
