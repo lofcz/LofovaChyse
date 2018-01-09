@@ -7,7 +7,6 @@
 
     @{
         ViewBag.Title = "Index";
-        var ko = Html.CreateKnockoutContext();
         //Book book = ViewBag.Kniha as Book; //Přetypování / secure
 
         // @model book -> Typový model
@@ -16,6 +15,35 @@
     <hr />
 
     <div class="clearfix"></div>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="card card-block card-outline-primary">
+                    <p class="card-text">Want to know how much rent you could achieve for your property? &nbsp;
+                        <a href="#" class="btn btn-outline-primary float-right">Arrange a Valuation</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        <!-- Blog Post -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Post Title</h2>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+            </div>
+            <div class="card-footer text-muted">
+                Posted on January 1, 2017 by
+                <a href="#">Start Bootstrap</a>
+                <a href="#" class="btn btn-primary float-right">Read More →</a>
+            </div>
+        </div>
+    </div>
 
     <table class="table table-bordered table-hover table-condensed">
         <thead>
