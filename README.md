@@ -37,3 +37,4 @@ ETA1: Q1 of 2018
   - Autocomplete
 - Hodnocení
   - "To se mi líbí"
+    - AJAX
