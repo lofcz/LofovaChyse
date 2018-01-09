@@ -1,23 +1,17 @@
 ﻿@using DataAccess.Models
+@using PerpetuumSoft.Knockout
 @using LofovaChyse.Areas.Admin.Controllers
 @model IList<Book>
 
-<script src="~/Scripts/jquery-3.2.1.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="~/Scripts/MicrosoftAjax.js"></script>
-<script src="~/Scripts/MicrosoftMvcAjax.js"></script>
-<script src="~/Scripts/modernizr-2.6.2.js"></script>
-
-
-@{
-    ViewBag.Title = "Index";
-    //Book book = ViewBag.Kniha as Book; //Přetypování / secure
-
-    // @model book -> Typový model
-}
-
 <div id="ajaxContent">
+
+    @{
+        ViewBag.Title = "Index";
+        var ko = Html.CreateKnockoutContext();
+        //Book book = ViewBag.Kniha as Book; //Přetypování / secure
+
+        // @model book -> Typový model
+    }
     <h1>Výpis knih v lofově knihovně</h1>
     <hr />
 
@@ -64,19 +58,8 @@
                     {
                         <td>
                             <p>
-                                @b.RateValue
+                                @Ajax.ActionLink((b.RateValue).ToString(), "Rate", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace })
                             </p>
-
-                            @{
-                                if (((LofovaChyse.Controllers.BooksController)ViewContext.Controller).CurrentUserRatedBook(b))
-                                {
-                                    @Html.ActionLink("-1", "Rate", "Books", new { id = b.Id, value = -1 }, null)
-                                }
-                                else
-                                {
-                                    @Ajax.ActionLink("+1", "Rate", new { id = b.Id, value = 1 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace })
-                                }
-                            }
 
                             <p>Celkové hodnocení: @(((LofovaChyse.Controllers.BooksController)ViewContext.Controller).BookRating(b.Id))</p>
 

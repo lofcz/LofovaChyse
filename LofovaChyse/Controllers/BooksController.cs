@@ -54,29 +54,40 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
-        public ActionResult Rate(int id, int value)
+        public ActionResult Rate(int id, int value = 0)
         {
+            BookLikesDao bookLikesDao = new BookLikesDao();
+            IList<BookLikes> list = bookLikesDao.GetAll();
+
             BookDao bookDao = new BookDao();
             IList<Book> books = bookDao.GetAll();
+
+            BookLikes finalBL = null;
+            int UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+
+
+            foreach (BookLikes bl in list)
+            {
+                if (bl.UserId == UserId && bl.BookId == id)
+                {
+                    finalBL = bl;
+                    break;
+                }
+            }
+
+            if (finalBL == null)
+            {
+                value = 1;
+
+            }
+            else
+            {
+                value = -1;
+            }
 
             // Like
             if (value == 1)
             {
-                BookLikesDao bookLikesDao = new BookLikesDao();
-                IList<BookLikes> list = bookLikesDao.GetAll();
-
-                int UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
-                BookLikes finalBL = null;
-
-                foreach (BookLikes bl in list)
-                {
-                    if (bl.UserId == UserId && bl.BookId == id)
-                    {
-                        finalBL = bl;
-                        break;
-                    }
-                }
-
                 if (finalBL == null)
                 {
                     BookLikes like = new BookLikes();
@@ -87,16 +98,8 @@ namespace LofovaChyse.Controllers
                     bookLikesDao.Create(like);
                 }
             }
-
-            // Unlike
-            if (value == -1)
+            else if (value == -1) // Unlike
             {
-                BookLikesDao bookLikesDao = new BookLikesDao();
-                IList<BookLikes> list = bookLikesDao.GetAll();
-
-                int UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
-                BookLikes finalBL = null;
-
                 foreach (BookLikes bl in list)
                 {
                     if (bl.UserId == UserId && bl.BookId == id)
@@ -130,6 +133,7 @@ namespace LofovaChyse.Controllers
 
             if (Request.IsAjaxRequest())
             {
+               
                 return PartialView("Index", books);
             }
 
