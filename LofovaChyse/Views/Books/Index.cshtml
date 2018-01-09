@@ -11,39 +11,26 @@
 
         // @model book -> Typový model
     }
-    <h1>Výpis knih v lofově knihovně</h1>
+    <h2>Výpis knih v lofově knihovně</h2>
     <hr />
 
     <div class="clearfix"></div>
-
-    <div class="container">
-        <div class="row">
-
-            <div class="col-lg-3">
-                <div class="card card-block card-outline-primary">
-                    <p class="card-text">Want to know how much rent you could achieve for your property? &nbsp;
-                        <a href="#" class="btn btn-outline-primary float-right">Arrange a Valuation</a>
-                    </p>
+    
+    @foreach (Book b in Model)
+    {
+        <div>
+            <div class="card mb-4 h-25 mt-0">
+                <div class="card-body">
+                    <h4 class="card-title">@b.Name</h4>
+                    <h6 class="card-text">@Html.Raw(b.Description)</h6>
+                </div>
+                <div class="card-footer text-muted">
+                    @b.Author, @b.PublishedYear
+                    @Html.ActionLink("Číst →", "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "btn btn-primary float-right btn-sm" })
                 </div>
             </div>
         </div>
-
-    </div>
-
-    <div>
-        <!-- Blog Post -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="card-title">Post Title</h2>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            </div>
-            <div class="card-footer text-muted">
-                Posted on January 1, 2017 by
-                <a href="#">Start Bootstrap</a>
-                <a href="#" class="btn btn-primary float-right">Read More →</a>
-            </div>
-        </div>
-    </div>
+    }
 
     <table class="table table-bordered table-hover table-condensed">
         <thead>
