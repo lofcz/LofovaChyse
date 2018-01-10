@@ -1,76 +1,99 @@
-﻿@using DataAccess.Models
+﻿@using System.Activities.Statements
+@using DataAccess.Models
 @model DataAccess.Models.Book
 @{
     ViewBag.Title = "Detail";
 }
 
+<style>
+    .btn-space {
+        margin-right: 5px;
+    }
+
+    .btn-sm {
+        height: 26px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
+        border-radius: 3px;
+        margin-right: 5px;
+    }
+</style>
+
+<div id="ajaxContent">
+
 <h2>Detail knihy @Model.Name</h2>
 
-<p>
-    Autor: @Model.Author
-</p>
-<p>
-    Rok vydání: @Model.PublishedYear
-</p>
+    <p>
+        Autor: @Model.Author
+    </p>
+    <p>
+        Rok vydání: @Model.PublishedYear
+    </p>
 
+    @{
+        if (ViewBag.Zobraz) // Ochrana proti nullovatelnosti
+        {
+            <p>@Html.Raw(Model.Description)</p>
+        }
+    }
 
-
-
-@{
-    if (ViewBag.Zobraz) // Ochrana proti nullovatelnosti
+    @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
-        <p>@Html.Raw(Model.Description)</p>
+        foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
+        {
+            <div>
+                <div class="card mb-3 h-25 pb-1">
+                    <div class="card-body">
+                        @if (!komentar.AlreadyRated)
+                    {
+                        @Ajax.ActionLink("HODNOTIT", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-highlight button-rounded float-right btn-sm" })
+                        <a href="#" class="button button-raised button-highlight button-rounded float-right btn-sm">Krásně napsané</a>
+                        <a href="#" class="button button-raised button-royal button-rounded float-right btn-sm">Dobrá pointa</a>
+                        <a href="#" class="button button-raised button-action button-rounded float-right btn-sm">Souhlasím</a>
+                }
+
+
+                        <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
+                        <h6 class="card-title" style="font-size: 12px;">@komentar.OwnerId.Name | @komentar.Date</h6>
+                    </div>
+                </div>
+            </div>
     }
 }
 
-@if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
-{
- foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
- {
-     <div>
-         <div class="card mb-4 h-25 mt-0">
-             <div class="card-body">
-                 <h4 class="card-title">@Html.Raw(komentar.Content)</h4>
-                 <h6 class="card-text"></h6>
-             </div>
-             <div class="card-footer text-muted">
-                 
-             </div>
-         </div>
-     </div>
- }
+        @if (User.Identity.IsAuthenticated)
+    {
+        using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+        {
+            @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    @Html.TextArea("description", new { @class = "form-control formatedtext" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Komentovat</button>
+                </div>
+            </div>
+    }
 }
 
-@if (User.Identity.IsAuthenticated)
+        <script type="text/javascript">
+            $(function () {
+                $("#description").html("");
+            });
+        </script>
+
+        <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+        <script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons' });</script>
+
+        @section SideBar
 {
- using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new {@class = "form-horizontal", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
- {
-     @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
+            <h4>Chcete knihu @Model.Name s 6% slevou?</h4>
+        }
 
-     <div class="form-group">
-         <div class="col-sm-10">
-             @Html.TextArea("description", new {@class = "form-control formatedtext"})
-         </div>
-     </div>
-
-     <div class="form-group">
-         <div class="col-sm-offset-2 col-sm-10">
-             <button type="submit" class="btn btn-default">Komentovat</button>
-         </div>
-     </div>
- }
-}
-
-<script type="text/javascript">
-    $(function () {
-        $("#description").html("");
-    });
-</script>
-
-<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
-<script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons' });</script>
-
-@section SideBar
-{
-    <h4>Chcete knihu @Model.Name s 6% slevou?</h4>
-}
+    </div>

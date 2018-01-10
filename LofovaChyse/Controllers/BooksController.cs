@@ -44,6 +44,34 @@ namespace LofovaChyse.Controllers
             return View(books); // Passnu třídu
         }
 
+        public bool CurrentUserRatedComent(KnihovnaKomentare komentar)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                KnihovnaKomentareLikesDao knihovnaKomentareDao = new KnihovnaKomentareLikesDao();
+                IList<KnihovnaKomentareLikes> list = knihovnaKomentareDao.GetAll();
+
+                KnihovnaKomentareLikes finalLike = null;
+                int userId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+
+                foreach (KnihovnaKomentareLikes iterovanyLike in list)
+                {
+                    if (iterovanyLike.UserId == userId && iterovanyLike.ComentId == komentar.Id)
+                    {
+                        finalLike = iterovanyLike;
+                        break;
+                    }
+                }
+
+                if (finalLike == null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public ActionResult Detail(int id, bool zobrazPopis = true)
         {
             BookDao bookDao = new BookDao();
@@ -59,6 +87,7 @@ namespace LofovaChyse.Controllers
             {
                 if (koment.TopicId == id)
                 {
+                    koment.AlreadyRated = CurrentUserRatedComent(koment);
                     filtrovaneKomentare.Add(koment);
                 }
             }
@@ -66,6 +95,74 @@ namespace LofovaChyse.Controllers
             ViewBag.Komentare = filtrovaneKomentare;
 
             return View(b);
+        }
+
+        public enum EDruhyPalcu
+        {
+            Souhlasim,
+            DobraPointa,
+            KrasneNapsane
+        }
+
+        public ActionResult RateKomentar(int bookId, int id, int moznost)
+        {
+            Book book = new BookDao().GetbyId(bookId);
+            int value = 0;
+            EDruhyPalcu palec = (EDruhyPalcu)moznost;
+
+            KnihovnaKomentareLikesDao knihovnaKomentareLikesDao = new KnihovnaKomentareLikesDao();
+            IList<KnihovnaKomentareLikes> list = knihovnaKomentareLikesDao.GetAll();
+
+            KnihovnaKomentareLikes finalLike = null;
+            int userId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+
+            foreach (KnihovnaKomentareLikes iterovanyLike in list)
+            {
+                if (iterovanyLike.UserId == userId && iterovanyLike.ComentId == id)
+                {
+                    finalLike = iterovanyLike;
+                    break;
+                }
+            }
+
+            if (finalLike == null) {value = 1;}
+            else {value = -1;}
+
+            // Hodnotit
+            if (value == 1)
+            {
+                finalLike = new KnihovnaKomentareLikes();
+                finalLike.Id = Books.Counter();
+                finalLike.ComentId = id;
+                finalLike.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+                finalLike.Value = 1;
+
+                knihovnaKomentareLikesDao.Create(finalLike);
+            }
+
+            IList<KnihovnaKomentare> kolekceKomentu = new KnihovnaKomentareDao().GetAll();
+            IList<KnihovnaKomentare> finalniKomenty = new List<KnihovnaKomentare>();
+
+            foreach (KnihovnaKomentare koment in kolekceKomentu)
+            {
+                koment.AlreadyRated = CurrentUserRatedComent(koment);
+
+                if (koment.TopicId == book.Id)
+                {
+                    finalniKomenty.Add(koment);
+                }
+            }
+
+            ViewBag.Komentare = finalniKomenty;
+            ViewBag.Zobraz = true;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Detail", book);
+            }
+
+            // return RedirectToAction("Index");
+            return View("Detail", book);
         }
 
         public ActionResult Rate(int id, int value = 0)
