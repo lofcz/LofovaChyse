@@ -5,38 +5,43 @@
     ViewBag.Title = "Detail";
 }
 
-<style>
-    .btn-space {
-        margin-right: 5px;
-    }
+    <style>
+        .btn-space {
+            margin-right: 5px;
+        }
 
-    .btn-sm {
-        height: 26px;
-        padding: 2px 5px;
-        font-size: 12px;
-        line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
-        border-radius: 3px;
-        margin-right: 5px;
-    }
-</style>
+        .btn-sm {
+            height: 26px;
+            padding: 2px 5px;
+            font-size: 12px;
+            line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+    </style>
 
 <div id="ajaxContent">
+    
+    <div>
+        <div class="card mb-3">
+            <div class="card-header">
+                Fórum / Příspěvky
+            </div>
+            <div class="card-body">
+                <h6 class="card-title float-right"> @Model.Author | @Model.PublishedYear</h6>
 
-<h2>Detail knihy @Model.Name</h2>
+                <h1 class="card-text">Detail knihy @Model.Name</h1>
 
-    <p>
-        Autor: @Model.Author
-    </p>
-    <p>
-        Rok vydání: @Model.PublishedYear
-    </p>
+                <h6>
+                    @Html.Raw(Model.Description)
+                </h6>
+            </div>
+            <div class="card-footer">
 
-    @{
-        if (ViewBag.Zobraz) // Ochrana proti nullovatelnosti
-        {
-            <p>@Html.Raw(Model.Description)</p>
-        }
-    }
+            </div>
+        </div>
+    </div>
+    
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
@@ -46,12 +51,15 @@
                 <div class="card mb-3 h-25 pb-1">
                     <div class="card-body">
                         @if (!komentar.AlreadyRated)
-                    {
-                        @Ajax.ActionLink("HODNOTIT", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-highlight button-rounded float-right btn-sm" })
-                        <a href="#" class="button button-raised button-highlight button-rounded float-right btn-sm">Krásně napsané</a>
-                        <a href="#" class="button button-raised button-royal button-rounded float-right btn-sm">Dobrá pointa</a>
-                        <a href="#" class="button button-raised button-action button-rounded float-right btn-sm">Souhlasím</a>
-                }
+                        {
+                        @Ajax.ActionLink("Krásně napsané", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-highlight button-rounded float-right btn-sm" })
+                        @Ajax.ActionLink("Dobrá pointa", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-royal button-rounded float-right btn-sm" })
+                        @Ajax.ActionLink("Souhlasím", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-action button-rounded float-right btn-sm" })
+                        }
+                        else if (User.Identity.IsAuthenticated)
+                        {
+                            <h6 class="small float-right"><strong>Tento komentář už jsi hodnotil!</strong></h6>
+                        }
 
 
                         <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
