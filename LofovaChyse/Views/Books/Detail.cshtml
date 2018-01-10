@@ -1,4 +1,5 @@
-﻿@model DataAccess.Models.Book
+﻿@using DataAccess.Models
+@model DataAccess.Models.Book
 @{
     ViewBag.Title = "Detail";
 }
@@ -21,6 +22,43 @@
         <p>@Html.Raw(Model.Description)</p>
     }
 }
+
+@if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
+{
+ foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
+ {
+     <div>
+         <div class="card mb-4 h-25 mt-0">
+             <div class="card-body">
+                 <h4 class="card-title">@Html.Raw(komentar.Content)</h4>
+                 <h6 class="card-text"></h6>
+             </div>
+             <div class="card-footer text-muted">
+                 
+             </div>
+         </div>
+     </div>
+ }
+}
+
+@using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+{
+    @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
+
+    <div class="form-group">
+        <div class="col-sm-10">
+            @Html.TextArea("description", new { @class = "form-control formatedtext" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Komentovat</button>
+        </div>
+    </div>
+}
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons' });</script>
 
 @section SideBar
 {

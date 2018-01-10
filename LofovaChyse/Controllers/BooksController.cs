@@ -44,12 +44,26 @@ namespace LofovaChyse.Controllers
             return View(books); // Passnu třídu
         }
 
-        public ActionResult Detail(int id, bool zobrazPopis)
+        public ActionResult Detail(int id, bool zobrazPopis = true)
         {
             BookDao bookDao = new BookDao();
             Book b = bookDao.GetbyId(id);
 
             ViewBag.Zobraz = zobrazPopis;
+
+            KnihovnaKomentareDao knihovnaKomentareDao = new KnihovnaKomentareDao();
+            IList<KnihovnaKomentare> knihovnaKomentare = knihovnaKomentareDao.GetAll();
+            IList<KnihovnaKomentare> filtrovaneKomentare = new List<KnihovnaKomentare>();
+
+            foreach (KnihovnaKomentare koment in knihovnaKomentare)
+            {
+                if (koment.TopicId == id)
+                {
+                    filtrovaneKomentare.Add(koment);
+                }
+            }
+
+            ViewBag.Komentare = filtrovaneKomentare;
 
             return View(b);
         }
