@@ -18,6 +18,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
     - AJAX
     - Synchronní
   - Komentáře
+    - Reakce na komentáře (Hezky napsáno / Dobrá pointa / Souhlasím) 
 - Uživatelé
   - Přihlášení
   - Odhlášení
