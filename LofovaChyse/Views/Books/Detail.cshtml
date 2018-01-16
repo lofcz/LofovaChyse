@@ -20,26 +20,27 @@
         }
     </style>
 
-<div id="ajaxContent">
+<div id="ajaxContent" class="container-fluid">
     
-    <div>
-        <div class="card mb-3">
-            <div class="card-header">
-                Fórum / Příspěvky
-            </div>
-            <div class="card-body">
-                <h1 class="card-text">Detail knihy @Model.Name</h1>
+   <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Fórum / Příspěvky
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-text">Detail knihy @Model.Name</h1>
 
-                <h6>
-                    @Html.Raw(Model.Description)
-                </h6>
+                        <h6>
+                            @Html.Raw(Model.Description)
+                        </h6>
+                    </div>
+                    <div class="card-footer">
+                        @Model.Author | @Model.PublishedYear
+                    </div>
+                </div>
             </div>
-            <div class="card-footer">
-                @Model.Author | @Model.PublishedYear
-            </div>
-        </div>
     </div>
-    
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
@@ -97,9 +98,5 @@
         <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
         <script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons' });</script>
 
-        @section SideBar
-{
-            <h4>Chcete knihu @Model.Name s 6% slevou?</h4>
-        }
 
     </div>
