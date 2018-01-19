@@ -1,0 +1,10 @@
+﻿@model DataAccess.Models.KnihovnaUser
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Profil uživatele @Model.Name</h2>
+
+<p>Uživatelské ID: @Model.Id</p>
+<p>Heslo: @Model.Password</p>
+<p>Úroveň oprávnění: @Model.Role.RoleDescription</p>

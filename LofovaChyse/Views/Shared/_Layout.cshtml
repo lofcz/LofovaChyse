@@ -45,6 +45,10 @@
                 
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li class="nav-item">
+                            <a class="@((action == "index" && controller == "profile") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Profile")">Profil</a>
+                        </li>
+
                         if (User.IsInRole("Knihovnik"))
                         {
                             <li class="nav-item">
