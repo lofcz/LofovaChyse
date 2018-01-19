@@ -14,6 +14,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
   - Přidat
   - Upravit
   - Smazat
+  - Verzování
   - Detail
     - AJAX
     - Synchronní
