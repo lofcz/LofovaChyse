@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace LofovaChyse.Class
@@ -21,6 +22,11 @@ namespace LofovaChyse.Class
             Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
 
             return newImage;
+        }
+
+        public static string StripTagsRegex(string source)
+        {
+            return Regex.Replace(source, "<.*?>", string.Empty);
         }
     }
 }

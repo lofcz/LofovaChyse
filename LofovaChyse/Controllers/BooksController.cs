@@ -381,6 +381,9 @@ namespace LofovaChyse.Controllers
                 BookCategory bookCategory = bookCategoryDao.GetbyId(categoryId);
 
                 book.Category = bookCategory;
+                book.Version = book.Version + 0.1;
+                book.LastEditDateTime = DateTime.Now;
+                
 
                 if (picture != null)
                 {

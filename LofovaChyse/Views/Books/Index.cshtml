@@ -22,10 +22,10 @@
             <div class="card mb-3 h-25 mt-0">
                 <div class="card-body">
                     <h4 class="card-title">@b.Name</h4>
-                    <h6 class="card-text">@Html.Raw(b.Description.Substring(0, Math.Min(b.Description.Length, 256)))</h6>
+                    <p class="card-text">@Html.Raw(LofovaChyse.Class.ImageHelper.StripTagsRegex(b.Description.Substring(0, Math.Min(200, b.Description.Length) )))...</p>
                 </div>
                 <div class="card-footer text-muted">
-                    @b.Author, @b.PublishedYear
+                    Napsal @b.OwnerId.Name, verze @b.Version.ToString().Replace(",", ".") (@b.LastEditDateTime.ToString("dd MMMM, yyyy"))
                     @Html.ActionLink("Číst →", "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "btn btn-primary float-right btn-sm" })
                 </div>
             </div>
