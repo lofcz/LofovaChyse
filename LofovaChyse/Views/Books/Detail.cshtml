@@ -67,7 +67,7 @@
 
 
                         <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
-                        <h6 class="card-title" style="font-size: 12px;">@komentar.OwnerId.Name | @komentar.Date</h6>
+                        <h6 class="card-title" style="font-size: 12px;"> @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new { id = komentar.OwnerId.Id}, new { }) | @komentar.Date</h6>
                     </div>
                 </div>
             </div>

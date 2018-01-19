@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using DataAccess.Dao;
 using DataAccess.Models;
 
@@ -12,12 +13,23 @@ namespace LofovaChyse.Controllers
     {
         // GET: Profile
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
             KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
-            KnihovnaUser knihovnaUser = knihovnaUserDao.GetByLogin(User.Identity.Name);
+            KnihovnaUser knihovnaUser = knihovnaUserDao.GetbyId(id);
 
+            bool v = false;
 
+            if (knihovnaUser.Name == knihovnaUserDao.GetByLogin(User.Identity.Name).Name)
+            {
+                v = true;
+            }
+            else
+            {
+                v = false;
+            }
+
+            ViewBag.Owner = v;
             return View(knihovnaUser);
         }
     }

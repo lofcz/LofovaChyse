@@ -5,6 +5,15 @@
 
 <h2>Profil uživatele @Model.Name</h2>
 
+@if (ViewBag.Owner)
+{
+    <p>Jsi vlastník tohoto profilu!</p>
+}
+else
+{
+    <p>Jsi tu na návštěvě!</p>
+}
+
 <p>Uživatelské ID: @Model.Id</p>
 <p>Heslo: @Model.Password</p>
 <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
