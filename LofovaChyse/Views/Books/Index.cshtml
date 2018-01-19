@@ -11,7 +11,7 @@
 
         // @model book -> Typový model
     }
-    <h2>Výpis knih v lofově knihovně</h2>
+    <h2>Nové příspěvky</h2>
     <hr />
 
     <div class="clearfix"></div>
@@ -31,67 +31,19 @@
             </div>
         </div>
     }
-
-    <table class="table table-bordered table-hover table-condensed">
-        <thead>
-            <tr>
-                <th>Obrázek</th>
-                <th>ID</th>
-                <th>Název knihy</th>
-                <th>Autor</th>
-                <th>Rok vydání</th>
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <th>Hodnotit</th>
-                }
-
-                @if (User.IsInRole("Knihovnik"))
-                {
-                    <th><strong>[ACP] Akce</strong></th>
-                }
-            </tr>
-
-        </thead>
-
-        <tbody>
-            @foreach (Book b in Model)
-            {
-                <tr>
-                    <td>
-                        @if (!string.IsNullOrEmpty(b.ImageName))
-                        {
-                            <img src="@Url.Content("~/Uploads/Book/" + b.ImageName)" />
-                        }
-                    </td>
-                    <td><a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = false})">@b.Id</a></td>
-                    <td>@Html.ActionLink(b.Name, "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "" })</td>
-                    <td>@b.Author</td>
-                    <td>@b.PublishedYear</td>
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <td>
-                            <p>
-                                @Ajax.ActionLink((b.RateValue).ToString(), "Rate", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace })
-                            </p>
-
-                            <p>Celkové hodnocení: @(((LofovaChyse.Controllers.BooksController)ViewContext.Controller).BookRating(b.Id))</p>
-
-                        </td>
-                    }
-
-                    @if (User.IsInRole("Knihovnik"))
-                    {
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", "Books", new { id = b.Id }, null)
-                            |
-                            @Html.ActionLink("Delete", "Delete", "Books", new { id = b.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');" })
-                        </td>
-                    }
-                </tr>
-            }
-
-        </tbody>
-    </table>
+    
+    <p>Počet položek na stránku: @ViewBag.PerPage</p>
+    @if (ViewBag.Pages != null)
+    {
+        <nav aria-label="...">
+            <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.Pages; i++)
+        {
+            <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                @Ajax.ActionLink(i.ToString(), "Index", new { page = i }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ajaxContent" }, new {@class= "page-link" })
+            </li>
+        }
+    </ul>
+    </nav>
+    }
 </div>

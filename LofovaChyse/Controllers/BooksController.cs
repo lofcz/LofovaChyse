@@ -14,8 +14,13 @@ namespace LofovaChyse.Controllers
     public class BooksController : Controller
     {
         // GET: Books
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int itemsOnPage = 2;
+            int pg = page.HasValue ? page.Value : 1;
+            int totalBooks;
+
+
             string pozdrav = "Lof lof";
             int cislo = 12;
 
@@ -24,11 +29,13 @@ namespace LofovaChyse.Controllers
             ViewBag.Cislo = cislo;
 
             BookDao bookDao = new BookDao();
-            IList<Book> books = bookDao.GetAll();
+
+            IList<Book> booksPaged = bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks);
+            booksPaged = booksPaged.OrderBy(x => x.Id).ToList();
 
             if (User.Identity.IsAuthenticated)
             {
-                foreach (Book b in books)
+                foreach (Book b in booksPaged)
                 {
                     if (CurrentUserRatedBook(b))
                     {
@@ -40,8 +47,19 @@ namespace LofovaChyse.Controllers
                     }
                 }
             }
+            
+            KnihovnaUser user = new KnihovnaUserDao().GetByLogin(User.Identity.Name);
 
-            return View(books); // Passnu třídu
+            ViewBag.Pages = (int)Math.Ceiling((double)totalBooks / (double)itemsOnPage);
+            ViewBag.CurrentPage = pg;
+            ViewBag.PerPage = itemsOnPage;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(booksPaged);
+            }
+
+            return View(booksPaged); // Passnu třídu
         }
 
         public bool CurrentUserRatedComent(KnihovnaKomentare komentar)

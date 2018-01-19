@@ -40,8 +40,8 @@
                             @Html.Raw(Model.Description)
                         </h6>
                     </div>
-                    <div class="card-footer">
-                        @Model.Author | @Model.PublishedYear
+                    <div class="card-footer text-muted">
+                        Napsal @Model.OwnerId.Name, verze @Model.Version.ToString().Replace(",", ".") (@Model.LastEditDateTime.ToString("dd MMMM, yyyy"))
                     </div>
                 </div>
             </div>

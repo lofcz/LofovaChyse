@@ -6,7 +6,7 @@
 
 <h2>Vytvořit novou knihu</h2>
 
-@using (Html.BeginForm("Add", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype="multipart/form-data" })) // Umožní zpracovat nahrané soubory
+@using (Html.BeginForm("Add", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
 {
     <div class="form-group">
         <label class="col-sm-2 control-label">Název knihy</label>
@@ -43,7 +43,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Kategorie</label>
         <div class="col-sm-10">
-            @Html.DropDownList("categoryId", new SelectList(ViewBag.Categories, "Id", "Name"), new {@class="form-control"})
+            @Html.DropDownList("categoryId", new SelectList(ViewBag.Categories, "Id", "Name"), new { @class = "form-control" })
 
         </div>
     </div>
@@ -51,7 +51,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Obrázek</label>
         <div class="col-sm-10">
-            <input type="file" name="picture"/>
+            <input type="file" name="picture" />
 
         </div>
     </div>

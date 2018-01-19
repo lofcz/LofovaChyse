@@ -115,7 +115,9 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     Id = Books.Counter(),
                     Description = book.Description,
                     OwnerId =  new KnihovnaUserDao().GetByLogin(User.Identity.Name),
-                    Kategorie = new KnihovnaKategorieDao().GetbyId(2)                 
+                    Kategorie = new KnihovnaKategorieDao().GetbyId(2),
+                    LastEditDateTime = DateTime.Now,
+                    Version = 1
                 };
 
 
