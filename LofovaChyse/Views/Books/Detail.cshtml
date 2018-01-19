@@ -21,16 +21,21 @@
     </style>
 
 <div id="ajaxContent" class="container-fluid">
-    
    <div class="row">
             <div class="col-md-12">
                 <div class="card mb-3">
                     <div class="card-header">
-                        Fórum / Příspěvky
+                        <div class="text-left"> Fórum / Příspěvky</div>
+                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("knihovnik") || User.Identity.Name == Model.Author)
+                            {
+                                <div class="text-right">@Html.ActionLink("Upravit", "Edit", "Books", new {id = Model.Id}, null) | @Html.ActionLink("Smazat", "Delete", "Books", new {id = Model.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');"})</div>
+                            }
+                        }
                     </div>
                     <div class="card-body">
-                        <h1 class="card-text">Detail knihy @Model.Name</h1>
-
                         <h6>
                             @Html.Raw(Model.Description)
                         </h6>
@@ -96,9 +101,18 @@
                 $("#description").html("");
             });
         </script>
+    
+    <style>
+        .mce-path {/* CSS */
+            display: none !important;
+        }
+    </style>
+    <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+        <script>tinymce.init({
+    selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%',  language: 'cs'
 
-        <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
-        <script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons', width: '100%' });</script>
+
+});</script>
 
 
     </div>

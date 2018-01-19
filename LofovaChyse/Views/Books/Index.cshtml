@@ -22,7 +22,7 @@
             <div class="card mb-3 h-25 mt-0">
                 <div class="card-body">
                     <h4 class="card-title">@b.Name</h4>
-                    <h6 class="card-text">@Html.Raw(b.Description)</h6>
+                    <h6 class="card-text">@Html.Raw(b.Description.Substring(0, Math.Min(b.Description.Length, 256)))</h6>
                 </div>
                 <div class="card-footer text-muted">
                     @b.Author, @b.PublishedYear
