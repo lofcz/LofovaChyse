@@ -3,17 +3,66 @@
     ViewBag.Title = "Index";
 }
 
+<link href="@Url.Content("~/Content/prism.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/prism.js")"></script>
+
 <h2>Profil uživatele @Model.Name</h2>
 
 @if (ViewBag.Owner)
 {
     <p>Jsi vlastník tohoto profilu!</p>
+    <p>Uživatelské ID: @Model.Id</p>
+    <p>Heslo: @Model.Password</p>
+    <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
+
+    <p>Nastav si text pro návštěvy:</p>
+    <div class="row">
+        @if (User.Identity.IsAuthenticated)
+        {
+            using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+            {
+                <div class="form-group">
+                    <div>
+                        @Html.TextAreaFor(x => x.WelcomeText, new { @class = "form-control formatedtext" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-default">Upravit text</button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#welcomeText").html("");
+        });
+    </script>
+
+    <style>
+        .mce-path { /* CSS */
+            display: none !important;
+        }
+    </style>
+    <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+    <script>
+tinymce.init({
+            selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
+
+
+        });</script>
 }
 else
 {
-    <p>Jsi tu na návštěvě!</p>
-}
+    <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float:right"><strong>Profil</strong> | Zeď | Galerie | Snippety</sub>
+    <br />
+    <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float:right">Získaná ocenění:</sub>
+    <br />
+    <sub>Přidal se: @Model.JoinedDateTime</sub>
 
-<p>Uživatelské ID: @Model.Id</p>
-<p>Heslo: @Model.Password</p>
-<p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
+    <hr />
+    <p>@Html.Raw(Model.WelcomeText)</p>
+}

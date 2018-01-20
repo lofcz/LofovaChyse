@@ -32,5 +32,18 @@ namespace LofovaChyse.Controllers
             ViewBag.Owner = v;
             return View(knihovnaUser);
         }
+
+        [ValidateInput(false)]
+        public ActionResult EditProfile(string welcomeText)
+        {
+            KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+            KnihovnaUser knihovnaUser = knihovnaUserDao.GetByLogin(User.Identity.Name);
+
+            knihovnaUser.WelcomeText = welcomeText;
+
+            knihovnaUserDao.Update(knihovnaUser);
+
+            return RedirectToAction("Index", new {id = knihovnaUser.Id});
+        }
     }
 }
