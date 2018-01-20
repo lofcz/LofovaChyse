@@ -25,6 +25,8 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
   - Přihlášení
   - Odhlášení
   - Role
+  - Profil
+  - Zeď
 - Úrovně přístupu, autentifikace
 - AJAX validace + WYSIWYG editor (sbohem bb)
 - Linkování k databázi
