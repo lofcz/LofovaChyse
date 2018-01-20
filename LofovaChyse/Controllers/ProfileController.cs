@@ -96,7 +96,7 @@ namespace LofovaChyse.Controllers
 
             IList<KnihovnaZed> knihovnaZed = zedDao.GetUserWall(userId);
 
-            return RedirectToAction("ViewWall", knihovnaZed);
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

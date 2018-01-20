@@ -104,6 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.css" />
     <Content Include="Content\blog.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -112,6 +113,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Buttons.css" />
+    <Content Include="Content\fonts\octicons.svg" />
+    <Content Include="Content\octicons.css" />
     <Content Include="Content\prism.css" />
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
@@ -159,6 +162,11 @@
     <Content Include="Content\sweetalert\sweet-alert-animations.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\fonts\octicons.woff" />
+    <Content Include="Content\fonts\octicons.ttf" />
+    <Content Include="Content\fonts\octicons.eot" />
+    <Content Include="Areas\Admin\Views\Books\UpravitUzivatele.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\UzivatelDetail.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -344,6 +352,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
+    <Compile Include="Class\General.cs" />
     <Compile Include="Class\ImageHelper.cs" />
     <Compile Include="Class\KnihovnaMembershipProvider.cs" />
     <Compile Include="Class\KnihovnaRoleProvider.cs" />
@@ -405,6 +414,7 @@
     <Folder Include="Areas\Admin\Views\Login\" />
     <Folder Include="Models\" />
     <Folder Include="Uploads\Book\" />
+    <Folder Include="Uploads\KnihovnaUzivatele\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Komentare\" />
   </ItemGroup>

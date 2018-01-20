@@ -1,0 +1,49 @@
+﻿@using DataAccess.Models
+@model IList<DataAccess.Models.KnihovnaUser>
+@{
+    ViewBag.Title = "UpravitUzivatele";
+}
+
+<h2>Výpis uživatelů</h2>
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Obrázek</th>
+            <th>ID</th>
+            <th>Název knihy</th>
+            <th>Autor</th>
+            <th>Rok vydání</th>
+            <th>Akce</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @foreach (KnihovnaUser b in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(b.ImageName))
+                    {
+                        <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + b.ImageName)" />
+                    }
+                </td>
+                <td>
+                    <a href="#">@b.Id</a>
+                </td>
+                <td>
+                    @Ajax.ActionLink(b.Name, "Detail", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow" })
+                </td>
+                <td>@b.Money</td>
+                <td>@b.Exp</td>
+                <td>
+                    @Html.ActionLink("Upravit", "UzivatelDetail", "Books", new { id = b.Id }, null)
+                    |
+                    @Html.ActionLink("Smazat", "Delete", "Books", new { id = b.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + b.Name + "] ?');" })
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

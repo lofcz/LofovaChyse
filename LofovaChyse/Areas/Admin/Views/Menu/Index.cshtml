@@ -8,6 +8,7 @@
 @if (Model.Role.Identificator == "knihovnik")
 {
     <li><a href="@Url.Action("Index", "Books")">Správa knih</a></li>
+    <li><a href="@Url.Action("UpravitUzivatele", "Books")">Správa uživatelů</a></li>
 
 }
 else if (Model.Role.Identificator == "ctenar")

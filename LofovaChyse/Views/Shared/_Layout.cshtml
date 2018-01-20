@@ -17,64 +17,73 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <link href="@Url.Content("~/Content/prism.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/octicons.css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/prism.js")"></script>
-
+    
 </head>
 
 <body>
-<header>
-    
-    @{
+    <header>
+        @{
         var action = (ViewContext.RouteData.Values["action"] ?? "").ToString().ToLower();
         var controller = (ViewContext.RouteData.Values["controller"] ?? "").ToString().ToLower();
-    }
+        }
 
-    <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
-        <div class="container">
-            <a class="navbar-brand" href="#">Kreveta 3</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="@((action == "index" && controller == "home") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Home")">Domů
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="@((action == "index" && controller == "books") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Books")">Příspěvky</a>
-                    </li>
-                
-                    @if (User.Identity.IsAuthenticated)
-                    {
+        <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-inverse">
+            <div class="container">
+                <a class="navbar-brand" href="#">Kreveta 3</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="@((action == "index" && controller == "home") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Home")">
+                                Domů
+                            </a>
+                        </li>
                         <li class="nav-item">
-                            <a class="@((action == "index" && controller == "profile") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Profile")">Profil</a>
+                            <a class="@((action == "index" && controller == "books") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Books")">Příspěvky</a>
                         </li>
 
-                        if (User.IsInRole("Knihovnik"))
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">ACP</a>
+                                <p class="nav-link">Krevity - @(General.GetCurrentUserMoney(User.Identity.Name))</p>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a data-toggle="dropdown" class="@((action == "index" && controller == "profile") ? "nav-link active dropdown-toggle" : "nav-link dropdown-toggle")" href="@Url.Action("Index", "Profile")"><img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + General.GetMiniaturePicture(User.Identity.Name))" class="rounded-circle"> @User.Identity.Name</a>
+                                <ul class="dropdown-menu animated" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                    <li class=""><a class="dropdown-item octicon" href="@Url.Action("Index", "Profile", new { id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Profil</a></li>
+                                    <li class=""><a class="dropdown-item" href="#">Nastavení</a></li>
+                                    <li class="dropdown-divider"></li>
+                                    <li class=""><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Odhlásit se</a></li>
+                                    
+                                    @if (User.IsInRole("Knihovnik"))
+                                    {
+                                        <li class="dropdown-divider"></li>
+                                        <li class="">
+                                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new {area = "Admin"})">Administrace</a>
+                                        </li>
+                                    }
+                                </ul>
                             </li>
                         }
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Logout", "Login")">Odhlásit se</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">Přihlásit se</a>
-                        </li>
-                    }
-                </ul>
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">Přihlásit se</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    
-    <br/>
-</header>
+        </nav>
+
+        <br />
+    </header>
 
 <main role="main" class="container">
 
@@ -114,10 +123,99 @@
         bottom: 0;
         width: 100%;
         /* Set the fixed height of the footer here */
-        height: 60px;
-        line-height: 60px; /* Vertically center the text there */
+        height: 80px;
+        line-height: 80px; /* Vertically center the text there */
     }
 
+    .bs-dark.navbar-inverse {
+        background-color: #222;
+        border-color: #080808;
+    }
+    .bs-dark .navbar-img {padding:5px 6px !important;}
+    .bs-dark .navbar-img img {width:40px;}
+    .bs-dark .dropdown-menu {
+        min-width: 200px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        background-color: #000;
+        border: 1px solid rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(0, 0, 0, .15);
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    }
+
+    .bs-dark .dropdown-menu .divider {
+        border: 1px solid rgba(0, 0, 0, 0.8);
+    }
+    .bs-dark .dropdown-menu > li > a {
+        padding: 6px 20px;
+        color: rgba(255,255,255,0.80);
+    }
+    .bs-dark .dropdown-menu > li > a:hover,
+    .bs-dark .dropdown-menu > li > a:focus {
+        color: rgba(255,255,255,0.70);
+        text-decoration: none;
+        background-color: transparent;
+    }
+    .bs-dark .dropdown-menu > .active > a,
+    .bs-dark .dropdown-menu > .active > a:hover,
+    .bs-dark .dropdown-menu > .active > a:focus {
+        color: rgba(255,255,255,0.70);
+        text-decoration: none;
+        background-color: transparent;
+        outline: 0;
+    }
+
+    .bs-dark .navbar-form {
+        margin:0;
+        margin-top: 5px;
+        padding:8px 0px;
+    }
+ 
+    .bs-dark .navbar-form .search-box {
+        border:0px;
+        height:35px;
+        outline: none;
+        width:320px;
+        padding-right: 3px;
+        padding-left: 15px;
+        margin:4px;
+        -webkit-border-radius: 22px;
+        -moz-border-radius: 22px;
+        border-radius: 22px;
+    }
+ 
+    .bs-dark .navbar-form button {
+        border: 0;
+        background: none;
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -34px;
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    .bs-dark .search-box:focus + button {
+        z-index: 3;   
+    }
+
+    
+    .bs-dark .dropdown:hover {background-color: #000;}
+    .bs-dark .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    .bs-dark .navbar-form {
+        padding:0px;
+    }	
+    .bs-dark .navbar-form .search-box {
+        width:260px;
+        height:32px;
+    }
+
+    
 
     /* Custom page CSS
 -------------------------------------------------- */
@@ -130,11 +228,17 @@
     }
 </style>
     
-<footer class="footer text-center">
-    <div class="container text-center">
-        <span class="text-muted text-center">S láskou vytvořil Matěj Štágl</span>
+<footer class="footer text-center"> 
+    <div class="container text-center animated" id="onPulse">
+            <span class="text-muted text-center animated">S láskou vytvořil Matěj Štágl</span>
     </div>
 </footer>
+
+<script>
+    $('#onPulse').click(function(){
+        $(this).addClass("fadeOutUp");
+    });
+</script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

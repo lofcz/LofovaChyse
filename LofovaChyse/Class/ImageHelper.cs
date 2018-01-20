@@ -4,6 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using DataAccess.Dao;
+using DataAccess.Models;
+using System.Web.Mvc;
 
 namespace LofovaChyse.Class
 {
@@ -27,6 +30,22 @@ namespace LofovaChyse.Class
         public static string StripTagsRegex(string source)
         {
             return Regex.Replace(source, "<.*?>", string.Empty);
+        }
+
+        public static int GetCurrentUserId(string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            return user.Id;
+        }
+
+        public static double GetCurrentUserMoney(string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            return user.Money;
         }
     }
 }

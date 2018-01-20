@@ -46,6 +46,24 @@ namespace LofovaChyse.Areas.Admin.Controllers
             return View(books);
         }
 
+        [Authorize(Roles = "knihovnik")]
+        public ActionResult UpravitUzivatele()
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            IList<KnihovnaUser> uzivatele = dao.GetAll();
+
+            return View(uzivatele);
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        public ActionResult UzivatelDetail(int id)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetbyId(id);
+
+            return View(user);
+        }
+
         public JsonResult SearchBooks(string query)
         {
             BookDao bookDao = new BookDao();
@@ -220,6 +238,43 @@ namespace LofovaChyse.Areas.Admin.Controllers
                 bookDao.Update(book);
 
                 TempData["scs"] = "Kniha " + book.Name + " byla upravena";
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return RedirectToAction("Index", "Books");
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        [HttpPost]
+        public ActionResult UpdateUser(int id, HttpPostedFileBase picture)
+        {
+            try
+            {
+                KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+                KnihovnaUser user = knihovnaUserDao.GetbyId(id);
+
+                if (picture != null)
+                {
+                    Image image = Image.FromStream(picture.InputStream);
+                    Image smalImage = ImageHelper.ScaleImage(image, 32, 32);
+
+                    Bitmap btmBitmap = new Bitmap(smalImage);
+                    Guid guid = Guid.NewGuid();
+
+                    string imageName = guid.ToString() + ".png";
+                    btmBitmap.Save(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+
+                    btmBitmap.Dispose();
+                    image.Dispose();
+
+                    user.ImageName = imageName;
+                   // System.IO.File.Delete(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + user.ImageName);
+                }
+
+                knihovnaUserDao.Update(user);
             }
             catch (Exception e)
             {
