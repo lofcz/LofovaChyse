@@ -1,0 +1,65 @@
+﻿@using DataAccess.Models
+@model IList<KnihovnaZed>
+@{
+    ViewBag.Title = "ViewWall";
+}
+
+<h2>Zeď uživatele @ViewBag.OwnerName</h2>
+
+@foreach (KnihovnaZed b in Model)
+{
+    <div>
+        <div class="card mb-3 h-25 mt-0">
+            <div class="card-body">
+                <p class="card-text">@Html.Raw(b.PostText)</p>
+            </div>
+            <div class="card-footer text-muted">
+                Napsal @b.PostOwner.Name, verze @b.Version.ToString().Replace(",", ".") (@b.PostDate.ToString("dd MMMM, yyyy"))
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Owner)
+{
+    <p>Přidej něco na svoji zeď:</p>
+
+    <div class="row">
+        @if (User.Identity.IsAuthenticated)
+    {
+        using (Html.BeginForm("AddToWall", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+        {
+            @Html.Hidden("Id", 1)
+            @Html.Hidden("PostDate", DateTime.Now)
+            @Html.Hidden("PostOwner", ViewBag.OwnerObject as KnihovnaUser)
+            @Html.Hidden("Version", 1)
+            @Html.Hidden("userId", (int)ViewBag.OwnerID)
+
+            <div class="form-group">
+                <div>
+                    @Html.TextArea("PostText", new { @class = "form-control formatedtext" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-default">Přidat příspěvek</button>
+                </div>
+            </div>
+    }
+}
+    </div>
+
+    <style>
+        .mce-path { /* CSS */
+            display: none !important;
+        }
+    </style>
+    <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+    <script>
+    tinymce.init({
+        selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
+
+
+    });</script>
+}

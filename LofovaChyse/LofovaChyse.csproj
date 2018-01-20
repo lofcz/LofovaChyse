@@ -391,6 +391,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Profile\ViewWall.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

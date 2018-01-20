@@ -3,10 +3,12 @@
     ViewBag.Title = "Index";
 }
 
-<link href="@Url.Content("~/Content/prism.css")" rel="stylesheet" />
-<script src="@Url.Content("~/Scripts/prism.js")"></script>
-
 <h2>Profil uživatele @Model.Name</h2>
+<sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float:right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new {id = Model.Id}) | Galerie | Snippety</sub>
+<br />
+<sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float:right">Získaná ocenění:</sub>
+<br />
+<sub>Přidal se: @Model.JoinedDateTime</sub>
 
 @if (ViewBag.Owner)
 {
@@ -57,12 +59,6 @@ tinymce.init({
 }
 else
 {
-    <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float:right"><strong>Profil</strong> | Zeď | Galerie | Snippety</sub>
-    <br />
-    <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float:right">Získaná ocenění:</sub>
-    <br />
-    <sub>Přidal se: @Model.JoinedDateTime</sub>
-
     <hr />
     <p>@Html.Raw(Model.WelcomeText)</p>
 }
