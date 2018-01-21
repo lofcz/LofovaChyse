@@ -17,6 +17,36 @@ namespace LofovaChyse.Class
             return user.Money;
         }
 
+        public static string GetCurrentUserName(string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            return user.Name;
+        }
+
+        public static string GetCurrentUserNotifications(string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            KnihovnaNotifikaceDao nDao = new KnihovnaNotifikaceDao();
+            IList<KnihovnaNotifikace> list = nDao.GetUserNotifikace(user.Id);
+
+            return list.Count.ToString();
+        }
+
+        public static IList<KnihovnaNotifikace> GetCurrentUserNotificationsObject(string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            KnihovnaNotifikaceDao nDao = new KnihovnaNotifikaceDao();
+            IList<KnihovnaNotifikace> list = nDao.GetUserNotifikace(user.Id);
+
+            return list;
+        }
+
         public static string GetMiniaturePicture(string name)
         {
             KnihovnaUserDao dao = new KnihovnaUserDao();

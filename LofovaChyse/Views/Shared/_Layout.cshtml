@@ -1,4 +1,6 @@
-﻿@using LofovaChyse.Class
+﻿@using System.Collections
+@using DataAccess.Models
+@using LofovaChyse.Class
 
 <!doctype html>
 <html lang="en">
@@ -18,72 +20,94 @@
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <link href="@Url.Content("~/Content/prism.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/octicons.css")" rel="stylesheet" />
+    <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
     <script src="@Url.Content("~/Scripts/prism.js")"></script>
     
 </head>
 
 <body>
-    <header>
-        @{
+<header>
+    
+
+    @{
         var action = (ViewContext.RouteData.Values["action"] ?? "").ToString().ToLower();
         var controller = (ViewContext.RouteData.Values["controller"] ?? "").ToString().ToLower();
+        IList<KnihovnaNotifikace> Notifikace = null;
+
+        if (User.Identity.IsAuthenticated)
+        {
+            Notifikace = General.GetCurrentUserNotificationsObject(User.Identity.Name);
         }
+    }
 
-        <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-inverse">
-            <div class="container">
-                <a class="navbar-brand" href="#">Kreveta 3</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="@((action == "index" && controller == "home") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Home")">
-                                Domů
-                            </a>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-inverse">
+        <div class="container">
+            <a class="navbar-brand" href="#">Kreveta 3</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="@((action == "index" && controller == "home") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Home")">
+                            Domů
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="@((action == "index" && controller == "books") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Books")">Příspěvky</a>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a  data-toggle="dropdown" class="nav-link" href="@Url.Action("Index", "Profile")" style="color: Orange;"><span class=" fas fa-bell" style="font-size: 1.3em; color: Orange; vertical-align: middle;"></span> <span class="badge badge-secondary" style="font-size: 0.8em;">@General.GetCurrentUserNotifications(User.Identity.Name)</span></a>
+                            <ul class="dropdown-menu animated">
+                                @foreach (var n in Notifikace)
+                                {                                 
+                                    <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Profile", new {id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">@Html.Raw(n.Text)</a></li>
+                                }
+                            </ul>
                         </li>
+
                         <li class="nav-item">
-                            <a class="@((action == "index" && controller == "books") ? "nav-link active" : "nav-link")" href="@Url.Action("Index", "Books")">Příspěvky</a>
+                            <a class="nav-link" href="@Url.Action("Index", "Profile")"><span class=" fas fa-envelope" style="font-size: 1.6em;  vertical-align: middle;"></span> <span class="badge badge-secondary" style="font-size: 0.8em;"> 0</span></a>
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <p class="nav-link">Krevity - @(General.GetCurrentUserMoney(User.Identity.Name))</p>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Profile")" style="color: coral;"><span class=" fab fa-korvue" style="font-size: 1.6em; color: Tomato; vertical-align: middle;"></span> <span class="badge badge-secondary" style="font-size: 0.8em;">@(General.GetCurrentUserMoney(User.Identity.Name))</span> </a>
+                        </li>
 
-                            <li class="nav-item dropdown">
-                                <a data-toggle="dropdown" class="@((action == "index" && controller == "profile") ? "nav-link active dropdown-toggle" : "nav-link dropdown-toggle")" href="@Url.Action("Index", "Profile")"><img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + General.GetMiniaturePicture(User.Identity.Name))" class="rounded-circle"> @User.Identity.Name</a>
-                                <ul class="dropdown-menu animated" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                    <li class=""><a class="dropdown-item octicon" href="@Url.Action("Index", "Profile", new { id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Profil</a></li>
-                                    <li class=""><a class="dropdown-item" href="#">Nastavení</a></li>
+                        <li class="nav-item dropdown">
+                            <a data-toggle="dropdown" class="@((action == "index" && controller == "profile") ? "nav-link active dropdown-toggle" : "nav-link dropdown-toggle")" href="@Url.Action("Index", "Profile")"><img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + General.GetMiniaturePicture(User.Identity.Name))" class="rounded-circle"> @(General.GetCurrentUserName(User.Identity.Name))</a>
+                            <ul class="dropdown-menu animated">
+                                <li class=""> <a class="dropdown-item" href="@Url.Action("Index", "Profile", new {id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Profil</a></li>
+                                <li class=""><a class="dropdown-item" href="#">Nastavení</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li class=""><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Odhlásit se</a></li>
+
+                                @if (User.IsInRole("Knihovnik"))
+                                {
                                     <li class="dropdown-divider"></li>
-                                    <li class=""><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Odhlásit se</a></li>
-                                    
-                                    @if (User.IsInRole("Knihovnik"))
-                                    {
-                                        <li class="dropdown-divider"></li>
-                                        <li class="">
-                                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new {area = "Admin"})">Administrace</a>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">Přihlásit se</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                                    <li class="">
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Home", new {area = "Admin"})">Administrace</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">Přihlásit se</a>
+                        </li>
+                    }
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <br />
-    </header>
+    <br/>
+</header>
 
 <main role="main" class="container">
 
