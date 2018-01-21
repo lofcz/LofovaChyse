@@ -25,8 +25,12 @@
 
         foreach (Book b in Model)
         {
+            b.TempClass = "btn-primary";
+
             if (b.IsPayed)
             {
+                b.TempClass = "btn-warning";
+
                 if (!User.Identity.IsAuthenticated)
                 {
                     b.ReadButton = "Prémiový příspěvek";
@@ -35,7 +39,7 @@
                 {
                     if (General.UserUnlockedPost(b.Id, User.Identity.Name))
                     {
-                        b.ReadButton = "Číst →";
+                        b.ReadButton = "Číst →";                     
                     }
                     else
                     {
@@ -67,7 +71,7 @@
                     Napsal @b.OwnerId.Name, verze @b.Version.ToString().Replace(",", ".") (@b.LastEditDateTime.ToString("dd MMMM, yyyy"))
                     @if (b.ReadButton == "Číst →")
                     {
-                        @Html.ActionLink(b.ReadButton, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = "btn btn-primary float-right btn-sm"})
+                        @Html.ActionLink(b.ReadButton, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = "btn "+ b.TempClass + " float-right btn-sm"})
                     }
                     else
                     {
