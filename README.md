@@ -11,6 +11,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
 ## Hotové funkce:
 - Příspěvky
   - Render
+  - Prémium
   - Přidat
   - Upravit
   - Smazat
