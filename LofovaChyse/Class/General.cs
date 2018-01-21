@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using DataAccess.Dao;
 using DataAccess.Models;
 
@@ -25,7 +26,7 @@ namespace LofovaChyse.Class
             return user.Name;
         }
 
-        public static string GetCurrentUserNotifications(string name)
+        public static int GetCurrentUserNotifications(string name)
         {
             KnihovnaUserDao dao = new KnihovnaUserDao();
             KnihovnaUser user = dao.GetByLogin(name);
@@ -33,10 +34,21 @@ namespace LofovaChyse.Class
             KnihovnaNotifikaceDao nDao = new KnihovnaNotifikaceDao();
             IList<KnihovnaNotifikace> list = nDao.GetUserNotifikace(user.Id);
 
-            return list.Count.ToString();
+            int toReturn = 0;
+
+            foreach (KnihovnaNotifikace n in list)
+            {
+                if (!n.Displayed)
+                {
+                    toReturn++;
+                }
+            }
+
+            return toReturn;
         }
 
-        public static IList<KnihovnaNotifikace> GetCurrentUserNotificationsObject(string name)
+        [Authorize]
+        public static int GetCurrentUserNotificationsAll(string name)
         {
             KnihovnaUserDao dao = new KnihovnaUserDao();
             KnihovnaUser user = dao.GetByLogin(name);
@@ -44,6 +56,31 @@ namespace LofovaChyse.Class
             KnihovnaNotifikaceDao nDao = new KnihovnaNotifikaceDao();
             IList<KnihovnaNotifikace> list = nDao.GetUserNotifikace(user.Id);
 
+            return list.Count;
+        }
+
+        public static IList<KnihovnaNotifikace> GetCurrentUserNotificationsObject(string name, bool onlyUnread = false)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            KnihovnaNotifikaceDao nDao = new KnihovnaNotifikaceDao();
+            IList<KnihovnaNotifikace> list = nDao.GetUserNotifikace(user.Id);
+            IList<KnihovnaNotifikace> fList = new List<KnihovnaNotifikace>();
+
+            if (onlyUnread)
+            {
+                foreach (KnihovnaNotifikace n in list)
+                {
+                    if (!n.Displayed)
+                    {
+                        fList.Add(n);
+                    }
+                }
+                return fList;
+            }
+
+            
             return list;
         }
 

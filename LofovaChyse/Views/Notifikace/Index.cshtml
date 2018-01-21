@@ -1,0 +1,47 @@
+﻿@using DataAccess.Models
+@using LofovaChyse.Class
+@model IList<DataAccess.Models.KnihovnaNotifikace>
+@{
+    ViewBag.Title = "Index";
+
+   foreach (KnihovnaNotifikace k in Model)
+   {
+     
+   }
+}
+
+<h2>Tvé oznámení:</h2>
+
+@foreach (KnihovnaNotifikace k in Model)
+{
+    <div>
+        <div class="card mb-3 h-25 mt-0">
+            <div class="card-body">
+                <p class="card-text">@Html.Raw(k.Text)</p>
+            </div>
+            <div class="card-footer text-muted">
+                Od @HNotifikace.GetFrom(k.UserFrom), přijato @k.DateSent.ToString("dd MMMM, yyyy")
+                <p class="btn btn-primary float-right btn-sm" onclick="myFunction(@k.Id)">@HNotifikace.GetButton(k.RewardType)</p>
+            </div>
+        </div>
+    </div>
+    
+}
+
+    <script>
+    function myFunction(id) {
+        swal({
+                title: "Vyzvednout odměnu",
+                text: "Užij si to, zasloužíš si ji!",
+                type: "success",
+                confirmButtonClass: "btn-success",
+                confirmButtonText: "Otevřít",
+                closeOnConfirm: false,
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    window.location.href = "/Notifikace/Dismiss/?notifikaceId="+id;
+                }
+            });
+    }
+    </script>

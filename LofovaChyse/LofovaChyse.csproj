@@ -129,10 +129,7 @@
     <Content Include="Content\prism.css" />
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
-    <Content Include="Content\sweetalert\docs.css" />
-    <Content Include="Content\sweetalert\sweet-alert.css" />
-    <Content Include="Content\sweetalert\thumbs-up.jpg" />
+    <Content Include="Content\sweetalert.css" />
     <Content Include="Global.asax" />
     <Content Include="hibernate.cfg.xml" />
     <Content Include="Scripts\additional-methods.js" />
@@ -146,6 +143,8 @@
     <Content Include="Areas\Admin\Views\Books\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Books\IndexCtenar.cshtml" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -158,6 +157,12 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Content\fonts\octicons.woff" />
+    <Content Include="Content\fonts\octicons.ttf" />
+    <Content Include="Content\fonts\octicons.eot" />
+    <Content Include="Areas\Admin\Views\Books\UpravitUzivatele.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\UzivatelDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Notifikace\Index.cshtml" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
@@ -168,17 +173,6 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="Content\sweetalert\sweet-alert.less" />
-    <Content Include="Content\sweetalert\sweet-alert-combine.less" />
-    <Content Include="Content\sweetalert\sweet-alert-animations.less" />
-    <Content Include="Content\bootstrap\variables.less" />
-    <Content Include="Content\bootstrap\mixins.less" />
-    <Content Include="Content\fonts\octicons.woff" />
-    <Content Include="Content\fonts\octicons.ttf" />
-    <Content Include="Content\fonts\octicons.eot" />
-    <Content Include="Areas\Admin\Views\Books\UpravitUzivatele.cshtml" />
-    <Content Include="Areas\Admin\Views\Books\UzivatelDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Notifikace\Index.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\fontawesome-all.js" />
     <Content Include="Scripts\fontawesome.js" />
@@ -210,6 +204,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\prism.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\langs\cs.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
@@ -383,14 +378,16 @@
     <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
     <Compile Include="Areas\Admin\Controllers\NotifikaceController.cs" />
     <Compile Include="Class\General.cs" />
+    <Compile Include="Class\HNotifikace.cs" />
     <Compile Include="Class\ImageHelper.cs" />
     <Compile Include="Class\KnihovnaMembershipProvider.cs" />
     <Compile Include="Class\KnihovnaRoleProvider.cs" />
+    <Compile Include="Class\Sklonovani.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KomentareController.cs" />
+    <Compile Include="Controllers\NotifikaceController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -428,9 +425,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\ViewWall.cshtml" />
+    <Content Include="Views\Notifikace\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

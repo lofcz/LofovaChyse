@@ -1,4 +1,6 @@
 ﻿@using System.Collections
+@using System.Drawing
+@using System.Web.Services.Description
 @using DataAccess.Models
 @using LofovaChyse.Class
 
@@ -15,29 +17,31 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link href="@Url.Content("~/Content/Buttons.css")" rel="stylesheet">
-    <link href="@Url.Content("~/Content/sweetalert/sweet-alert.css")" rel="stylesheet">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="@Url.Content("~/Content/sweetalert.css")" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/sweetalert.min.js")"></script>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <link href="@Url.Content("~/Content/prism.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" />
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-    <script src="@Url.Content("~/Scripts/prism.js")"></script>
-    
+    <script src="@Url.Content("~/Scripts/prism.js")"></script>    
 </head>
 
 <body>
 <header>
-    
 
     @{
         var action = (ViewContext.RouteData.Values["action"] ?? "").ToString().ToLower();
         var controller = (ViewContext.RouteData.Values["controller"] ?? "").ToString().ToLower();
         IList<KnihovnaNotifikace> Notifikace = null;
+        int totalNotifikace = 0;
 
         if (User.Identity.IsAuthenticated)
         {
-            Notifikace = General.GetCurrentUserNotificationsObject(User.Identity.Name);
+            Notifikace = General.GetCurrentUserNotificationsObject(User.Identity.Name, true);
+            totalNotifikace = General.GetCurrentUserNotificationsAll(User.Identity.Name);
         }
+
+        Color MyColor = Color.Red;
     }
 
     <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-inverse">
@@ -60,11 +64,18 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
-                            <a  data-toggle="dropdown" class="nav-link" href="@Url.Action("Index", "Profile")" style="color: Orange;"><span class=" fas fa-bell" style="font-size: 1.3em; color: Orange; vertical-align: middle;"></span> <span class="badge badge-secondary" style="font-size: 0.8em;">@General.GetCurrentUserNotifications(User.Identity.Name)</span></a>
+                            <a  data-toggle="dropdown" class="nav-link" href="@Url.Action("Index", "Profile")" style="@((General.GetCurrentUserNotifications(User.Identity.Name) > 0) ? "color: Orange" : "")"><span class=" fas fa-bell" style="font-size: 1.3em; color: @MyColor; vertical-align: middle;"></span> <span class="badge badge-secondary" style="font-size: 0.8em;">@General.GetCurrentUserNotifications(User.Identity.Name)</span></a>
                             <ul class="dropdown-menu animated">
-                                @foreach (var n in Notifikace)
-                                {                                 
-                                    <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Profile", new {id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">@Html.Raw(n.Text)</a></li>
+                                @if (Notifikace.Count > 0)
+                                {
+                                    foreach (var n in Notifikace)
+                                     {
+                                         <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Notifikace", new {userId = ImageHelper.GetCurrentUserId(User.Identity.Name)})">@Html.Raw(n.Text)</a></li>
+                                     }
+                                }
+                                else
+                                {
+                                    <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Notifikace", new {userId = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Nemáš žádná nová upozornění. <br/>Můžeš se podívat na @totalNotifikace @Sklonovani.Sklonuj("starší", totalNotifikace).</a></li>
                                 }
                             </ul>
                         </li>
