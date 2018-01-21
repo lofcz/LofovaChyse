@@ -1,25 +1,116 @@
-﻿
+﻿<style>
+    .ui-chatbox {
+        position: fixed;
+        bottom:0;
+        padding: 2px;
+        background:  #CCCCCC;
+    }
+
+    .ui-chatbox-titlebar {
+        padding: 3px;
+        height: 40px;
+        cursor: pointer;
+    }
+
+    .ui-chatbox-content {
+        padding: 0px;
+        margin: 0px;
+        border: 0px;
+    }
+
+    .ui-chatbox-log {
+        padding: 3px;
+        height: 250px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: #FFFFFF;
+    }
+
+    .ui-chatbox-input {
+        padding: 3px;
+        border-top: 1px solid grey;
+        overflow: hidden;
+    }
+
+    .ui-chatbox-input-box {
+        margin: 5px;
+        border: 2px solid lightgrey;/* #6699FF */
+        padding: 2px;
+        height: 50px;
+    }
+
+    .ui-chatbox-icon {
+        float: right;
+    }
+
+    .ui-chatbox-input-focus {
+        border-color: #6699FF;
+    }
+
+    .ui-chatbox-msg {
+        margin-top: 10px;
+        float: left;
+        clear: both;
+        /* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
+        white-space: pre-wrap;      /* CSS3 */
+        white-space: -moz-pre-wrap; /* Firefox */
+        white-space: -pre-wrap;     /* Opera <7 */
+        white-space: -o-pre-wrap;   /* Opera 7 */
+        word-wrap: break-word;      /* IE */
+    }
+</style>
+
+
+<link rel="stylesheet" href="http://magma.cs.uiuc.edu/wenpu1/css/ui-lightness/jquery-ui-1.8.2.custom.css" />
+<script type="text/javascript" src="http://magma.cs.uiuc.edu/wenpu1/js/jquery-ui-1.8.2.custom.min.js"></script>
+<script type="text/javascript" src="http://magma.cs.uiuc.edu/wenpu1/js/jquery.ui.chatbox.js"></script>
+<script type="text/javascript" src="http://magma.cs.uiuc.edu/wenpu1/js/chatboxManager.js"></script>
+
 <h1>Lofova chýše</h1>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var counter = 0;
+        var idList = new Array();
+
+        var broadcastMessageCallback = function(from, msg) {
+            for(var i = 0; i < idList.length; i ++) {
+                chatboxManager.addBox(idList[i]);
+                $("#" + idList[i]).chatbox("option", "boxManager").addMsg(from, msg);
+            }
+        }
+
+
+        // chatboxManager is excerpt from the original project
+        // the code is not very clean, I just want to reuse it to manage multiple chatboxes
+        chatboxManager.init({messageSent : broadcastMessageCallback});
+
+        $("#link_add").click(function(event, ui) {
+            counter ++;
+            var id = "box" + counter;
+            idList.push(id);
+            chatboxManager.addBox(id, 
+                {dest:"dest" + counter, // not used in demo
+                    title:"box" + counter,
+                    first_name:"First" + counter,
+                    last_name:"Last" + counter
+                    //you can add your own options too
+                });
+            event.preventDefault();
+        });
+
+    });
+</script>
 
 <div>
     <a href="@Url.Action("Vypis", "Home")">Vypis</a>
 </div>
 
 <a href="#" onclick="getAjaxContent()">ajax</a>
+<p><a id="link_add" href="#">Add Chatbox</a></p>
+
 
 <div id="ajaxContent">
 
 </div>
-
-<script type="text/javascript">
-
-    function getAjaxContent() {
-        $(document).ready(function() {
-            $.get('@Url.Action("AjaxRequest", "Home")', function (data) {
-
-                    $('#ajaxContent').html(data);
-                });
-        });
-    }
-        
-</script>
