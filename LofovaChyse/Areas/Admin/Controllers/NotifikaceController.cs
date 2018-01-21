@@ -23,7 +23,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
         [HttpPost] // post only
         [Authorize(Roles = "knihovnik")]
         [ValidateInput(false)]
-        public ActionResult Add(string userTo, string text, bool sendIncognito)
+        public ActionResult Add(string userTo, string text, bool sendIncognito, string reward)
         {
             if (ModelState.IsValid)
             {
@@ -34,7 +34,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     Displayed = false,
                     ForceType = 0,
                     Id = Books.Counter(),
-                    RewardType = 0,
+                    RewardType = int.Parse(reward),
                     UserTo = int.Parse(userTo)
                 };
 

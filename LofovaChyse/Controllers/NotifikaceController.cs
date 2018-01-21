@@ -28,10 +28,18 @@ namespace LofovaChyse.Controllers
 
         public ActionResult Dismiss(int notifikaceId)
         {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
 
             KnihovnaNotifikaceDao dao = new KnihovnaNotifikaceDao();
             KnihovnaNotifikace n = dao.GetbyId(notifikaceId);
 
+            if (n.RewardType == 1)
+            {
+                u.Money += 10;
+            }
+
+            d.Update(u);
             dao.Delete(n);
             TempData["Message"] = "Your Order";
 

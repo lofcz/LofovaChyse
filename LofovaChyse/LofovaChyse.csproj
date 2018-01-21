@@ -428,6 +428,7 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\ViewWall.cshtml" />
     <Content Include="Views\Notifikace\Index.cshtml" />
+    <Content Include="Views\Books\Buy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

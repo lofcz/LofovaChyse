@@ -115,6 +115,42 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
+        public ActionResult Buy(int id, string userName)
+        {
+            BookDao bookDao = new BookDao();
+            Book b = bookDao.GetbyId(id);
+
+            ViewBag.Zobraz = true;
+            ViewBag.Cost = b.UnlockPrice;
+            ViewBag.BuyId = id;
+
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser u = dao.GetByLogin(userName);
+
+            return PartialView(u);
+        }
+
+        public ActionResult CompleteBuy(int id, string userName, int buyCost)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            BookPaymentDao dao = new BookPaymentDao();
+            BookPayment payment = new BookPayment();
+
+            payment.Id = Books.Counter();
+            payment.DateUnlocked = DateTime.Now;
+            payment.IsPreview = false;
+            payment.PostId = id;
+            payment.UserId = d.GetByLogin(userName).Id;
+
+            KnihovnaUser user = d.GetByLogin(userName);
+            user.Money -= buyCost;
+
+            dao.Create(payment);
+            d.Update(user);
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
         public enum EDruhyPalcu
         {
             Souhlasim,

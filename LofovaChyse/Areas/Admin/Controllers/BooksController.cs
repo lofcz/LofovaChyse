@@ -135,7 +135,10 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     OwnerId =  new KnihovnaUserDao().GetByLogin(User.Identity.Name),
                     Kategorie = new KnihovnaKategorieDao().GetbyId(2),
                     LastEditDateTime = DateTime.Now,
-                    Version = 1
+                    Version = 1,
+                    IsPayed = false,
+                    UnlockPrice = 0,
+                    MinimalLevel = 0
                 };
 
 

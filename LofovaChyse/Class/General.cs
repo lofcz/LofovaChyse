@@ -92,5 +92,24 @@ namespace LofovaChyse.Class
 
             return user.ImageName;
         }
+
+        [Authorize]
+        public static bool UserUnlockedPost(int postId, string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+
+            IList<BookPayment> list = new BookPaymentDao().GetUserPayments(user.Id);
+
+            foreach (BookPayment payment in list)
+            {
+                if (payment.PostId == postId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

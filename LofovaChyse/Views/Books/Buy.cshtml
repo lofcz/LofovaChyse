@@ -1,0 +1,29 @@
+﻿@model DataAccess.Models.KnihovnaUser
+@{
+    ViewBag.Title = "Buy";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3>Zakoupit příspěvek</h3>
+    <p>Jednorázové odemčení příspěvku tě bude stát @ViewBag.Cost krevitů.</p>
+
+    <div class="modal-footer">
+        @if (Model.Money >= ViewBag.Cost)
+        {
+            <button type="button" id="btnNo" class="btn btn-default" data-dismiss="modal">Později</button>
+            @Html.ActionLink("Zakoupit", "CompleteBuy", "Books", new { id = ViewBag.BuyId, userName = User.Identity.Name, buyCost = ViewBag.Cost }, new { @class = "btn btn-success" })
+        }
+        else
+        {
+            <button type="button" id="btnNo" class="btn btn-default" data-dismiss="modal">Nemáš dost krevitů</button>
+        }
+    </div>
+}
+else
+{
+    <h3>Prémiový příspěvek</h3>
+    <hr/>
+    <p>Obsah pouze pro registrované uživatele. Zaregistruj se a získej spoustu výhod - <a href="#">registrace je zdarma</a>.</p>
+
+}

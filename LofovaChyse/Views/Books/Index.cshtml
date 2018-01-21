@@ -1,15 +1,54 @@
 ﻿@using DataAccess.Models
 @using PerpetuumSoft.Knockout
 @using LofovaChyse.Areas.Admin.Controllers
+@using LofovaChyse.Class
 @model IList<Book>
 
+@{
+    ViewBag.BuyId = 0;
+}
+
 <div id="ajaxContent">
+    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id ="modalContent">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     @{
         ViewBag.Title = "Index";
-        //Book book = ViewBag.Kniha as Book; //Přetypování / secure
 
-        // @model book -> Typový model
+        foreach (Book b in Model)
+        {
+            if (b.IsPayed)
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    b.ReadButton = "Prémiový příspěvek";
+                }
+                else
+                {
+                    if (General.UserUnlockedPost(b.Id, User.Identity.Name))
+                    {
+                        b.ReadButton = "Číst →";
+                    }
+                    else
+                    {
+                        b.ReadButton = "Zakoupit za " + b.UnlockPrice + " krevitů";
+                    }
+                }
+            }
+            else
+            {
+                b.ReadButton = "Číst →";
+            }
+        }
+
     }
     <h2>Nové příspěvky</h2>
     <hr />
@@ -26,7 +65,14 @@
                 </div>
                 <div class="card-footer text-muted">
                     Napsal @b.OwnerId.Name, verze @b.Version.ToString().Replace(",", ".") (@b.LastEditDateTime.ToString("dd MMMM, yyyy"))
-                    @Html.ActionLink("Číst →", "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "btn btn-primary float-right btn-sm" })
+                    @if (b.ReadButton == "Číst →")
+                    {
+                        @Html.ActionLink(b.ReadButton, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = "btn btn-primary float-right btn-sm"})
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink(b.ReadButton, "Buy", "Books", new { id = b.Id, userName = User.Identity.Name}, new AjaxOptions() { UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow" }, new { @class = "btn btn-warning float-right btn-sm" })
+                    }
                 </div>
             </div>
         </div>
@@ -37,13 +83,20 @@
     {
         <nav aria-label="...">
             <ul class="pagination">
-        @for (int i = 1; i <= ViewBag.Pages; i++)
-        {
-            <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
-                @Ajax.ActionLink(i.ToString(), "Index", new { page = i }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ajaxContent" }, new {@class= "page-link" })
-            </li>
-        }
-    </ul>
-    </nav>
+                @for (int i = 1; i <= ViewBag.Pages; i++)
+                {
+                    <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                        @Ajax.ActionLink(i.ToString(), "Index", new { page = i }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ajaxContent" }, new {@class= "page-link" })
+                    </li>
+                }
+            </ul>
+        </nav>
     }
 </div>
+
+<script type="text/javascript">
+    function openModelWindow() {
+
+        $('#myModal').modal('toggle');
+    }
+</script>

@@ -24,16 +24,29 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">Vytvořit knihu</button>
+            <button type="submit" class="btn btn-default">Odeslat notifikace</button>
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">Poslat jako server:</label>
         <div class="col-sm-offset-2 col-sm-10">
-            @Html.CheckBox("sendIncognito")
+            @Html.CheckBox("sendIncognito", true)
+        </div>
     </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Druh odměny:</label>
+        <div class="col-sm-10">
+            @Html.TextBox("reward", "0")
+        </div>
     </div>
+
+    <p>Odměny:</p>
+    <ul>
+        <li>0 - žádná</li>
+        <li>1 - 10 krevitů</li>
+    </ul>
 }
 
 <style>
