@@ -1,0 +1,63 @@
+﻿@using DataAccess.Models
+@using LofovaChyse.Areas.Admin.Controllers
+@using LofovaChyse.Class
+@using NHibernate.Mapping
+@model IList<DataAccess.Models.BookSekce>
+
+@{
+    ViewBag.Title = "AddSekce";
+}
+
+<h2>AddSekce</h2>
+
+@foreach (BookSekce b in Model)
+{
+    <p>@General.ProcessSekce(b, 0)</p>
+}
+
+@{
+    General.Reverse();
+    ViewBag.Vysledek = General.textOutput;
+}
+
+@foreach (string s in ViewBag.Vysledek as List<string>)
+{
+    <p>@Html.Raw(s)</p>
+}
+
+@{
+    General.Clean();
+}
+
+
+@using (Html.BeginForm("UpdateSekce", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id kategorie:</label>
+        <div class="col-sm-10">
+            @Html.TextBox("targetId", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Popis</label>
+        <div class="col-sm-10">
+            @Html.TextArea("text", new { @class = "form-control formatedtext" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Obrázek</label>
+        <div class="col-sm-10">
+            <input type="file" name="picture" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Upravit knihu</button>
+        </div>
+    </div>
+}
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script>tinymce.init({ selector: '.formatedtext', branding: false, plugins: 'code, emoticons', toolbar: 'code, emoticons' });</script>

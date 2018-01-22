@@ -15,7 +15,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
     {
         // GET: Books
         [Authorize]
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, int? cat)
         {
             string pozdrav = "Lof lof";
             int cislo = 12;
@@ -29,7 +29,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             ViewBag.Cislo = cislo;
 
             BookDao bookDao = new BookDao();
-            IList<Book> books = bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks);
+            IList<Book> books = bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks, cat);
 
             KnihovnaUser user = new KnihovnaUserDao().GetByLogin(User.Identity.Name);
 
@@ -306,6 +306,42 @@ namespace LofovaChyse.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index", "Books");
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        public ActionResult AddSekce()
+        {
+
+            IList<BookSekce> list = new BookSekceDao().GetCategoriesDebug(null);
+
+
+            return View(list);
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        [ValidateInput(false)]
+        public ActionResult UpdateSekce(int targetId, string text, HttpPostedFileBase picture)
+        {
+            BookSekce s = new BookSekceDao().GetbyId(targetId);
+            s.Name = text;
+
+            Image image = Image.FromStream(picture.InputStream);
+            Image smalImage = ImageHelper.ScaleImage(image, 120, 120);
+
+            Bitmap btmBitmap = new Bitmap(smalImage);
+            Guid guid = Guid.NewGuid();
+
+            string imageName = guid.ToString() + ".png";
+            btmBitmap.Save(Server.MapPath("~/Uploads/Sekce/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+
+            btmBitmap.Dispose();
+            image.Dispose();
+
+            s.ImageName = imageName;
+            new BookSekceDao().Update(s);
+
+
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

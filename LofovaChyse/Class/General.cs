@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -77,10 +78,11 @@ namespace LofovaChyse.Class
                         fList.Add(n);
                     }
                 }
+
                 return fList;
             }
 
-            
+
             return list;
         }
 
@@ -110,6 +112,50 @@ namespace LofovaChyse.Class
             }
 
             return false;
+        }
+
+        public static List<BookSekce> GetCurrentCategories(int? currentCategory)
+        {
+            BookSekceDao dao = new BookSekceDao();
+            IList<BookSekce> list = dao.GetCategories(currentCategory);
+            List<BookSekce> l = list as List<BookSekce>;
+
+            l = l.OrderByDescending(o => o.RenderPriority).ToList();
+            return l;
+        }
+
+        public static List<string> textOutput = new List<string>();
+
+        public static string ProcessSekce(BookSekce b, int iterace)
+        {
+            IList<BookSekce> list = new BookSekceDao().GetCategoriesDebug(b.Id);
+            iterace++;
+
+            foreach (BookSekce z in list)
+            {
+                ProcessSekce(z, iterace);
+            }
+
+            string toReturn = "";
+
+            for (var i = 0; i < iterace; i++)
+            {
+                toReturn += "‌‌ ‌‌ ‌‌ ‌‌ ‌‌ ";
+            }
+
+            textOutput.Add(toReturn + ">" + b.Name);
+
+            return "";
+        }
+
+        public static void Reverse()
+        {
+            textOutput.Reverse();
+        }
+
+        public static void Clean()
+        {
+            textOutput = new List<string>();
         }
     }
 }

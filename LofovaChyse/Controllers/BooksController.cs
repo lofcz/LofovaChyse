@@ -14,12 +14,16 @@ namespace LofovaChyse.Controllers
     public class BooksController : Controller
     {
         // GET: Books
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, int? cat)
         {
             int itemsOnPage = 2;
             int pg = page.HasValue ? page.Value : 1;
             int totalBooks;
 
+            if (!cat.HasValue)
+            {
+                cat = null;
+            }
 
             string pozdrav = "Lof lof";
             int cislo = 12;
@@ -27,15 +31,20 @@ namespace LofovaChyse.Controllers
             // Potřebuju uložit do kontaineru abych to dostal do view
             ViewBag.Pozdrav = pozdrav;
             ViewBag.Cislo = cislo;
+            ViewBag.Cat = cat;
 
             BookDao bookDao = new BookDao();
 
-            IList<Book> booksPaged = bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks);
-            booksPaged = booksPaged.OrderBy(x => x.Id).ToList();
+            IList<Book> bPaged = bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks, cat);
+
+            //IList<Book> booksPaged = bookDao.GetBooksInSection(cat);//bookDao.GetBooksPaged(itemsOnPage, pg, out totalBooks);
+            List<Book> u = bPaged as List<Book>;
+
+            bPaged = bPaged.OrderBy(x => x.Id).ToList();
 
             if (User.Identity.IsAuthenticated)
             {
-                foreach (Book b in booksPaged)
+                foreach (Book b in bPaged)
                 {
                     if (CurrentUserRatedBook(b))
                     {
@@ -56,10 +65,10 @@ namespace LofovaChyse.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView(booksPaged);
+                return PartialView(u);
             }
 
-            return View(booksPaged); // Passnu třídu
+            return View(u); // Passnu třídu
         }
 
         public bool CurrentUserRatedComent(KnihovnaKomentare komentar)
@@ -296,14 +305,16 @@ namespace LofovaChyse.Controllers
                 }
             }
 
+            List<Book> fb = books as List<Book>;
+
             if (Request.IsAjaxRequest())
             {
                
-                return PartialView("Index", books);
+                return PartialView("Index", fb);
             }
 
            // return RedirectToAction("Index");
-            return View("Index", books);
+            return View("Index", fb);
         }
 
         public string BookRating(int id)

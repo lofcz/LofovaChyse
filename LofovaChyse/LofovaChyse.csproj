@@ -173,6 +173,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Areas\Admin\Views\Books\AddSekce.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\fontawesome-all.js" />
     <Content Include="Scripts\fontawesome.js" />
@@ -443,6 +444,7 @@
     <Folder Include="Models\" />
     <Folder Include="Uploads\Book\" />
     <Folder Include="Uploads\KnihovnaUzivatele\" />
+    <Folder Include="Uploads\Sekce\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Views\Komentare\" />
   </ItemGroup>
