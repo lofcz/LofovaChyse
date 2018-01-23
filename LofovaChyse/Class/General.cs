@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using System.Web.Mvc;
 using DataAccess.Dao;
@@ -143,7 +144,13 @@ namespace LofovaChyse.Class
                 toReturn += "‌‌ ‌‌ ‌‌ ‌‌ ‌‌ ";
             }
 
-            textOutput.Add(toReturn + ">" + b.Name);
+            string tR = "";
+            if (b.RenderPriority > 0)
+            {
+                tR = "[priority: " + b.RenderPriority.ToString() + "]";
+            }
+
+            textOutput.Add(toReturn + ">" + b.DebugName + " [id: " + b.Id.ToString() + "] " + tR);
 
             return "";
         }
@@ -156,6 +163,37 @@ namespace LofovaChyse.Class
         public static void Clean()
         {
             textOutput = new List<string>();
+        }
+
+        public static bool AccessMatch(int permLevel, string userName)
+        {
+            if (permLevel == 0)
+            {
+                return true;
+            }
+
+            KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+            KnihovnaUser user = knihovnaUserDao.GetByLogin(userName);
+
+            if (user == null)
+            {
+                 return false;
+            }
+
+            string[] userRoles = { user.Role.Identificator };
+
+            // Level databáze
+            if (permLevel == 1)
+            {
+                if (userRoles.Contains("knihovnik"))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            return true;
         }
     }
 }
