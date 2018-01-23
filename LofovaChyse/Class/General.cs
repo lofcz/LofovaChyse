@@ -12,6 +12,8 @@ namespace LofovaChyse.Class
 {
     public class General
     {
+        static Random random = new Random();
+
         public static double GetCurrentUserMoney(string name)
         {
             KnihovnaUserDao dao = new KnihovnaUserDao();
@@ -113,6 +115,35 @@ namespace LofovaChyse.Class
             }
 
             return false;
+        }
+
+        public static string GetFooter()
+        {
+            string[] options =
+            {
+                "S láskou vytvořil Matěj Štágl",
+                "2B || !2B?",
+                "K r e v e t a",
+                "Secret voucher - #kr3vet4",
+                "Sen, nebo realita?",
+                "--> ___ <---",
+                "Zdravím, pozemšťane!",
+                "K večeru očekáváme byte[] stream bouři",
+                "Naše servery pohání ZX Spectrum",
+                "Programátor - stroj přeměňující kávu na kód",
+                "Nadřazená rasa programátorů - Nerdicové",
+                "Na bugfree kód jsme neměli rozpočet",
+                "Knock, knock.. kdo tam? (dlouhá pauza).. Java",
+                "['hip','hip']",
+                "Dokumentace je jako sex. Když je špatná, je lepší než nic",
+                "Abys pochopil rekurzi, musíš napřed pochopit rekurzi",
+                "get; in; get; out; (repeat)",
+                "[ $[ $RANDOM % 6 ] == 0 ] && rm -rf",
+                "K běhu sítě je vyžadován os win XP nebo lepší (například Linux)",
+                "Proč nemá c++ garbage collector? Nic by nezůstalo."
+            };
+
+            return options[random.Next(0, options.Length)];
         }
 
         public static List<BookSekce> GetCurrentCategories(int? currentCategory, string name)
