@@ -1,0 +1,85 @@
+﻿@using System.Collections
+@using DataAccess.Dao
+@using DataAccess.Models
+@using LofovaChyse.Class
+@using SelectListItem = System.Web.WebPages.Html.SelectListItem
+@model DataAccess.Models.KnihovnaOceneni
+@{
+    ViewBag.Title = "AddOdznak";
+    ViewBag.AllOceneni = General.GetAll();
+}
+
+<h2>AddOdznak</h2>
+
+
+@using (Html.BeginForm("CreateOdznak", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+{
+    @Html.HiddenFor(x => x.Image)
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id odznaku:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.OdznakId, new { @class = "form-control", id = "ido" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id uživatele:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.UserId, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Typ odznaku:</label>
+        <div class="col-sm-10">        
+            <select name="@Html.NameFor(x => x.Name)" id="myId" onchange="myF()" class="form-control">
+                @foreach (KnihovnaOceneniArchetyp k in ViewBag.AllOceneni as List<KnihovnaOceneniArchetyp>)
+                {
+                    <option value="@k.Name" mytext="@k.Text"> @k.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Text (prefabrikát):</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(x => x.Text, new { @class = "form-control formatedtext", id="p1" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Udělit odznak</button>
+        </div>
+    </div>
+}
+<style>
+    .mce-path { /* CSS */
+        display: none !important;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script>
+    tinymce.init({
+        selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
+
+
+    });
+</script>
+
+<script>
+    function myF() {
+        var e = document.getElementById("myId");
+        var strUser = e.options[e.selectedIndex].getAttribute('mytext');
+        var id = e.selectedIndex;
+        var msg = document.getElementById("ido");
+
+        msg.value = id;
+
+        var z = strUser;
+        tinymce.activeEditor.setContent(z, {format: 'html'});
+       
+    }
+</script>

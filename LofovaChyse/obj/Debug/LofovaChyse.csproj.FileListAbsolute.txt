@@ -155,3 +155,8 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Mono.Reflection.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Newtonsoft.Json.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\PerpetuumSoft.Knockout.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Newtonsoft.Json.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\JsAction.BASE.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\JsAction.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\WebActivator.dll
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\DataAccess.dll.config
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\JsAction.xml

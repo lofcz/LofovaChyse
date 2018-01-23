@@ -235,5 +235,12 @@ namespace LofovaChyse.Class
 
             return true;
         }
+
+        public static List<KnihovnaOceneniArchetyp> GetAll()
+        {
+            KnihovnaOceneniArchetypDao dao = new KnihovnaOceneniArchetypDao();
+            List<KnihovnaOceneniArchetyp> list = dao.GetAll() as List<KnihovnaOceneniArchetyp>;
+            return list;
+        }
     }
 }

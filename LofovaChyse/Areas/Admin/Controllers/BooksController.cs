@@ -33,7 +33,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
 
             KnihovnaUser user = new KnihovnaUserDao().GetByLogin(User.Identity.Name);
 
-            ViewBag.Pages = (int)Math.Ceiling((double) totalBooks / (double) itemsOnPage);
+            ViewBag.Pages = (int) Math.Ceiling((double) totalBooks / (double) itemsOnPage);
             ViewBag.CurrentPage = pg;
             ViewBag.PerPage = itemsOnPage;
             ViewBag.Categories = new BookCategoryDao().GetAll();
@@ -132,7 +132,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     PublishedYear = book.PublishedYear,
                     Id = Books.Counter(),
                     Description = book.Description,
-                    OwnerId =  new KnihovnaUserDao().GetByLogin(User.Identity.Name),
+                    OwnerId = new KnihovnaUserDao().GetByLogin(User.Identity.Name),
                     Kategorie = new KnihovnaKategorieDao().GetbyId(2),
                     LastEditDateTime = DateTime.Now,
                     Version = 1,
@@ -156,7 +156,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
                         Guid guid = Guid.NewGuid();
 
                         string imageName = guid.ToString() + ".jpg";
-                        btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName, ImageFormat.Jpeg); // Je potřeba namapovat cestu!
+                        btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName,
+                            ImageFormat.Jpeg); // Je potřeba namapovat cestu!
 
                         btmBitmap.Dispose();
                         image.Dispose();
@@ -193,7 +194,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             Book b = bookDao.GetbyId(id);
             ViewBag.Categories = bookCategoryDao.GetAll();
             ViewBag.UserId = b.OwnerId.Id;
-            ViewBag.Kategorie = b.Kategorie.Id;               
+            ViewBag.Kategorie = b.Kategorie.Id;
 
             return View(b);
         }
@@ -213,11 +214,11 @@ namespace LofovaChyse.Areas.Admin.Controllers
                 KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
 
                 KnihovnaKategorie knihovnaKategorie = book.Kategorie;
-               // KnihovnaUser knihovnaUser = knihovnaUserDao.GetbyId(book.OwnerId.Id);
+                // KnihovnaUser knihovnaUser = knihovnaUserDao.GetbyId(book.OwnerId.Id);
 
                 book.Category = bookCategory;
                 book.Kategorie = knihovnaKategorie;
-             //   book.OwnerId = knihovnaUser;
+                //   book.OwnerId = knihovnaUser;
 
                 if (picture != null)
                 {
@@ -228,7 +229,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     Guid guid = Guid.NewGuid();
 
                     string imageName = guid.ToString() + ".jpg";
-                    btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName, ImageFormat.Jpeg); // Je potřeba namapovat cestu!
+                    btmBitmap.Save(Server.MapPath("~/Uploads/Book/") + imageName,
+                        ImageFormat.Jpeg); // Je potřeba namapovat cestu!
 
                     btmBitmap.Dispose();
                     image.Dispose();
@@ -268,13 +270,14 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     Guid guid = Guid.NewGuid();
 
                     string imageName = guid.ToString() + ".png";
-                    btmBitmap.Save(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+                    btmBitmap.Save(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + imageName,
+                        ImageFormat.Png); // Je potřeba namapovat cestu!
 
                     btmBitmap.Dispose();
                     image.Dispose();
 
                     user.ImageName = imageName;
-                   // System.IO.File.Delete(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + user.ImageName);
+                    // System.IO.File.Delete(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + user.ImageName);
                 }
 
                 knihovnaUserDao.Update(user);
@@ -332,7 +335,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
             Guid guid = Guid.NewGuid();
 
             string imageName = guid.ToString() + ".png";
-            btmBitmap.Save(Server.MapPath("~/Uploads/Sekce/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+            btmBitmap.Save(Server.MapPath("~/Uploads/Sekce/") + imageName,
+                ImageFormat.Png); // Je potřeba namapovat cestu!
 
             btmBitmap.Dispose();
             image.Dispose();
@@ -340,6 +344,114 @@ namespace LofovaChyse.Areas.Admin.Controllers
             s.ImageName = imageName;
             new BookSekceDao().Update(s);
 
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        public ActionResult AddOdznak()
+        {
+            KnihovnaOceneni o = new KnihovnaOceneni();
+            ViewBag.DruhyOdznaku = new KnihovnaOceneniArchetypDao().GetAll();
+
+            return View(o);
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        public ActionResult AddOdznakArchetyp()
+        {
+            KnihovnaOceneniArchetyp o = new KnihovnaOceneniArchetyp();
+
+            return View(o); 
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        [ValidateInput(false)]
+        public ActionResult CreateOdznakArchetyp(KnihovnaOceneniArchetyp book, HttpPostedFileBase picture)
+        {
+            if (ModelState.IsValid)
+            {
+                KnihovnaOceneniArchetyp b = new KnihovnaOceneniArchetyp()
+                {
+                    Name = book.Name,
+                    Id = Books.Counter(),
+                    OdznakId = Books.Counter(),
+                    Text = book.Text
+                };
+
+
+                if (picture != null)
+                {
+                    var z = picture.ContentLength;
+
+                    if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
+                    {
+                        Image image = Image.FromStream(picture.InputStream);
+                        Image smalImage = ImageHelper.ScaleImage(image, 64, 64);
+
+
+                        Bitmap btmBitmap = new Bitmap(smalImage);
+                        Guid guid = Guid.NewGuid();
+
+                        string imageName = guid.ToString() + ".jpg";
+                        btmBitmap.Save(Server.MapPath("~/Uploads/Odznaky/") + imageName,
+                            ImageFormat.Jpeg); // Je potřeba namapovat cestu!
+
+                        btmBitmap.Dispose();
+                        image.Dispose();
+
+                        b.Image = imageName;
+                    }
+                }
+
+                KnihovnaOceneniArchetypDao bookDao = new KnihovnaOceneniArchetypDao();
+                bookDao.Create(b);
+
+                // Notifikace
+                TempData["scs"] = "V pořádku";
+            }
+            else
+            {
+                return View("AddOdznakArchetyp", book); // Vrátím vstupní data
+            }
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        [ValidateInput(false)]
+        public ActionResult CreateOdznak(KnihovnaOceneni book)
+        {
+            if (ModelState.IsValid)
+            {
+                KnihovnaOceneni b = new KnihovnaOceneni()
+                {
+                    Name = book.Name,
+                    Id = Books.Counter(),
+                    OdznakId = book.OdznakId,
+                    Text = book.Text,
+                    UserId = book.UserId,
+                    DatumZiskani = DateTime.Now,
+                    Image = book.Image,
+                    Venovani = ""
+                };
+
+                KnihovnaOceneniArchetypDao a = new KnihovnaOceneniArchetypDao();
+                KnihovnaOceneniArchetyp o = a.GetbyId(b.OdznakId);
+
+                b.Image = o.Image;
+
+
+                KnihovnaOceneniDao bookDao = new KnihovnaOceneniDao();
+                bookDao.Create(b);
+
+                // Notifikace
+                TempData["scs"] = "V pořádku";
+            }
+            else
+            {
+                return View("AddOdznak", book); // Vrátím vstupní data
+            }
 
             return Redirect(Request.UrlReferrer.ToString());
         }
