@@ -12,6 +12,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
 - Příspěvky
   - Render
   - Prémium
+  - Kategorie a neomezené subkategorie
   - Přidat
   - Upravit
   - Smazat
