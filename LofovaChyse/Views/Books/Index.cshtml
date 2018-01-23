@@ -8,7 +8,7 @@
 @{
     ViewBag.Granted = true;
     ViewBag.BuyId = 0;
-    ViewBag.SeznamKategorii = General.GetCurrentCategories(ViewBag.Cat);
+    ViewBag.SeznamKategorii = General.GetCurrentCategories(ViewBag.Cat, User.Identity.Name);
     BookSekce aktSekce = new BookSekceDao().GetbyIdNull(ViewBag.Cat);
 
     if (aktSekce != null && !General.AccessMatch(aktSekce.Restrikce, User.Identity.Name))
@@ -43,7 +43,7 @@
 
             foreach (BookSekce s in ViewBag.SeznamKategorii as List<BookSekce>)
             {
-                if (General.AccessMatch(s.Restrikce, User.Identity.Name))
+                //if (General.AccessMatch(s.Restrikce, User.Identity.Name))
                 {
                     <div class="container">
                         <div class="row align-items-center offset-md-0">
@@ -58,7 +58,19 @@
                             <div class="col-sm-8 order-sm-1">
                                 <div class="p-2">
                                     <a style="color: inherit; text-decoration: none;" href="@Url.Action("Index", "Books", new {cat = s.Id})">@Html.Raw(s.Name)</a>
-                                </div>
+                                    <br/>
+                                    @{
+                                        ViewBag.sSekce = General.GetCurrentCategories(s.Id, User.Identity.Name);
+                                        ViewBag.c = 0;
+                                        ViewBag.mc = (ViewBag.sSekce as List<BookSekce>).Count;
+                                    }
+
+                                        @foreach (BookSekce ss in ViewBag.sSekce as List<BookSekce>)
+                                        {
+                                           <a href="@Url.Action("Index", "Books", new {cat = ss.Id})" style="color: inherit; text-decoration: none;" class="badge badge-light">@Html.Raw(ss.DebugName)</a>    
+                                        }   
+
+                                </div>                             
                             </div>
                         </div>
                     </div>

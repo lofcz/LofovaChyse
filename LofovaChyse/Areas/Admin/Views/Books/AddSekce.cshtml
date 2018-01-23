@@ -20,10 +20,15 @@
     ViewBag.Vysledek = General.textOutput;
 }
 
-@foreach (string s in ViewBag.Vysledek as List<string>)
-{
-    <p>@Html.Raw(s)</p>
-}
+<div id="container">
+    <ul>
+    @foreach (string s in ViewBag.Vysledek as List<string>)
+    {
+        @Html.Raw(s)
+    }
+    </ul>
+</div>
+
 
 @{
     General.Clean();

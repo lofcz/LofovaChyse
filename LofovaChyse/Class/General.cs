@@ -115,14 +115,23 @@ namespace LofovaChyse.Class
             return false;
         }
 
-        public static List<BookSekce> GetCurrentCategories(int? currentCategory)
+        public static List<BookSekce> GetCurrentCategories(int? currentCategory, string name)
         {
             BookSekceDao dao = new BookSekceDao();
             IList<BookSekce> list = dao.GetCategories(currentCategory);
             List<BookSekce> l = list as List<BookSekce>;
 
             l = l.OrderByDescending(o => o.RenderPriority).ToList();
-            return l;
+            List<BookSekce> ll = new List<BookSekce>();
+
+            foreach (BookSekce b in l)
+            {
+                if (General.AccessMatch(b.Restrikce, name))
+                {
+                    ll.Add(b);
+                }
+            }
+            return ll;
         }
 
         public static List<string> textOutput = new List<string>();
@@ -150,7 +159,7 @@ namespace LofovaChyse.Class
                 tR = "[priority: " + b.RenderPriority.ToString() + "]";
             }
 
-            textOutput.Add(toReturn + ">" + b.DebugName + " [id: " + b.Id.ToString() + "] " + tR);
+            textOutput.Add("<li>" + "<ul>" + toReturn + " > " + b.DebugName + " [id: " + b.Id.ToString() + "] " + tR + "</ul>" + "</li>");
 
             return "";
         }
