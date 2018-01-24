@@ -30,6 +30,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
   - Profil
     - Uvítací text
     - Profilový obrázek
+    - Ocenění
   - Zeď
 - Úrovně přístupu, autentifikace
 - AJAX validace + WYSIWYG editor (sbohem bb)
