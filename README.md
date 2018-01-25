@@ -52,3 +52,4 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
   - "To se mi líbí"
     - AJAX
 - Menu autorouting
+- Hlavní zeď aktivity (novinky)
