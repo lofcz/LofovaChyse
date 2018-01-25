@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="KnihovnaNovinky" table="knihovna_novinky">
+    <id name="Id" column="id">
+      <generator class="native" />
+    </id>
+    <property name="Date" column="date" />
+    <property name="Text" column="text" />
+    <property name="UserId" column="userId" />
+    <property name="Type" column="type" />
+    <property name="TypeSub" column="typeSub" />
+    <property name="Version" column="version" />
+    <property name="Priority" column="priority" />
+    <property name="Sticky" column="sticky" />
+  </class>
+
+</hibernate-mapping>

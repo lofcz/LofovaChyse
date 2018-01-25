@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+  <class name="BookSekce" table="book_sekce">
+    <id name="Id" column="id">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="name" />
+    <property name="ParentId" column="parent_id" />
+    <property name="ImageName" column="image" />
+    <property name="RenderPriority" column="renderPriority" />
+    <property name="DebugName" column="debugName" />
+    <property name="Restrikce" column="restrikce" />
+
+
+  </class>
+
+</hibernate-mapping>

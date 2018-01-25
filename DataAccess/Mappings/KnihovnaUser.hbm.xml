@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="KnihovnaUser" table="knihovna_user" lazy="false">
+    <id name="Id" column="user_id">
+      <generator class="native" />
+    </id>
+    <property name="Name" column="name" />
+    <property name="Surname" column="surname" />
+    <property name="Login" column="login" />
+    <property name="Password" column="password" />
+    <property name="WelcomeText" column="welcomeText" />
+    <property name="AuthLevel" column="authLevel" />
+    <property name="Exp" column="exp" />
+    <property name="JoinedDateTime" column="joinedDate" />
+    <property name="PostsNumber" column="postsNumber" />
+    <property name="CommentsNumber" column="commentsNumber" />
+    <property name="LikesNumber" column="likesNumber" />
+    <property name="Reputation" column="reputation" />
+    <property name="Money" column="money" />
+    <property name="ImageName" column="image" />
+    <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
+  </class>
+
+</hibernate-mapping>

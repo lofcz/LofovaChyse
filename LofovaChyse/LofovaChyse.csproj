@@ -851,6 +851,7 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Home\Eval.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

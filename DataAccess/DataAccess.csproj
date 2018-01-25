@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{78406FD9-F63F-44F9-B35B-842881566A61}</ProjectGuid>
+    <ProjectGuid>{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataAccess</RootNamespace>
@@ -30,20 +30,138 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Iesi.Collections.4.0.2\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="JsAction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\JsAction.0.5\lib\net40\JsAction.dll</HintPath>
+    </Reference>
+    <Reference Include="JsAction.BASE, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\JsAction.0.5\lib\net40\JsAction.BASE.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=5.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\NHibernate.5.0.3\lib\net461\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Remotion.Linq.2.1.2\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq.EagerFetching, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Remotion.Linq.EagerFetching.2.1.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebActivator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\RegJsAction.cs" />
+    <Compile Include="Dao\BookCategoryDao.cs" />
+    <Compile Include="Dao\BookDao.cs" />
+    <Compile Include="Dao\BookLikesDao.cs" />
+    <Compile Include="Dao\BookPaymentDao.cs" />
+    <Compile Include="Dao\BookSekceDao.cs" />
+    <Compile Include="Dao\DaoBase.cs" />
+    <Compile Include="Dao\KnihovnaKategorieDao.cs" />
+    <Compile Include="Dao\KnihovnaKomentareDao.cs" />
+    <Compile Include="Dao\KnihovnaKomentareLikesDao.cs" />
+    <Compile Include="Dao\KnihovnaNotifikaceDao.cs" />
+    <Compile Include="Dao\KnihovnaOceneniArchetypDao.cs" />
+    <Compile Include="Dao\KnihovnaOceneniDao.cs" />
+    <Compile Include="Dao\KnihovnaRoleDao.cs" />
+    <Compile Include="Dao\KnihovnaUserDao.cs" />
+    <Compile Include="Dao\KnihovnaZedDao.cs" />
+    <Compile Include="Interface\IDaoBase.cs" />
+    <Compile Include="Interface\IEntity.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookCategory.cs" />
+    <Compile Include="Models\BookLikes.cs" />
+    <Compile Include="Models\BookPayment.cs" />
+    <Compile Include="Models\Books.cs" />
+    <Compile Include="Models\BookSekce.cs" />
+    <Compile Include="Models\KnihovnaKategorie.cs" />
+    <Compile Include="Models\KnihovnaKomentare.cs" />
+    <Compile Include="Models\KnihovnaKomentareLikes.cs" />
+    <Compile Include="Models\KnihovnaNotifikace.cs" />
+    <Compile Include="Models\KnihovnaOceneni.cs" />
+    <Compile Include="Models\KnihovnaOceneniArchetyp.cs" />
+    <Compile Include="Models\KnihovnaRole.cs" />
+    <Compile Include="Models\KnihovnaUser.cs" />
+    <Compile Include="Models\KnihovnaZed.cs" />
+    <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <EmbeddedResource Include="Mappings\BookCategory.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Book.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaRole.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaUser.hbm.xml" />
+    <EmbeddedResource Include="Mappings\BookLikes.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaKomentare.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaKategorie.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaKomentareLikes.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaZed.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaNotifikace.hbm.xml" />
+    <EmbeddedResource Include="Mappings\BookPayment.hbm.xml" />
+    <EmbeddedResource Include="Mappings\BookSekce.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\KnihovnaOceneni.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaOceneniArchetyp.hbm.xml" />
+    <Content Include="Scripts\jquery-1.8.0.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.0.js" />
+    <Content Include="Scripts\jquery-1.8.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="nhibernate-mapping.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -95,5 +95,10 @@ namespace LofovaChyse.Controllers
             }
             return true;
         }
+
+        public ActionResult Home()
+        {
+            return View();
+        }
     }
 }
