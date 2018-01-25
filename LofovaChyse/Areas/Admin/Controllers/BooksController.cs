@@ -393,9 +393,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
                         Bitmap btmBitmap = new Bitmap(smalImage);
                         Guid guid = Guid.NewGuid();
 
-                        string imageName = guid.ToString() + ".jpg";
-                        btmBitmap.Save(Server.MapPath("~/Uploads/Odznaky/") + imageName,
-                            ImageFormat.Jpeg); // Je potřeba namapovat cestu!
+                        string imageName = guid.ToString() + ".png";
+                        btmBitmap.Save(Server.MapPath("~/Uploads/Odznaky/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
 
                         btmBitmap.Dispose();
                         image.Dispose();

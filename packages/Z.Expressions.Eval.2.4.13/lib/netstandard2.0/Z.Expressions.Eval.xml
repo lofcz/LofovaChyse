@@ -1,0 +1,751 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Z.Expressions.Eval</name>
+    </assembly>
+    <members>
+        <member name="T:Z.Expressions.EvalCompilerParameterKind">
+            <summary>Values that represent the ParameterKind for the EvalCompiler.</summary>
+        </member>
+        <member name="F:Z.Expressions.EvalCompilerParameterKind.None">
+            <summary>An enum constant representing the option when no parameter is specified.</summary>
+        </member>
+        <member name="F:Z.Expressions.EvalCompilerParameterKind.Dictionary">
+            <summary>An enum constant representing the option when a dictionary parameter is specified.</summary>
+        </member>
+        <member name="F:Z.Expressions.EvalCompilerParameterKind.Enumerable">
+            <summary>An enum constant representing the option when an enumerable parable is specified.</summary>
+        </member>
+        <member name="F:Z.Expressions.EvalCompilerParameterKind.SingleDictionary">
+            <summary>An enum constant representing the option when a single dictionary parameter is specified.</summary>
+        </member>
+        <member name="F:Z.Expressions.EvalCompilerParameterKind.Typed">
+            <summary>An enum constant representing the option when parameter are typed.</summary>
+        </member>
+        <member name="F:Z.Expressions.EvalCompilerParameterKind.Untyped">
+            <summary>An enum constant representing the option when parameter are untyped.</summary>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type[])">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Collections.Generic.IDictionary{System.String,System.Type})">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <param name="type8">The eighth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <param name="type8">The eighth type used to compile the code or expression.</param>
+            <param name="type9">The ninth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile``1(System.String)">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile``1(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterNames">Parameter names used to compile the code or expressions.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Compile``1(System.String,System.String[])">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterNames">Parameter names used to compile the code or expressions.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Clone">
+            <summary>Makes a shallow copy of current EvalContext.</summary>
+            <returns>A shallow copy of the current EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterDefaultAliasSafe">
+            <summary>Registers default alias (Extension Methods, Names, Static Members, Types and Values).</summary>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterDefaultAliasUnsafe">
+            <summary>Registers default alias (Extension Methods, Names, Static Members, Types and Values).</summary>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Execute(System.String)">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Execute(System.String,System.Object)">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Execute(System.String,System.Object[])">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Execute``1(System.String)">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Execute``1(System.String,System.Object)">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.Execute``1(System.String,System.Object[])">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterAlias(System.String,System.String)">
+            <summary>Registers an alias for a variable, constant or type name.</summary>
+            <exception cref="T:System.Exception">Thrown an exception if the alias already exists.</exception>
+            <param name="alias">The alias to register.</param>
+            <param name="name">The variable, constant or type name to register for the specified alias.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterAssembly(System.Reflection.Assembly[])">
+            <summary>Registers all types from all specified assemblies.</summary>
+            <param name="assemblies">A variable-length parameters list containing assemblies to register type from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterDomainAssemblies">
+            <summary>Registers all types from all domain assemblies.</summary>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterExtensionMethod(System.Type[])">
+            <summary>Registers all extension methods from specified types.</summary>
+            <param name="types">A variable-length parameters list containing types to register extension methods from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterExtensionMethod(System.Reflection.MethodInfo[])">
+            <summary>Registers all specified extension methods.</summary>
+            <param name="extensionMethods">A variable-length parameters list containing extension methods to register.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterGlobalConstant(System.String,System.Object)">
+            <summary>Registers a global constant.</summary>
+            <exception cref="T:System.Exception">Thrown an exception if the global constant name already exists.</exception>
+            <param name="name">The global constant name.</param>
+            <param name="value">The global constant value.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterGlobalVariable(System.String,System.Object)">
+            <summary>Registers a global variable.</summary>
+            <exception cref="T:System.Exception">Thrown an exception if the global variable name already exists.</exception>
+            <param name="name">The global variable name.</param>
+            <param name="value">The global variable value.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterMember(System.Reflection.MemberInfo[])">
+            <summary>Registers specified static members.</summary>
+            <param name="members">A variable-length parameters list containing members to register.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterStaticMember(System.Type[])">
+            <summary>Registers static member from specified types.</summary>
+            <param name="types">A variable-length parameters list containing types to register static members from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterStaticMember(System.Reflection.MemberInfo[])">
+            <summary>Registers specified static members.</summary>
+            <param name="members">A variable-length parameters list containing members to register.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.RegisterType(System.Type[])">
+            <summary>Registers specified types using Type.Name and Type.FullName as alias.</summary>
+            <param name="types">A variable-length parameters list containing types to register.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterAlias(System.String[])">
+            <summary>Unregisters all alias for a variable, constant or type name.</summary>
+            <param name="aliases">A variable-length parameters list containing alias to unregister.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterAll">
+            <summary>Unregisters all kind of alias (Extension Methods, Names, Static Members, Types and Values).</summary>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterAssembly(System.Reflection.Assembly[])">
+            <summary>Unregisters all types from all specified assemblies.</summary>
+            <param name="assemblies">A variable-length parameters list containing assemblies to unregister type from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterExtensionMethod(System.Type[])">
+            <summary>Unregisters all extension methods from the specified types.</summary>
+            <param name="types">A variable-length parameters list containing types to unregister extension methods from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterExtensionMethod(System.Reflection.MethodInfo[])">
+            <summary>Unregisters all specified extension methods.</summary>
+            <param name="extensionMethods">A variable-length parameters list containing extension methods to unregister.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterGlobalConstant(System.String[])">
+            <summary>Unregisters a global constant.</summary>
+            <param name="aliases">The global constant name.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterGlobalVariable(System.String[])">
+            <summary>Unregisters a global variable.</summary>
+            <param name="aliases">The global variable name.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterMember(System.Type[])">
+            <summary>Unregisters member from specified types.</summary>
+            <param name="types">A variable-length parameters list containing types to unregister static members from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterMember(System.Reflection.MemberInfo[])">
+            <summary>Unregisters member from specified types.</summary>
+            <param name="members">A variable-length parameters list containing members.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterStaticMember(System.Type[])">
+            <summary>Unregisters static member from specified types.</summary>
+            <param name="types">A variable-length parameters list containing types to unregister static members from.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterStaticMember(System.Reflection.MemberInfo[])">
+            <summary>Unregisters static member from specified types.</summary>
+            <param name="members">A variable-length parameters list containing members.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalContext.UnregisterType(System.Type[])">
+            <summary>Unregisters specified types using Type.Name and Type.FullName as alias.</summary>
+            <param name="types">A variable-length parameters list containing types to unregister.</param>
+            <returns>An Fluent EvalContext.</returns>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasExtensionMethods">
+            <summary>Gets or sets the alias list for extension methods.</summary>
+            <value>The alias list for extension methods.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasGlobalConstants">
+            <summary>Gets or sets the alias list for global constants.</summary>
+            <value>The alias list for global constants.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasGlobalVariables">
+            <summary>Gets or sets the alias list for global variables.</summary>
+            <value>The alias list for global variables.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasNames">
+            <summary>Gets or sets the alias list for names.</summary>
+            <value>The alias list for names.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasStaticMembers">
+            <summary>Gets or sets the alias list for static members.</summary>
+            <value>The alias list for static members.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasMembers">
+            <summary>Gets or sets the alias list for static members.</summary>
+            <value>The alias list for static members.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.AliasTypes">
+            <summary>Gets or sets the alias list for types.</summary>
+            <value>A alias list for types.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.BindingFlags">
+            <summary>Gets or sets the binding flags used to resolve members in the compiler.</summary>
+            <value>The binding flags used to resolve members in the compiler.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.CacheKeyPrefix">
+            <summary>Gets or sets the cache key prefix used for the compiled code or expression cache.</summary>
+            <value>The cache key prefix used for the compiled code or expression cache.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.UseCache">
+            <summary>Gets or sets a value indicating whether the compiled code or expression cache should be used.</summary>
+            <value>true if use cache, false if not.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.UseCaretForExponent">
+            <summary>
+                Gets or sets a value indicating whether the compiler should use caret for exponent expression instead of XOR
+                expression.
+            </summary>
+            <value>true if the caret should be used for exponent, false if not.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalContext.SafeMode">
+            <summary>Gets or sets a value indicating whether the safe mode is enabled.</summary>
+            <value>true if safe mode is enabled, false if not.</value>
+        </member>
+        <member name="M:Z.Expressions.EvalLinq.Execute(System.String,System.Linq.Expressions.Expression,System.Object[])">
+            <summary>Executes.</summary>
+            <param name="code">The code.</param>
+            <param name="exp">The exponent.</param>
+            <param name="parameters">A variable-length parameters list containing parameters.</param>
+            <returns>An object.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalManager.#cctor">
+            <summary>Static constructor.</summary>
+        </member>
+        <member name="P:Z.Expressions.EvalManager.Cache">
+            <summary>Gets or sets the cache used to cache compiled code and expressions.</summary>
+            <value>The cache used to cache compiled code and expressions.</value>
+        </member>
+        <member name="P:Z.Expressions.EvalManager.DefaultContext">
+            <summary>Gets or sets the default context used for static member from Eval class and Extension Methods.</summary>
+            <value>The default context used for static member from Eval class and Extension Methods.</value>
+        </member>
+        <member name="M:Z.Expressions.EvalManager.AddLicense(System.String,System.String)">
+            <summary>Add the PRO license purchased from ZZZ Projects Inc. (http://eval-expression.net/).</summary>
+            <param name="licenseName">The license name.</param>
+            <param name="licenseKey">The license key.</param>
+        </member>
+        <member name="M:Z.Expressions.EvalManager.ValidateLicense">
+            <summary>Validates the license.</summary>
+            <returns>true if it succeeds, false if it fails.</returns>
+        </member>
+        <member name="M:Z.Expressions.EvalManager.ValidateLicense(System.String@)">
+            <summary>Validates the license.</summary>
+            <param name="errorMessage">[out] Message describing the error.</param>
+            <returns>true if it succeeds, false if it fails.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type[])">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Collections.Generic.IDictionary{System.String,System.Type})">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <param name="type8">The eighth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <param name="type8">The eighth type used to compile the code or expression.</param>
+            <param name="type9">The ninth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile``1(System.String)">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile``1(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Compile the code or expression and return a TDelegate of type Func or action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterNames">Parameter names used to compile the code or expressions.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Compile``1(System.String,System.String[])">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterNames">Parameter names used to compile the code or expressions.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Execute(System.String)">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Execute(System.String,System.Object)">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Execute(System.String,System.Object[])">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Execute``1(System.String)">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Execute``1(System.String,System.Object)">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Eval.Execute``1(System.String,System.Object[])">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type[])">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Collections.Generic.IDictionary{System.String,System.Type})">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterTypes">Parameter types used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <param name="type8">The eighth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile(System.String,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type,System.Type)">
+            <summary>Compile the code or expression and return a delegate of type Func to execute.</summary>
+            <param name="code">The code or expression to compile.</param>
+            <param name="type1">The first type used to compile the code or expression.</param>
+            <param name="type2">The second type used to compile the code or expression.</param>
+            <param name="type3">The third type used to compile the code or expression.</param>
+            <param name="type4">The fourth type used to compile the code or expression.</param>
+            <param name="type5">The fifth type used to compile the code or expression.</param>
+            <param name="type6">The sixth type used to compile the code or expression.</param>
+            <param name="type7">The seventh type used to compile the code or expression.</param>
+            <param name="type8">The eighth type used to compile the code or expression.</param>
+            <param name="type9">The ninth type used to compile the code or expression.</param>
+            <returns>A delegate of type Func that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile``1(System.String)">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile``1(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Compile the code or expression and return a TDelegate of type Func or action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterNames">Parameter names used to compile the code or expressions.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Compile``1(System.String,System.String[])">
+            <summary>Compile the code or expression and return a TDelegate of type Func or Action to execute.</summary>
+            <typeparam name="TDelegate">Type of the delegate (Func or Action) to use to compile the code or expression.</typeparam>
+            <param name="code">The code or expression to compile.</param>
+            <param name="parameterNames">Parameter names used to compile the code or expressions.</param>
+            <returns>A TDelegate of type Func or Action that represents the compiled code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Execute(System.String)">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Execute(System.String,System.Object)">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Execute(System.String,System.Object[])">
+            <summary>Compile and evaluate the code or expression and return the result.</summary>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Execute``1(System.String)">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Execute``1(System.String,System.Object)">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+        <member name="M:Z.Expressions.Extensions.Execute``1(System.String,System.Object[])">
+            <summary>Compile and evaluate the code or expression and return the result of type TResult.</summary>
+            <typeparam name="TResult">Type of the result of the evaluted code or expression.</typeparam>
+            <param name="code">The code or expression to evaluate.</param>
+            <param name="parameters">The parameter values used to evaluates the code or expression.</param>
+            <returns>The evaluated result of type TResult or null that represents the evaluted code or expression.</returns>
+        </member>
+    </members>
+</doc>

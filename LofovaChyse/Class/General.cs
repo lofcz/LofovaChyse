@@ -242,5 +242,13 @@ namespace LofovaChyse.Class
             List<KnihovnaOceneniArchetyp> list = dao.GetAll() as List<KnihovnaOceneniArchetyp>;
             return list;
         }
+
+        public static List<KnihovnaOceneni> GetUserOceneni(string username)
+        {
+            KnihovnaOceneniDao d = new KnihovnaOceneniDao();
+            List<KnihovnaOceneni> l = d.GetUserAchievements(new KnihovnaUserDao().GetByLogin(username).Id) as List<KnihovnaOceneni>;
+
+            return l;
+        }
     }
 }

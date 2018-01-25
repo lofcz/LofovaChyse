@@ -1,64 +1,115 @@
-﻿@model DataAccess.Models.KnihovnaUser
+﻿@using DataAccess.Models
+@using LofovaChyse.Class
+@model DataAccess.Models.KnihovnaUser
 @{
     ViewBag.Title = "Index";
+    ViewBag.Oceneni = General.GetUserOceneni(Model.Login);
 }
 
-<h2>Profil uživatele @Model.Name</h2>
-<sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float:right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new {id = Model.Id}) | Galerie | Snippety</sub>
-<br />
-<sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float:right">Získaná ocenění:</sub>
-<br />
-<sub>Přidal se: @Model.JoinedDateTime</sub>
+<script src="https://unpkg.com/tippy.js@2.0.9/dist/tippy.all.min.js"></script>
 
-@if (ViewBag.Owner)
-{
-    <p>Jsi vlastník tohoto profilu!</p>
-    <p>Uživatelské ID: @Model.Id</p>
-    <p>Heslo: @Model.Password</p>
-    <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
 
-    <p>Nastav si text pro návštěvy:</p>
-    <div class="row">
-        @if (User.Identity.IsAuthenticated)
-        {
-            using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
-            {
-                <div class="form-group">
-                    <div>
-                        @Html.TextAreaFor(x => x.WelcomeText, new { @class = "form-control formatedtext" })
-                    </div>
+<div id="ajaxContent">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="modalContent">
+
                 </div>
-
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-default">Upravit text</button>
-                    </div>
-                </div>
-            }
-        }
+            </div>
+        </div>
     </div>
 
-    <script type="text/javascript">
-        $(function () {
-            $("#welcomeText").html("");
-        });
-    </script>
-
-    <style>
-        .mce-path { /* CSS */
-            display: none !important;
+    <h2>Profil uživatele @Model.Name</h2>
+    <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float:right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new { id = Model.Id }) | Galerie | Snippety</sub>
+    <br />
+    <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float:right">Získaná ocenění:</sub>
+    <br />
+    <div class="col-sm-12">
+        @foreach (KnihovnaOceneni o in ViewBag.Oceneni as List<KnihovnaOceneni>)
+        {
+            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float:right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata ="@o.Id" />
         }
-    </style>
-    <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
-    <script>
-tinymce.init({
-            selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
+        <br />
+    </div>
+    <br/>
+    <sub>Přidal se: @Model.JoinedDateTime</sub>
+
+    @if (ViewBag.Owner)
+    {
+        <p>Jsi vlastník tohoto profilu!</p>
+        <p>Uživatelské ID: @Model.Id</p>
+        <p>Heslo: @Model.Password</p>
+        <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
+
+        <p>Nastav si text pro návštěvy:</p>
+        <div class="row">
+            @if (User.Identity.IsAuthenticated)
+            {
+                using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+                {
+                    <div class="form-group">
+                        <div>
+                            @Html.TextAreaFor(x => x.WelcomeText, new { @class = "form-control formatedtext" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-default">Upravit text</button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $("#welcomeText").html("");
+            });
+        </script>
+
+        <style>
+            .mce-path { /* CSS */
+                display: none !important;
+            }
+        </style>
+        <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+        <script>
+            tinymce.init({
+                selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
 
 
-        });</script>
-}
-else
-{
-    <hr />
-    <p>@Html.Raw(Model.WelcomeText)</p>
-}
+            });</script>
+    }
+    else
+    {
+        <hr />
+        <p>@Html.Raw(Model.WelcomeText)</p>
+    }
+</div>
+
+<script type="text/javascript">
+    function openModelWindow() {
+
+        $('#myModal').modal('toggle');
+    }
+</script>
+
+<script>
+    tippy('[title]')
+</script>
+
+<script type="text/javascript">
+    $("#loadPartialView").click(function () {
+
+        var u = $(this).attr('mydata');
+
+
+        $.get('@Url.Action("Test","Home")', {Id: u}, function (response) {
+            $("#modalContent").html(response);
+        });
+    });
+
+    openModelWindow();
+</script>

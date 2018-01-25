@@ -1,9 +1,9 @@
 ﻿<style>
     .ui-chatbox {
         position: fixed;
-        bottom:0;
+        bottom: 0;
         padding: 2px;
-        background:  #CCCCCC;
+        background: #CCCCCC;
     }
 
     .ui-chatbox-titlebar {
@@ -34,7 +34,7 @@
 
     .ui-chatbox-input-box {
         margin: 5px;
-        border: 2px solid lightgrey;/* #6699FF */
+        border: 2px solid lightgrey; /* #6699FF */
         padding: 2px;
         height: 50px;
     }
@@ -52,11 +52,11 @@
         float: left;
         clear: both;
         /* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
-        white-space: pre-wrap;      /* CSS3 */
+        white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Firefox */
-        white-space: -pre-wrap;     /* Opera <7 */
-        white-space: -o-pre-wrap;   /* Opera 7 */
-        word-wrap: break-word;      /* IE */
+        white-space: -pre-wrap; /* Opera <7 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        word-wrap: break-word; /* IE */
     }
 </style>
 
@@ -66,51 +66,102 @@
 <script type="text/javascript" src="http://magma.cs.uiuc.edu/wenpu1/js/jquery.ui.chatbox.js"></script>
 <script type="text/javascript" src="http://magma.cs.uiuc.edu/wenpu1/js/chatboxManager.js"></script>
 
-<h1>Lofova chýše</h1>
+<link rel="stylesheet" href="@Url.Content("~/Scripts/CodeMirror/lib/codemirror.css")">
+<script src="@Url.Content("~/Scripts/CodeMirror/lib/codemirror.js")"></script>
+<script src="@Url.Content("~/Scripts/CodeMirror/mode/clike/clike.js")" type="text/javascript"></script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
+<div id="ajaxContent">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="modalContent">
 
-        var counter = 0;
-        var idList = new Array();
+                </div>
+            </div>
+        </div>
+    </div>
 
-        var broadcastMessageCallback = function(from, msg) {
-            for(var i = 0; i < idList.length; i ++) {
-                chatboxManager.addBox(idList[i]);
-                $("#" + idList[i]).chatbox("option", "boxManager").addMsg(from, msg);
+    <h1>Lofova chýše</h1>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var counter = 0;
+            var idList = new Array();
+
+            var broadcastMessageCallback = function (from, msg) {
+                for (var i = 0; i < idList.length; i++) {
+                    chatboxManager.addBox(idList[i]);
+                    $("#" + idList[i]).chatbox("option", "boxManager").addMsg(from, msg);
+                }
             }
-        }
 
 
-        // chatboxManager is excerpt from the original project
-        // the code is not very clean, I just want to reuse it to manage multiple chatboxes
-        chatboxManager.init({messageSent : broadcastMessageCallback});
+            // chatboxManager is excerpt from the original project
+            // the code is not very clean, I just want to reuse it to manage multiple chatboxes
+            chatboxManager.init({ messageSent: broadcastMessageCallback });
 
-        $("#link_add").click(function(event, ui) {
-            counter ++;
-            var id = "box" + counter;
-            idList.push(id);
-            chatboxManager.addBox(id, 
-                {dest:"dest" + counter, // not used in demo
-                    title:"box" + counter,
-                    first_name:"First" + counter,
-                    last_name:"Last" + counter
-                    //you can add your own options too
-                });
-            event.preventDefault();
+            $("#link_add").click(function (event, ui) {
+                counter++;
+                var id = "box" + counter;
+                idList.push(id);
+                chatboxManager.addBox(id,
+                    {
+                        dest: "dest" + counter, // not used in demo
+                        title: "box" + counter,
+                        first_name: "First" + counter,
+                        last_name: "Last" + counter
+                        //you can add your own options too
+                    });
+                event.preventDefault();
+            });
+
         });
+    </script>
 
+    <div>
+        <a href="@Url.Action("Vypis", "Home")">Vypis</a>
+    </div>
+
+    <a href="#" onclick="getAjaxContent()">ajax</a>
+    <p><a id="link_add" href="#">Add Chatbox</a></p>
+
+    @using (Html.BeginForm("Eval", "Home", FormMethod.Post, new { @class = "form-horizontal" })) // Umožní zpracovat nahrané soubory
+    {
+        <div class="form-group">
+            <label class="col-sm-2 control-label">C#:</label>
+            <div class="col-sm-10">
+                @Html.TextArea("popis", @"// Na vstupu dostaneš List<int> inputList, obsahující n čísel. Vrať ho seřazený", new { @class = "form-control formatedtext", id = "myTextarea" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" onclick="openModelWindow()">Kompilovat</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    var editor = CodeMirror.fromTextArea(myTextarea, {
+        lineNumbers: true,
+        mode: "text/x-csharp"
     });
 </script>
 
-<div>
-    <a href="@Url.Action("Vypis", "Home")">Vypis</a>
-</div>
+<script type="text/javascript">
+    function openModelWindow() {
 
-<a href="#" onclick="getAjaxContent()">ajax</a>
-<p><a id="link_add" href="#">Add Chatbox</a></p>
+        $('#myModal').modal('toggle');
+    }
+</script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 
-<div id="ajaxContent">
-
-</div>
+<script>
+    $('form').ajaxForm({
+        target: '#modalContent'
+    });
+</script>

@@ -35,7 +35,7 @@
             <select name="@Html.NameFor(x => x.Name)" id="myId" onchange="myF()" class="form-control">
                 @foreach (KnihovnaOceneniArchetyp k in ViewBag.AllOceneni as List<KnihovnaOceneniArchetyp>)
                 {
-                    <option value="@k.Name" mytext="@k.Text"> @k.Name</option>
+                    <option value="@k.Name" mytext="@k.Text" idval="@k.Id"> @k.Name</option>
                 }
             </select>
         </div>
@@ -73,7 +73,7 @@
     function myF() {
         var e = document.getElementById("myId");
         var strUser = e.options[e.selectedIndex].getAttribute('mytext');
-        var id = e.selectedIndex;
+        var id = e.options[e.selectedIndex].getAttribute('idval');
         var msg = document.getElementById("ido");
 
         msg.value = id;

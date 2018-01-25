@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Eval";
+
+    List<int> l = (ViewBag.Desired as List<int>);
+    l.Sort();
+
+    ViewBag.Desired = l;
+}
+
+<h2>Výsledek:</h2>
+
+<code>
+    Data‌‌ ‌‌ ‌‌ ‌‌ ‌‌ ‌‌ ‌‌ ‌‌ ‌‌ : @foreach (int q in ViewBag.RawData as List<int>)
+    {@(q + ", ")}
+    <br />
+    Správná data : @foreach (int a in ViewBag.Desired as List<int>)
+    {@(a + ", ")}
+    <br />
+    Tvůj výsledek: @foreach (int a in ViewBag.Result as List<int>)
+    {@(a + ", ")}
+</code>
+
+     <br/>
+     <br/>
+@if (ViewBag.Ok)
+{
+    <b>Tvůj algoritmus prošel validací!</b>
+}
+else
+{
+    <b>Data nejsou shodná!</b>
+}
