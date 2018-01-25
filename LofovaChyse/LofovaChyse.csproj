@@ -802,6 +802,7 @@
     <Compile Include="Class\ImageHelper.cs" />
     <Compile Include="Class\KnihovnaMembershipProvider.cs" />
     <Compile Include="Class\KnihovnaRoleProvider.cs" />
+    <Compile Include="Class\NovinkyGenerator.cs" />
     <Compile Include="Class\Sklonovani.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

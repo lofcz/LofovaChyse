@@ -174,6 +174,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
                 BookDao bookDao = new BookDao();
                 bookDao.Create(b);
 
+                NovinkyGenerator.PridatNovinku(b, new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id);
+
                 // Notifikace
                 TempData["scs"] = "V pořádku";
             }

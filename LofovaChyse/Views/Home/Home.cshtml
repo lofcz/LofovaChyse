@@ -1,7 +1,19 @@
-﻿
+﻿@using DataAccess.Models
+@model IList<DataAccess.Models.KnihovnaNovinky>
 @{
     ViewBag.Title = "Home";
 }
 
-<h2>Home</h2>
+<h2>Aktivita:</h2>
 
+@foreach (KnihovnaNovinky b in Model)
+{
+    <div>
+        <div class="card mb-3 h-25 mt-0">
+            <div class="card-body">
+                <p class="card-text">@Html.Raw(b.Text)</p>
+                <sub class="card-text">@b.Date</sub>
+            </div>
+        </div>
+    </div>
+}

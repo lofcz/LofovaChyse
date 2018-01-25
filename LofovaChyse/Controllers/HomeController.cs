@@ -98,7 +98,9 @@ namespace LofovaChyse.Controllers
 
         public ActionResult Home()
         {
-            return View();
+            IList<KnihovnaNovinky> list = new KnihovnaNovinkyDao().GetAll();
+
+            return View(list);
         }
     }
 }
