@@ -24,7 +24,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
   - Komentáře
     - Reakce na komentáře (Hezky napsáno / Dobrá pointa / Souhlasím) 
 - Uživatelé
-  - Přihlášení
+  - Přihlášení + registrace
   - Odhlášení
   - Role
   - Profil
@@ -52,4 +52,4 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
   - "To se mi líbí"
     - AJAX
 - Menu autorouting
-- Hlavní zeď aktivity (novinky)
+- Hlavní zeď aktivity, automaticky generované (novinky)
