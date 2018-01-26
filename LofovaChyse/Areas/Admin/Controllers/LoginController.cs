@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using DataAccess.Dao;
+using DataAccess.Models;
+using LofovaChyse.Class;
 
 namespace LofovaChyse.Areas.Admin.Controllers
 {
@@ -30,6 +33,38 @@ namespace LofovaChyse.Areas.Admin.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult SignUp(string login, string password)
+        {
+            KnihovnaUser user = new KnihovnaUser();
+            user.Name = login;
+            user.AuthLevel = 0;
+            user.CommentsNumber = 0;
+            user.Exp = 0;
+            user.Id = Books.Counter();
+            user.ImageName = null;
+            user.JoinedDateTime = DateTime.Now;
+            user.LikesNumber = 0;
+            user.Login = login;
+            user.Money = 0;
+            user.Password = password;
+            user.AuthLevel = 0;
+            user.PostsNumber = 0;
+            user.CommentsNumber = 0;
+            user.Reputation = 0;
+            user.Surname = "";
+            user.WelcomeText = "";
+            user.Role = new KnihovnaRoleDao().GetbyId(2);
+
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            dao.Create(user);
+
+            NovinkyGenerator.PridatNovinku(user, dao.GetByLogin(user.Name).Id);
+
+            return RedirectToAction("Index");
+        }
+
+
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
@@ -37,5 +72,6 @@ namespace LofovaChyse.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "Login");
         }
+
     }
 }

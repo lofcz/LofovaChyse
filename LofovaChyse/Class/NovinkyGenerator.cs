@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using DataAccess.Dao;
@@ -12,7 +13,8 @@ namespace LofovaChyse.Class
         public enum typeToInt
         {
             Undefined,
-            Book
+            Book,
+            User
         }
 
         public static void PridatNovinku<T>(T zdroj, int userId, int priority = 0, bool sticky = false)
@@ -32,6 +34,13 @@ namespace LofovaChyse.Class
                 type = typeToInt.Book;
                 refId = (zdroj as Book).Id;
                 postName = (zdroj as Book).Name;
+            }
+
+            if (zdroj is KnihovnaUser)
+            {
+                type = typeToInt.User;
+                refId = (zdroj as KnihovnaUser).Id;
+                postName = (zdroj as KnihovnaUser).Name;
             }
 
             // 1) Check if same shit exists
@@ -58,6 +67,14 @@ namespace LofovaChyse.Class
                 }
             }
 
+            // 1.1) Determine text
+            if (zdroj is KnihovnaUser)
+            {
+                if (existingId == -1)
+                {
+                    text = "Uživatel " + user.Name + " se zaregistroval";
+                }
+            }
 
             // 2) We new doesnt exist already
             if (existingId == -1)
@@ -78,6 +95,20 @@ namespace LofovaChyse.Class
             }
 
 
+        }
+
+        public static string GetImage(KnihovnaNovinky n)
+        {
+            if (n.Type == (int)typeToInt.Book)
+            {
+                return "post_new.png";
+            }
+            if (n.Type == (int)typeToInt.User)
+            {
+                return "user_new.png";
+            }
+
+            return "user_new.png";
         }
 
     }

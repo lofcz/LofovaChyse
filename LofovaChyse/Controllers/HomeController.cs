@@ -98,7 +98,9 @@ namespace LofovaChyse.Controllers
 
         public ActionResult Home()
         {
-            IList<KnihovnaNovinky> list = new KnihovnaNovinkyDao().GetAll();
+            List<KnihovnaNovinky> list = new KnihovnaNovinkyDao().GetAll() as List<KnihovnaNovinky>;
+            list.Sort((ps1, ps2) => DateTime.Compare(ps1.Date, ps2.Date));
+            list.Reverse();
 
             return View(list);
         }
