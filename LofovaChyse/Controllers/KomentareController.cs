@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccess.Dao;
 using DataAccess.Models;
+using LofovaChyse.Class;
 
 namespace LofovaChyse.Controllers
 {
@@ -30,6 +31,11 @@ namespace LofovaChyse.Controllers
             komentar.TopicId = topicId;
 
             knihovnaKomentareDao.Create(komentar);
+
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(User.Identity.Name);
+
+            NovinkyGenerator.PridatNovinku(komentar, user.Id);
 
             return Redirect(this.Request.UrlReferrer.AbsolutePath);
         }

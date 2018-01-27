@@ -19,7 +19,8 @@
 
             <div class="col-sm-10 order-sm-1">
                 <div class="p-2">
-                    <p class="card-text">@Html.Raw(b.Text)</p>
+                    @Html.ActionLink(b.Text, b.Action, b.Controller, new {id = b.RefId}, new {@class = "card-text text-dark", style = "text-decoration:none;" })
+                    <br/>
                     <sub class="card-text">@b.Date</sub>
                 </div>
             </div>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
+using System.Web.Mvc;
 using DataAccess.Dao;
 using DataAccess.Models;
 
@@ -14,7 +16,8 @@ namespace LofovaChyse.Class
         {
             Undefined,
             Book,
-            User
+            User,
+            Comment
         }
 
         public static void PridatNovinku<T>(T zdroj, int userId, int priority = 0, bool sticky = false)
@@ -25,6 +28,9 @@ namespace LofovaChyse.Class
             int existingId = -1;
             string text = "";
             string postName = "";
+            string action = "";
+            string controller = "";
+
 
             KnihovnaNovinkyDao dao = new KnihovnaNovinkyDao();
             KnihovnaUser user = new KnihovnaUserDao().GetbyId(userId);
@@ -34,6 +40,9 @@ namespace LofovaChyse.Class
                 type = typeToInt.Book;
                 refId = (zdroj as Book).Id;
                 postName = (zdroj as Book).Name;
+                action = "Detail";
+                controller = "Books";
+
             }
 
             if (zdroj is KnihovnaUser)
@@ -41,6 +50,17 @@ namespace LofovaChyse.Class
                 type = typeToInt.User;
                 refId = (zdroj as KnihovnaUser).Id;
                 postName = (zdroj as KnihovnaUser).Name;
+                action = "Index";
+                controller = "Profile";
+            }
+
+            if (zdroj is KnihovnaKomentare)
+            {
+                type = typeToInt.Comment;
+                refId = new BookDao().GetbyId((zdroj as KnihovnaKomentare).TopicId).Id;
+                postName = new BookDao().GetbyId((zdroj as KnihovnaKomentare).TopicId).Name;
+                action = "Detail";
+                controller = "Books";
             }
 
             // 1) Check if same shit exists
@@ -67,12 +87,19 @@ namespace LofovaChyse.Class
                 }
             }
 
-            // 1.1) Determine text
             if (zdroj is KnihovnaUser)
             {
                 if (existingId == -1)
                 {
                     text = "Uživatel " + user.Name + " se zaregistroval";
+                }
+            }
+
+            if (zdroj is KnihovnaKomentare)
+            {
+                if (existingId == -1)
+                {
+                    text = "Uživatel " + user.Name + " přidal komentář k příspěvku " + postName;
                 }
             }
 
@@ -90,6 +117,8 @@ namespace LofovaChyse.Class
                 novinka.TypeSub = 0;
                 novinka.UserId = userId;
                 novinka.Version = 1;
+                novinka.Action = action;
+                novinka.Controller = controller;
 
                 dao.Create(novinka);
             }
@@ -107,9 +136,12 @@ namespace LofovaChyse.Class
             {
                 return "user_new.png";
             }
+            if (n.Type == (int)typeToInt.Comment)
+            {
+                return "comment_new.png";
+            }
 
             return "user_new.png";
         }
-
     }
 }
