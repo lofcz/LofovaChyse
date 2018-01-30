@@ -104,5 +104,10 @@ namespace LofovaChyse.Controllers
 
             return View(list);
         }
+
+        public ActionResult UzivatelNahled()
+        {
+            return PartialView();
+        }
     }
 }

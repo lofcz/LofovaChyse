@@ -26,6 +26,10 @@
     <link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" />
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
     <script src="@Url.Content("~/Scripts/prism.js")"></script>
+    <link href="@Url.Content("~/Content/themes.css")" rel="stylesheet" />
+    <script defer src="https://atomiks.github.io/tippyjs/js/focus-ring.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" />
 </head>
 
 <body>
@@ -172,13 +176,14 @@
     <script src='@Url.Content("~/Scripts/jquery.validate.js")' type='text/javascript'></script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
     <script src="@Url.Content("~/Scripts/additional-methods.js")"></script>
-    <script src="https://unpkg.com/tippy.js@2.0.9/dist/tippy.all.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/MicrosoftAjax.js"></script>
     <script src="~/Scripts/MicrosoftMvcAjax.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-
+    <script src="https://atomiks.github.io/tippyjs/tippy/tippy.js"></script>
+    <script src="https://atomiks.github.io/tippyjs/js/prism.js"></script>
+    <script src="https://atomiks.github.io/tippyjs/js/app.js"></script>
 </body>
 
 
@@ -188,18 +193,13 @@
             min-height: 100%;
         }
 
-        body {
-            /* Margin bottom by footer height */
-            margin-bottom: 60px;
-        }
-
         .footer {
             position: absolute;
             bottom: 0;
             width: 100%;
             /* Set the fixed height of the footer here */
-            height: 80px;
-            line-height: 80px; /* Vertically center the text there */
+            height: 40px;
+            line-height: 40px; /* Vertically center the text there */
         }
 
         .bs-dark.navbar-inverse {
@@ -304,14 +304,6 @@
                 width: 260px;
                 height: 32px;
             }
-
-
-
-        /* Custom page CSS
-    -------------------------------------------------- */
-        /* Not required for template or sticky footer method. */
-
-
 
         code {
             font-size: 80%;

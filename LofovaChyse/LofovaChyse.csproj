@@ -142,6 +142,7 @@
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
+    <Content Include="Content\Themes.css" />
     <Content Include="Global.asax" />
     <Content Include="hibernate.cfg.xml" />
     <Content Include="Scripts\ace.js" />
@@ -855,6 +856,7 @@
     <Content Include="Views\Home\Eval.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
+    <Content Include="Views\Home\UzivatelNahled.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

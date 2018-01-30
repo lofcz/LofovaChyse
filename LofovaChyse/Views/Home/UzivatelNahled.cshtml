@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "UzivatelNahled";
+}
+
+
+<link rel="stylesheet" href="https://atomiks.github.io/tippyjs/css/prism.css" />
+
+
+
+<link rel="stylesheet" href="https://atomiks.github.io/tippyjs/tippy/themes.css" />
+
+<script defer src="https://atomiks.github.io/tippyjs/js/focus-ring.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <section id="features">
+            <p>Nahlédnout na profil AJAX:</p>
+            <div id="html-showcase" class="button-showcase d-flex justify-content-center flex-wrap">
+                <button class="btn btn-gradient tippy" id="html-tippy" data-tippy-interactiveBorder="15" data-tippy-arrowType="round" data-tippy-trigger="click" data-tippy-theme="light" data-tippy-arrowTransform="scale(2, 2.5)" data-tippy-distance="25" data-tippy-animation="scale" data-tippy-interactive="true" data-tippy-arrow="true">Standa</button>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+<style>
+    .template {
+        white-space: pre;
+    }
+</style>
+
+<div id="template">
+    <p class="text-left">Uživatel <strong>Standa</strong> <small>(registrovaný 1.1.2018)</small></p>
+
+    <div class="text-left">
+        <small>Úroveň ověření: <b>F</b></small>
+        <br />
+        <small>Zkušenosti:     <b>2 / 100</b></small>
+        <br />
+        <small>Příspěvky:      <b>5</b></small>
+        <br />
+        <small>Reputace:       <b>0</b></small>
+    </div>
+
+    <br />
+    <button class="btn btn-success tippy text-center" onclick="closeHtml()" title="Kdopak to je?" data-tippy-placement="bottom">
+        Profil
+    </button>
+    <button class="btn btn-danger tippy text-center" onclick="closeHtml()" title="Tip: Podívej se na uživatelův profil" data-tippy-placement="bottom">
+        Zavřít
+    </button>
+</div>
+
+<script src="https://atomiks.github.io/tippyjs/tippy/tippy.js"></script>
+<script src="https://atomiks.github.io/tippyjs/js/prism.js"></script>
+<script src="https://atomiks.github.io/tippyjs/js/app.js"></script>

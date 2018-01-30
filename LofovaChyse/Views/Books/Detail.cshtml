@@ -20,32 +20,38 @@
         }
     </style>
 
-<div id="ajaxContent" class="container-fluid">
-   <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <div class="text-left"> Fórum / Příspěvky</div>
+<div id="ajaxContent" class="container-fluid col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="text-left"> Fórum / Příspěvky</div>
                         
-                        @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("knihovnik") || User.Identity.Name == Model.Author)
                         {
-                            if (User.IsInRole("knihovnik") || User.Identity.Name == Model.Author)
-                            {
-                                <div class="text-right">@Html.ActionLink("Upravit", "Edit", "Books", new {id = Model.Id}, null) | @Html.ActionLink("Smazat", "Delete", "Books", new {id = Model.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');"})</div>
-                            }
+                            <div class="text-right">@Html.ActionLink("Upravit", "Edit", "Books", new {id = Model.Id}, null) | @Html.ActionLink("Smazat", "Delete", "Books", new {id = Model.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');"})</div>
                         }
-                    </div>
-                    <div class="card-body">
-                        <h6>
-                            @Html.Raw(Model.Description)
-                        </h6>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Napsal @Model.OwnerId.Name, verze @Model.Version.ToString().Replace(",", ".") (@Model.LastEditDateTime.ToString("dd MMMM, yyyy"))
-                    </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <h6>
+                        @Html.Raw(Model.Description)
+                    </h6>
+                </div>
+                <div class="card-footer text-muted">
+                    Napsal @Model.OwnerId.Name, verze @Model.Version.ToString().Replace(",", ".") (@Model.LastEditDateTime.ToString("dd MMMM, yyyy"))
                 </div>
             </div>
+        </div>
     </div>
+    
+    <style>
+        strong {
+            font-size: 1.2em;
+        }
+    </style>
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
@@ -67,7 +73,8 @@
 
 
                         <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
-                        <h6 class="card-title" style="font-size: 12px;"> @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new { id = komentar.OwnerId.Id}, new { }) | @komentar.Date</h6>
+                        <h6 class="card-title" style="font-size: 12px;"> @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new { id = komentar.OwnerId.Id }, new { @class = "tippy", title="<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left" })
+                            | @komentar.Date</h6>                     
                     </div>
                 </div>
             </div>
@@ -83,7 +90,7 @@
 
             <div class="form-group">
                 <div>
-                    @Html.TextArea("description", new { @class = "form-control formatedtext" })
+                    @Html.TextArea("description", "", new { @class = "form-control formatedtext" })
                 </div>
             </div>
 
@@ -96,7 +103,7 @@
 }
     </div>
 
-        <script type="text/javascript">
+        <script>
             $(function () {
                 $("#description").html("");
             });
