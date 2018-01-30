@@ -1,5 +1,6 @@
 ﻿@using System.Activities.Statements
 @using DataAccess.Models
+@using LofovaChyse.Class
 @model DataAccess.Models.Book
 @{
     ViewBag.Title = "Detail";
@@ -51,6 +52,15 @@
         strong {
             font-size: 1.2em;
         }
+        .fa-thumbs-up {
+            margin-bottom: 2px;
+        }
+        .fa-cog {
+            margin-bottom: 1px;
+        }
+        .fa-sun {
+            font-size: 1.6em;
+        }
     </style>
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
@@ -61,10 +71,16 @@
                 <div class="card mb-3 h-25 pb-1">
                     <div class="card-body">
                         @if (!komentar.AlreadyRated)
-                        {
-                        @Ajax.ActionLink("Krásně napsané", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-highlight button-rounded float-right btn-sm" })
-                        @Ajax.ActionLink("Dobrá pointa", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-royal button-rounded float-right btn-sm" })
-                        @Ajax.ActionLink("Souhlasím", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-action button-rounded float-right btn-sm" })
+                        {                        
+                            <button class="button button-highlight button-box float-right button-small"><h6 style="margin-top: 6px;">10</h6></button>
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy", title = "<b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", data_tippy_arrow = true })
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy", title= "<small>5x </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", data_tippy_arrow = true }) 
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy", title = "<b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", data_tippy_arrow = true })
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new {@class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy", title = "<b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", data_tippy_arrow = true }) 
                         }
                         else if (User.Identity.IsAuthenticated)
                         {
