@@ -23,6 +23,7 @@ Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/w
     - Synchronní
   - Komentáře
     - Reakce na komentáře (Hezky napsáno / Dobrá pointa / Souhlasím) 
+    - Náhled uživatele při najetí myší na jméno
 - Uživatelé
   - Přihlášení + registrace
   - Odhlášení
