@@ -99,29 +99,30 @@ namespace LofovaChyse.Controllers
             return true;
         }
 
-        public ActionResult Detail(int id, bool zobrazPopis = true)
+        public int CurrentUserRatedComentType(KnihovnaKomentare komentar)
         {
-            BookDao bookDao = new BookDao();
-            Book b = bookDao.GetbyId(id);
+            int r = -1;
 
-            ViewBag.Zobraz = zobrazPopis;
-
-            KnihovnaKomentareDao knihovnaKomentareDao = new KnihovnaKomentareDao();
-            IList<KnihovnaKomentare> knihovnaKomentare = knihovnaKomentareDao.GetAll();
-            IList<KnihovnaKomentare> filtrovaneKomentare = new List<KnihovnaKomentare>();
-
-            foreach (KnihovnaKomentare koment in knihovnaKomentare)
+            if (User.Identity.IsAuthenticated)
             {
-                if (koment.TopicId == id)
+                KnihovnaKomentareLikesDao knihovnaKomentareDao = new KnihovnaKomentareLikesDao();
+                IList<KnihovnaKomentareLikes> list = knihovnaKomentareDao.GetAll();
+
+                KnihovnaKomentareLikes finalLike = null;
+                int userId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+
+                foreach (KnihovnaKomentareLikes iterovanyLike in list)
                 {
-                    koment.AlreadyRated = CurrentUserRatedComent(koment);
-                    filtrovaneKomentare.Add(koment);
+                    if (iterovanyLike.UserId == userId && iterovanyLike.ComentId == komentar.Id)
+                    {
+                        finalLike = iterovanyLike;
+                        r = finalLike.Value;
+                        break;
+                    }
                 }
             }
 
-            ViewBag.Komentare = filtrovaneKomentare;
-
-            return View(b);
+            return r;
         }
 
         public ActionResult Buy(int id, string userName)
@@ -160,18 +161,59 @@ namespace LofovaChyse.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
-        public enum EDruhyPalcu
+        public ActionResult Detail(int id, bool zobrazPopis = true)
         {
-            Souhlasim,
-            DobraPointa,
-            KrasneNapsane
+            BookDao bookDao = new BookDao();
+            Book b = bookDao.GetbyId(id);
+
+            ViewBag.Zobraz = zobrazPopis;
+
+            KnihovnaKomentareDao knihovnaKomentareDao = new KnihovnaKomentareDao();
+            IList<KnihovnaKomentare> knihovnaKomentare = knihovnaKomentareDao.GetAll();
+            IList<KnihovnaKomentare> filtrovaneKomentare = new List<KnihovnaKomentare>();
+
+            foreach (KnihovnaKomentare koment in knihovnaKomentare)
+            {
+                if (koment.TopicId == id)
+                {
+                    koment.AlreadyRated = CurrentUserRatedComent(koment);
+
+                    if (koment.AlreadyRated)
+                    {
+                        koment.RatedType = CurrentUserRatedComentType(koment);
+                    }
+                    else
+                    {
+                        koment.RatedType = -1;
+                    }
+
+                    // Reakce:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int? pocetReakci = new KnihovnaKomentareLikesDao().GetComentLikes(koment.Id, i);
+                        if (pocetReakci.HasValue)
+                        {
+                            koment.PocetReakci[i] = (int)pocetReakci;
+                        }
+                        else
+                        {
+                            koment.PocetReakci[i] = 0;
+                        }
+                    }
+
+                    filtrovaneKomentare.Add(koment);
+                }
+            }
+
+            ViewBag.Komentare = filtrovaneKomentare;
+
+            return View(b);
         }
 
         public ActionResult RateKomentar(int bookId, int id, int moznost)
         {
             Book book = new BookDao().GetbyId(bookId);
             int value = 0;
-            EDruhyPalcu palec = (EDruhyPalcu)moznost;
 
             KnihovnaKomentareLikesDao knihovnaKomentareLikesDao = new KnihovnaKomentareLikesDao();
             IList<KnihovnaKomentareLikes> list = knihovnaKomentareLikesDao.GetAll();
@@ -198,7 +240,7 @@ namespace LofovaChyse.Controllers
                 finalLike.Id = Books.Counter();
                 finalLike.ComentId = id;
                 finalLike.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
-                finalLike.Value = 1;
+                finalLike.Value = moznost;
 
                 knihovnaKomentareLikesDao.Create(finalLike);
             }
@@ -212,6 +254,31 @@ namespace LofovaChyse.Controllers
 
                 if (koment.TopicId == book.Id)
                 {
+                    koment.AlreadyRated = CurrentUserRatedComent(koment);
+
+                    if (koment.AlreadyRated)
+                    {
+                        koment.RatedType = CurrentUserRatedComentType(koment);
+                    }
+                    else
+                    {
+                        koment.RatedType = -1;
+                    }
+
+                    // Reakce:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int? pocetReakci = new KnihovnaKomentareLikesDao().GetComentLikes(koment.Id, i);
+                        if (pocetReakci.HasValue)
+                        {
+                            koment.PocetReakci[i] = (int)pocetReakci;
+                        }
+                        else
+                        {
+                            koment.PocetReakci[i] = 0;
+                        }
+                    }
+
                     finalniKomenty.Add(koment);
                 }
             }

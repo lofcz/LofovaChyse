@@ -2,10 +2,8 @@
 @using DataAccess.Models
 @using LofovaChyse.Class
 @model DataAccess.Models.Book
-@{
-    ViewBag.Title = "Detail";
-}
 
+<div id="ajaxContent" class="container-fluid col-md-12">
     <style>
         .btn-space {
             margin-right: 5px;
@@ -21,18 +19,17 @@
         }
     </style>
 
-<div id="ajaxContent" class="container-fluid col-md-12">
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-header">
                     <div class="text-left"> Fórum / Příspěvky</div>
-                        
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("knihovnik") || User.Identity.Name == Model.Author)
                         {
-                            <div class="text-right">@Html.ActionLink("Upravit", "Edit", "Books", new {id = Model.Id}, null) | @Html.ActionLink("Smazat", "Delete", "Books", new {id = Model.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');"})</div>
+                            <div class="text-right">@Html.ActionLink("Upravit", "Edit", "Books", new { id = Model.Id }, null) | @Html.ActionLink("Smazat", "Delete", "Books", new { id = Model.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');" })</div>
                         }
                     }
                 </div>
@@ -47,17 +44,20 @@
             </div>
         </div>
     </div>
-    
+
     <style>
         strong {
             font-size: 1.2em;
         }
+
         .fa-thumbs-up {
             margin-bottom: 2px;
         }
+
         .fa-cog {
             margin-bottom: 1px;
         }
+
         .fa-sun {
             font-size: 1.6em;
         }
@@ -70,72 +70,116 @@
             <div>
                 <div class="card mb-3 h-25 pb-1">
                     <div class="card-body">
-                        @if (!komentar.AlreadyRated)
-                        {                        
-                            <button class="button button-highlight button-box float-right button-small"><h6 style="margin-top: 6px;">10</h6></button>
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy", title = "<b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", data_tippy_arrow = true })
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy", title= "<small>5x </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", data_tippy_arrow = true }) 
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new { @class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy", title = "<b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", data_tippy_arrow = true })
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2}, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace }, new {@class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy", title = "<b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", data_tippy_arrow = true }) 
+                        @{
+                            ViewBag.CanRate = !komentar.AlreadyRated;
+
+                            ViewBag.RatedIndex = komentar.RatedType;
+                            ViewBag.TempClass = "";
+
+                            if (!ViewBag.CanRate)
+                            {
+                                ViewBag.TempClass = " disabled";
+                            }
+
+                            ViewBag.TempClass1 = ViewBag.TempClass;
+                            ViewBag.TempClass2 = ViewBag.TempClass;
+                            ViewBag.TempClass3 = ViewBag.TempClass;
+                            ViewBag.TempClass4 = ViewBag.TempClass;
+
+                            if (ViewBag.TempClass1 == " disabled" && ViewBag.RatedIndex == 2)
+                            {
+                                ViewBag.TempClass1 = "";
+                            }
+
+                            if (ViewBag.TempClass2 == " disabled" && ViewBag.RatedIndex == 0)
+                            {
+                                ViewBag.TempClass2 = "";
+                            }
+
+                            if (ViewBag.TempClass3 == " disabled" && ViewBag.RatedIndex == 3)
+                            {
+                                ViewBag.TempClass3 = "";
+                            }
+
+                            if (ViewBag.TempClass4 == " disabled" && ViewBag.RatedIndex == 1)
+                            {
+                                ViewBag.TempClass4 = "";
+                            }
                         }
-                        else if (User.Identity.IsAuthenticated)
-                        {
-                            <h6 class="small float-right"><strong>Tento komentář už jsi hodnotil!</strong></h6>
-                        }
+
+                        <button class="button button-highlight button-box float-right button-small"><h6 style="margin-top: 6px;">@komentar.PocetReakci.Sum()</h6></button>
+                        <b class="float-right">‌‌ ‌‌</b>
+                        @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom" })
+                        <b class="float-right">‌‌ ‌‌</b>
+                        @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom" })
+                        <b class="float-right">‌‌ ‌‌</b>
+                        @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom" })
+                        <b class="float-right">‌‌ ‌‌</b>
+                        @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom" })
+
 
 
                         <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
-                        <h6 class="card-title" style="font-size: 12px;"> @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new { id = komentar.OwnerId.Id }, new { @class = "tippy", title="<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left" })
-                            | @komentar.Date</h6>                     
+                        <h6 class="card-title" style="font-size: 12px;">
+                            @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new { id = komentar.OwnerId.Id }, new { @class = "tippy", title = "<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left" })
+                            | @komentar.Date
+                        </h6>
                     </div>
                 </div>
             </div>
+        }
     }
-}
-    
-<div class="row">
-    @if (User.Identity.IsAuthenticated)
-    {
-        using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+
+    <div class="row">
+        @if (User.Identity.IsAuthenticated)
         {
-            @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
+            using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+            {
+                @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
 
-            <div class="form-group">
-                <div>
-                    @Html.TextArea("description", "", new { @class = "form-control formatedtext" })
+                <div class="form-group">
+                    <div>
+                        @Html.TextArea("description", "", new { @class = "form-control formatedtext" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <button type="submit" class="btn btn-default">Komentovat</button>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-default">Komentovat</button>
+                    </div>
                 </div>
-            </div>
-    }
-}
+            }
+        }
     </div>
 
-        <script>
-            $(function () {
-                $("#description").html("");
-            });
-        </script>
-    
+    <script>
+        $(function () {
+            $("#description").html("");
+        });
+    </script>
+
     <style>
-        .mce-path {/* CSS */
+        .mce-path { /* CSS */
             display: none !important;
         }
     </style>
     <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
-        <script>tinymce.init({
-    selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%',  language: 'cs'
+    <script>
+        tinymce.init({
+            selector: '.formatedtext',
+            branding: false,
+            plugins:
+            'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount',
+            toolbar:
+            'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
+            width: '100%',
+            language: 'cs'
 
 
-});</script>
+        });
+    </script>
 
-
-    </div>
+    <script src="https://atomiks.github.io/tippyjs/tippy/tippy.js"></script>
+    <script src="https://atomiks.github.io/tippyjs/js/prism.js"></script>
+    <script src="https://atomiks.github.io/tippyjs/js/app.js"></script>
+</div>
