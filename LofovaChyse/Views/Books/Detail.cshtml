@@ -61,6 +61,10 @@
         .fa-sun {
             font-size: 1.6em;
         }
+
+        .no-click {
+            pointer-events: none;
+        }
     </style>
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
@@ -86,6 +90,7 @@
                             ViewBag.TempClass3 = ViewBag.TempClass;
                             ViewBag.TempClass4 = ViewBag.TempClass;
 
+
                             if (ViewBag.TempClass1 == " disabled" && ViewBag.RatedIndex == 2)
                             {
                                 ViewBag.TempClass1 = "";
@@ -105,18 +110,42 @@
                             {
                                 ViewBag.TempClass4 = "";
                             }
+
+                            ViewBag.RatingText = "";
+
+                            for (var i = 0; i < 4; i++)
+                            {
+                                if (komentar.PocetReakci[i] > 0)
+                                {
+                                    if (i == 0)
+                                    {
+                                        ViewBag.RatingText += "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b></br>";
+                                    }
+                                    if (i == 3)
+                                    {
+                                        ViewBag.RatingText += "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b></br>";
+                                    }
+                                }
+                            }
+
+                            ViewBag.Action = "RateKomentar";
+                            if (!ViewBag.CanRate)
+                            {
+                                ViewBag.Action = "RateDenied";
+                            }
                         }
 
-                        <button class="button button-highlight button-box float-right button-small"><h6 style="margin-top: 6px;">@komentar.PocetReakci.Sum()</h6></button>
-                        <b class="float-right">‌‌ ‌‌</b>
-                        @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom" })
-                        <b class="float-right">‌‌ ‌‌</b>
-                        @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom" })
-                        <b class="float-right">‌‌ ‌‌</b>
-                        @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom" })
-                        <b class="float-right">‌‌ ‌‌</b>
-                        @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom" })
-
+                        <div id="@string.Format("{0}{1}", "koment", komentar.Id.ToString())">
+                            <button class="button button-highlight button-box float-right button-small tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent"><h6 style="margin-top: 6px;">@komentar.PocetReakci.Sum()</h6></button>
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom" })
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick= "checkFunction(this)", id="mojeid", data_mojedata=@ViewBag.TempClass })
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom" })
+                            <b class="float-right">‌‌ ‌‌</b>
+                            @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom" })
+                       </div>
 
 
                         <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
@@ -129,6 +158,20 @@
             </div>
         }
     }
+    
+            <script>
+                function checkFunction(el) {
+                    if (el.getAttribute('data-mojedata') === ' disabled') {
+                        swal({
+                            title: "Zpomal",
+                            text: "Tento komentář už jsi hodnotil. Hodnocení je zamčené a nelze měnit. Více se o tom můžeš dozvědět <a href='#'>zde</a>",
+                            type: "warning",
+                            html: true
+                        });
+                    }
+
+            }
+            </script>
 
     <div class="row">
         @if (User.Identity.IsAuthenticated)
@@ -169,9 +212,9 @@
             selector: '.formatedtext',
             branding: false,
             plugins:
-            'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount',
+                'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount',
             toolbar:
-            'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
+                'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
             width: '100%',
             language: 'cs'
 

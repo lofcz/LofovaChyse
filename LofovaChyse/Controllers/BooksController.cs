@@ -210,7 +210,7 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
-        public ActionResult RateKomentar(int bookId, int id, int moznost)
+        public ActionResult RateKomentar(int bookId, int id, int moznost, int komentId = -1)
         {
             Book book = new BookDao().GetbyId(bookId);
             int value = 0;
@@ -288,7 +288,23 @@ namespace LofovaChyse.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("Detail", book);
+                KnihovnaKomentare k = new KnihovnaKomentareDao().GetbyId(id);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    int? pocetReakci = new KnihovnaKomentareLikesDao().GetComentLikes(k.Id, i);
+                    if (pocetReakci.HasValue)
+                    {
+                        k.PocetReakci[i] = (int)pocetReakci;
+                    }
+                    else
+                    {
+                        k.PocetReakci[i] = 0;
+                    }
+                }
+
+                k.RatedType = CurrentUserRatedComentType(k);
+                return PartialView("Rating", k);
             }
 
             // return RedirectToAction("Index");
@@ -568,6 +584,11 @@ namespace LofovaChyse.Controllers
             }
 
             return RedirectToAction("Index", "Books");
+        }
+
+        public ActionResult RateDenied()
+        {
+            return PartialView("RateDenied");
         }
     }
 }
