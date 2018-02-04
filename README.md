@@ -1,6 +1,6 @@
 # Lofova chýše
 
-ASP.NET - MVC / Razor / NHIbernate / Bootstrap / JQuery
+ASP.NET - MVC / Razor / NHIbernate / Bootstrap / JQuery / SignalR / AnimateCSS / SWAL / Prism / UnicornButtons / Modernizr / TippyJS
 <hr></hr>
 Open source board bulletin project. Descendant of svobodneForum.eu
 
