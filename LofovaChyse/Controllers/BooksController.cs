@@ -303,6 +303,7 @@ namespace LofovaChyse.Controllers
                     }
                 }
 
+                ViewBag.topic = bookId;
                 k.RatedType = CurrentUserRatedComentType(k);
                 return PartialView("Rating", k);
             }
