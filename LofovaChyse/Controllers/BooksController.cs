@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using DataAccess.Dao;
 using DataAccess.Models;
 using LofovaChyse.Class;
@@ -286,10 +287,26 @@ namespace LofovaChyse.Controllers
             ViewBag.Komentare = finalniKomenty;
             ViewBag.Zobraz = true;
 
+            KnihovnaKomentare k = new KnihovnaKomentareDao().GetbyId(id);
+
+            string text = "";
+            string desc = "";
+
+            if (moznost == 0)
+            {
+                text = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Name + " dal " + "<b style=\"color: #ff5252\">Super</b>" + " tvému kometáři u příspěvku " + book.Name;
+                desc = "Reputace: <b>2</b></br>Krevity: <b>0.2</b>";
+
+                KnihovnaUserDao dap = new KnihovnaUserDao();
+                KnihovnaUser u = dap.GetByLogin(User.Identity.Name);
+                u.Money += 0.2;
+                dap.Update(u);
+            }
+
+            HNotifikace.SendNotification(text, 0, k.OwnerId.Id, "Získal jsi:</br><hr></hr>" + desc);
+
             if (Request.IsAjaxRequest())
             {
-                KnihovnaKomentare k = new KnihovnaKomentareDao().GetbyId(id);
-
                 for (int i = 0; i < 4; i++)
                 {
                     int? pocetReakci = new KnihovnaKomentareLikesDao().GetComentLikes(k.Id, i);

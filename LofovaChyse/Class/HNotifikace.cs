@@ -36,5 +36,24 @@ namespace LofovaChyse.Class
 
             return "Potvrdit";
         }
+
+        public static void SendNotification(string text, int rewardType, int userTo, string popis = "")
+        {
+            KnihovnaNotifikace n = new KnihovnaNotifikace()
+            {
+                Text = text,
+                DateSent = DateTime.Now,
+                Displayed = false,
+                ForceType = 0,
+                Id = Books.Counter(),
+                RewardType = rewardType,
+                UserTo = userTo,
+                UserFrom = -1,
+                Description = popis
+            };
+
+            KnihovnaNotifikaceDao dao = new KnihovnaNotifikaceDao();
+            dao.Create(n);
+        }
     }
 }

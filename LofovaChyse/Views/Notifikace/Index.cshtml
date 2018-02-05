@@ -18,6 +18,7 @@
         <div class="card mb-3 h-25 mt-0">
             <div class="card-body">
                 <p class="card-text">@Html.Raw(k.Text)</p>
+                <p class="card-text">@Html.Raw(k.Description)</p>
             </div>
             <div class="card-footer text-muted">
                 Od @HNotifikace.GetFrom(k.UserFrom), přijato @k.DateSent.ToString("dd MMMM, yyyy")
