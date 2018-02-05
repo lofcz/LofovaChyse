@@ -1,12 +1,13 @@
 # Lofova chýše
 
-ASP.NET - MVC / Razor / NHIbernate / Bootstrap / JQuery
+ASP.NET - MVC / Razor / NHIbernate / Bootstrap / JQuery / SignalR / AnimateCSS / SWAL / Prism / UnicornButtons / Modernizr / TippyJS
 <hr></hr>
 Open source board bulletin project. Descendant of svobodneForum.eu
 
 ETA1: Q1 of 2018
 
-Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/wiki/1.0-P-DEV)
+Postup verze 1.0-PDEV v obrázcích [zde](https://github.com/lofcz/LofovaChyse/wiki/1.0-P-DEV)  
+Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZSgx2XhHrFYrW4Y_o/edit#
 
 ## Hotové funkce:
 - Příspěvky
