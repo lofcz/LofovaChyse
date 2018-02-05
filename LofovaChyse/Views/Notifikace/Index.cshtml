@@ -15,21 +15,23 @@
 @foreach (KnihovnaNotifikace k in Model)
 {
     <div>
-        <div class="card mb-3 h-25 mt-0">
+        <div class="card mb-3 h-25 mt-0 bg-light">
             <div class="card-body">
                 <p class="card-text">@Html.Raw(k.Text)</p>
                 <p class="card-text">@Html.Raw(k.Description)</p>
             </div>
             <div class="card-footer text-muted">
-                Od @HNotifikace.GetFrom(k.UserFrom), přijato @k.DateSent.ToString("dd MMMM, yyyy")
-                <p class="btn btn-primary float-right btn-sm" onclick="myFunction(@k.Id)">@HNotifikace.GetButton(k.RewardType)</p>
+                Od @HNotifikace.GetFrom(k.UserFrom), přijato @k.DateSent.ToString("dd MMMM, yyyy")      
+                <small class="btn btn-primary float-right btn-sm" onclick="myFunction(@k.Id)" >@HNotifikace.GetButton(k.RewardType)</small>
             </div>
         </div>
     </div>
     
 }
 
-    <script>
+<br/>
+
+<script>
     function myFunction(id) {
         swal({
                 title: "Vyzvednout odměnu",

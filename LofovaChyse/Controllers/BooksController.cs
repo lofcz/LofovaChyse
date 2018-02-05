@@ -213,6 +213,7 @@ namespace LofovaChyse.Controllers
 
         public ActionResult RateKomentar(int bookId, int id, int moznost, int komentId = -1)
         {
+            KnihovnaUserDao dd = new KnihovnaUserDao();
             Book book = new BookDao().GetbyId(bookId);
             int value = 0;
 
@@ -220,7 +221,7 @@ namespace LofovaChyse.Controllers
             IList<KnihovnaKomentareLikes> list = knihovnaKomentareLikesDao.GetAll();
 
             KnihovnaKomentareLikes finalLike = null;
-            int userId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+            int userId = dd.GetByLogin(User.Identity.Name).Id;
 
             foreach (KnihovnaKomentareLikes iterovanyLike in list)
             {
@@ -240,7 +241,7 @@ namespace LofovaChyse.Controllers
                 finalLike = new KnihovnaKomentareLikes();
                 finalLike.Id = Books.Counter();
                 finalLike.ComentId = id;
-                finalLike.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+                finalLike.UserId = dd.GetByLogin(User.Identity.Name).Id;
                 finalLike.Value = moznost;
 
                 knihovnaKomentareLikesDao.Create(finalLike);
@@ -289,21 +290,11 @@ namespace LofovaChyse.Controllers
 
             KnihovnaKomentare k = new KnihovnaKomentareDao().GetbyId(id);
 
-            string text = "";
-            string desc = "";
+            KnihovnaUser userFrom = dd.GetByLogin(User.Identity.Name);
+            KnihovnaUser userTo = dd.GetbyId(k.OwnerId.Id);
+            HNotifikace.SendRateNotification(userTo, moznost, userFrom, book);
 
-            if (moznost == 0)
-            {
-                text = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Name + " dal " + "<b style=\"color: #ff5252\">Super</b>" + " tvému kometáři u příspěvku " + book.Name;
-                desc = "Reputace: <b>2</b></br>Krevity: <b>0.2</b>";
-
-                KnihovnaUserDao dap = new KnihovnaUserDao();
-                KnihovnaUser u = dap.GetByLogin(User.Identity.Name);
-                u.Money += 0.2;
-                dap.Update(u);
-            }
-
-            HNotifikace.SendNotification(text, 0, k.OwnerId.Id, "Získal jsi:</br><hr></hr>" + desc);
+            dd.Update(userTo);
 
             if (Request.IsAjaxRequest())
             {
