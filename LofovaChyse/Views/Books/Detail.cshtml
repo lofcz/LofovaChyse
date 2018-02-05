@@ -71,8 +71,14 @@
     {
         foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
         {
+            ViewBag.myclass = "card mb-3 h-25 pb-1 bg-light col-12 offset-md-0";
+            if (komentar.ReplyId > 0)
+            {
+                ViewBag.myclass = "card mb-3 h-25 pb-1 bg-light col-11 offset-md-1";
+            }
+
             <div>
-                <div class="card mb-3 h-25 pb-1 bg-light">
+                <div class="@ViewBag.myclass">
                     <div class="card-body">
                         @{
                             ViewBag.CanRate = !komentar.AlreadyRated;
@@ -162,6 +168,8 @@
                             | @komentar.Date.ToString("dd MMMM, yyyy")
                             @if (User.Identity.IsAuthenticated)
                             {
+                                <tex><a href="#" onclick="prepReply(@komentar.Id)">Odpovědět</a></tex>
+
                                 if (User.IsInRole("knihovnik"))
                                 {
                                     <tex>(<a href="#">Upravit</a> | <a href="#">Odstranit</a>)</tex>
@@ -175,19 +183,25 @@
         }
     }
     
-            <script>
-                function checkFunction(el) {
-                    if (el.getAttribute('data-mojedata') === ' disabled') {
-                        swal({
-                            title: "Zpomal",
-                            text: "Tento komentář už jsi hodnotil. Hodnocení je zamčené a nelze měnit. Více se o tom můžeš dozvědět <a href='#'>zde</a>",
-                            type: "warning",
-                            html: true
-                        });
-                    }
-
+    <script>
+        function checkFunction(el) {
+            if (el.getAttribute('data-mojedata') === ' disabled') {
+                swal({
+                    title: "Zpomal",
+                    text: "Tento komentář už jsi hodnotil. Hodnocení je zamčené a nelze měnit. Více se o tom můžeš dozvědět <a href='#'>zde</a>",
+                    type: "warning",
+                    html: true
+                });
             }
-            </script>
+
+        }
+
+        function prepReply(id) {
+            document.getElementById("reply").value = id;
+        }
+    </script>
+    
+
 
     <div class="row">
         @if (User.Identity.IsAuthenticated)
@@ -195,6 +209,8 @@
             using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
             {
                 @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
+
+                <input type="hidden" name="reply" id="reply" value="-1">
 
                 <div class="form-group">
                     <div>

@@ -206,7 +206,27 @@ namespace LofovaChyse.Controllers
                 }
             }
 
-            ViewBag.Komentare = filtrovaneKomentare;
+            // Seřadíme reply comenty
+            IList<KnihovnaKomentare> filtrovaneKomentareBackup = filtrovaneKomentare.ToList();
+            IList<KnihovnaKomentare> posledniKomenty = new List<KnihovnaKomentare>();
+
+            foreach (KnihovnaKomentare koment in filtrovaneKomentareBackup)
+            {
+                if (koment.ReplyId <= 0)
+                {
+                    posledniKomenty.Add(koment);
+                    // Přidáme všechny subkomenty
+                    foreach (KnihovnaKomentare k in filtrovaneKomentareBackup)
+                    {
+                        if (k.ReplyId == koment.Id)
+                        {
+                            posledniKomenty.Add(k);
+                        }
+                    }
+                }
+            }
+
+            ViewBag.Komentare = posledniKomenty;
 
             return View(b);
         }

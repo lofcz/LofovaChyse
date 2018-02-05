@@ -19,7 +19,7 @@ namespace LofovaChyse.Controllers
 
         [Authorize]
         [HttpPost, ValidateInput(false)]
-        public ActionResult Add(string description, int topicId)
+        public ActionResult Add(string description, int topicId, int reply)
         {
             KnihovnaKomentareDao knihovnaKomentareDao = new KnihovnaKomentareDao();
             KnihovnaKomentare komentar = new KnihovnaKomentare();
@@ -29,6 +29,7 @@ namespace LofovaChyse.Controllers
             komentar.OwnerId = new KnihovnaUserDao().GetByLogin(User.Identity.Name);
             komentar.Date = DateTime.Now;
             komentar.TopicId = topicId;
+            komentar.ReplyId = reply;
 
             knihovnaKomentareDao.Create(komentar);
 
