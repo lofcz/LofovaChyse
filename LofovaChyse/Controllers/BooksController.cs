@@ -313,7 +313,6 @@ namespace LofovaChyse.Controllers
             KnihovnaUser userFrom = dd.GetByLogin(User.Identity.Name);
             KnihovnaUser userTo = dd.GetbyId(k.OwnerId.Id);
             HNotifikace.SendRateNotification(userTo, moznost, userFrom, book);
-
             dd.Update(userTo);
 
             if (Request.IsAjaxRequest())
@@ -336,7 +335,6 @@ namespace LofovaChyse.Controllers
                 return PartialView("Rating", k);
             }
 
-            // return RedirectToAction("Index");
             return View("Detail", book);
         }
 

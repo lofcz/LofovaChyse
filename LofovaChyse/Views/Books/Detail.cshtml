@@ -1,4 +1,5 @@
 ﻿@using System.Activities.Statements
+@using DataAccess.Dao
 @using DataAccess.Models
 @using LofovaChyse.Class
 @model DataAccess.Models.Book
@@ -65,21 +66,189 @@
         .no-click {
             pointer-events: none;
         }
+
+        .fa-thumbs-up:hover {
+            color: #26addf;
+        }
+
+        .fa-cog:hover {
+            color: #eab513;
+        }
+
+        .fa-heart:hover {
+            color: #d44d32;
+        }
+
+        .fa-sun:hover {
+            color: #7fc215;
+        }
     </style>
+    
+<style>
+    .detailBox {
+        width:320px;
+        border:1px solid #bbb;
+        margin:50px;
+    }
+    .titleBox {
+        background-color:#fdfdfd;
+        padding:10px;
+    }
+    .titleBox label{
+        color:#444;
+        margin:0;
+        display:inline-block;
+    }
+
+    .commentBox {
+        padding:10px;
+        border-top:1px dotted #bbb;
+    }
+    .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+        width:80%;
+    }
+    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+        width:18%;
+    }
+    .actionBox .form-group * {
+        width:100%;
+    }
+    .taskDescription {
+        margin-top:10px;
+    }
+    .commentList {
+        list-style:none;
+    }
+  
+    .commenterImage {
+        width:30px;
+        margin-right:10px;
+        height:100%;
+        float:left;
+        position: relative;
+        right: 12px
+    }
+    .commenterImage img {
+        width:100%;
+    }
+    .commentText p {
+        margin:0;
+    }
+    .sub-text {
+        color:#aaa;
+        font-family:verdana;
+        font-size:11px;
+    }
+    .actionBox {
+        border-top:1px dotted #bbb;
+        padding:10px;
+    }
+
+    .h5 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .ctext {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 500;
+        color: #444444;
+        position: relative;
+        top: -6px;
+    }
+
+    .tooltext {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 11px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 500;
+        color: #999999;
+        position: relative;
+        top: 6px;
+    }
+
+    .rep {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: #00a6dd;
+        padding-left: 38px
+    }
+
+    .total {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: #00a6dd;
+    }
+
+    .div {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: #444444;
+        opacity: 0.2;
+        position: relative;
+        top: -1px;
+    }
+
+    .ratingbtn {
+        font-size: 8px;
+        color: #999999;
+        position: relative;
+        top: -1px;
+    }
+
+    .ratingUsed {
+        color: #00a6dd;
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+
+    .bg-koment {
+        background-color: #FFFFFF
+    }
+
+    .circle-icon {
+        background: #ffc0c0;
+        border-radius: 50%;
+        width: 24px;
+        height: 12px;
+        text-align: center;
+        line-height: 16px;
+        vertical-align: middle;
+    }
+
+    .icon-background1 {
+        color: #ffc0ff;
+    }
+
+</style>
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
+
         foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
         {
-            ViewBag.myclass = "card mb-3 h-25 pb-1 bg-light col-12 offset-md-0";
-            if (komentar.ReplyId > 0)
+
             {
-                ViewBag.myclass = "card mb-3 h-25 pb-1 bg-light col-11 offset-md-1";
+                ViewBag.myclass = "card mb-3 h-25 pb-1 bg-koment col-12 offset-md-0";
+                if (komentar.ReplyId > 0)
+                {
+                    ViewBag.myclass = "card mb-3 h-25 pb-1 bg-koment col-11 offset-md-1";
+                }
             }
 
             <div>
                 <div class="@ViewBag.myclass">
-                    <div class="card-body">
+                    <div class="card-body spaced p-2">
                         @{
                             ViewBag.CanRate = !komentar.AlreadyRated;
 
@@ -147,36 +316,46 @@
                             {
                                 ViewBag.Action = "RateDenied";
                             }
+
+                            ViewBag.repID = komentar.Id;
+                            if (komentar.ReplyId > 0)
+                            {
+                                ViewBag.repID = komentar.ReplyId;
+                            }
                         }
 
                         <div id="@string.Format("{0}{1}", "koment", komentar.Id.ToString())">
-                            <button class="button button-highlight button-box float-right button-small tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent"><h6 style="margin-top: 6px;">@komentar.PocetReakci.Sum()</h6></button>
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick= "checkFunction(this)", id="mojeid", data_mojedata=@ViewBag.TempClass })
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                            <b class="float-right">‌‌ ‌‌</b>
-                            @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                       </div>
+                        </div>
 
-
-                        <h6 class="card-title" style="font-size: 12px;">
-                            <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + komentar.OwnerId.ImageName)" style="width: 16px; height: 16px"/>
-                            @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new {id = komentar.OwnerId.Id}, new {@class = "tippy", title = "<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left"})
-                            | @komentar.Date.ToString("dd MMMM, yyyy")
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <tex><a href="#" onclick="prepReply(@komentar.Id)">Odpovědět</a></tex>
-
-                                if (User.IsInRole("knihovnik"))
+                        <div class="card-title mt-0" style="font-size: 12px;">
+                            <div class="commenterImage" style="display: table-cell">
+                                <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + komentar.OwnerId.ImageName)" style="width: 36px; height: 36px; margin-top: 0px"/>
+                            </div>
+                            <div  class="commentText">
+                                @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new {id = komentar.OwnerId.Id}, new {  @class = "tippy h5", title = "<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left"})
+                                <i class="float-right" style="color: #999999">@komentar.Date.ToString("dd MMMM, yyyy")</i>
+                                @if (User.Identity.IsAuthenticated)
                                 {
-                                    <tex>(<a href="#">Upravit</a> | <a href="#">Odstranit</a>)</tex>
+ 
+                                    if (User.IsInRole("knihovnik"))
+                                    {
+                                        <br/>
+                                        <a class="float-right tooltext" href="#">UPRAVIT</a>
+                                        <a class="float-right tooltext" style="position: relative; top: 20px; left: 46px;" href="#">ODSTRANIT</a>
+                                    }
                                 }
-                            }
-                        </h6>
-                        <h6 class="card-text small mt-0">@Html.Raw(komentar.Content)</h6>
+                            </div>
+                        </div>
+                        <h6 class="card-text small mt-0 ml-0 ctext" >@Html.Raw(komentar.Content)</h6>
+                        
+                        <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@komentar.OwnerId.Name')" style="color: #3dacdc">ODPOVĚDĚT</a>
+                        <sign class="div">|</sign>
+                        <sign class="total tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent">@komentar.PocetReakci.Sum()</sign>
+                        @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg ratingUsed\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+                        @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick= "checkFunction(this)", id="mojeid", data_mojedata=@ViewBag.TempClass })
+                        @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+                        @Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+
                     </div>
                 </div>
             </div>
@@ -196,8 +375,13 @@
 
         }
 
-        function prepReply(id) {
-            document.getElementById("reply").value = id;
+        function prepReply(args, a2) {
+            document.getElementById("reply").value = arguments[0];
+            window.scrollTo(0, document.body.scrollHeight);
+            var yourUl = document.getElementById("hid");
+            yourUl.style.display = 'block';
+
+            document.getElementById("hid").innerHTML = "<i>Odpovídáš na komentář uživatele " + a2 + "</i>";
         }
     </script>
     
@@ -206,15 +390,16 @@
     <div class="row">
         @if (User.Identity.IsAuthenticated)
         {
-            using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+            using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
             {
                 @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
 
+                <p id="hid">Odpovídáš na komentář uživatele </p>
                 <input type="hidden" name="reply" id="reply" value="-1">
 
                 <div class="form-group">
                     <div>
-                        @Html.TextArea("description", "", new { @class = "form-control formatedtext" })
+                        @Html.TextArea("description", "", new {@class = "form-control formatedtext"})
                     </div>
                 </div>
 
@@ -231,6 +416,9 @@
         $(function () {
             $("#description").html("");
         });
+
+        var yourUl = document.getElementById("hid");
+        yourUl.style.display = 'none';
     </script>
 
     <style>
