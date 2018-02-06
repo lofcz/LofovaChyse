@@ -25,6 +25,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
   - Komentáře
     - Reakce na komentáře (Hezky napsáno / Dobrá pointa / Souhlasím) 
     - Náhled uživatele při najetí myší na jméno
+    - Odpovědi na komentáře
 - Uživatelé
   - Přihlášení + registrace
   - Odhlášení
