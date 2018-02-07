@@ -348,9 +348,17 @@
                         </div>
                         <h6 class="card-text small mt-0 ml-0 ctext" >@Html.Raw(komentar.Content)</h6>
                         
-                        <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@komentar.OwnerId.Name')" style="color: #3dacdc">ODPOVĚDĚT</a>
-                        <sign class="div">|</sign>
-                        <sign class="total tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent">@komentar.PocetReakci.Sum()</sign>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@komentar.OwnerId.Name')" style="color: #3dacdc">ODPOVĚDĚT</a>
+                            <sign class="div">|</sign>
+                        }
+                        else
+                        {
+                            <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@komentar.OwnerId.Name')" style="color: #3dacdc"> </a>
+                        }
+                        
+                        @if (komentar.PocetReakci.Sum() > 0) {<sign class="total tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent">@komentar.PocetReakci.Sum()</sign>}
                         @Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg ratingUsed\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
                         @Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick= "checkFunction(this)", id="mojeid", data_mojedata=@ViewBag.TempClass })
                         @Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
