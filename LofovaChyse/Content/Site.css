@@ -57,11 +57,6 @@ a:hover {
         background: white;
     }
 
-.btn-docs-version-current {
-    background: white;
-    color: #007bff;
-}
-
 .hero-badge {
     border: 1px solid rgba(223, 255, 123, 0.5);
     padding: 0.5rem 1rem;
@@ -201,11 +196,7 @@ a:hover {
 }
 
 .hero-subheading {
-    font-weight: 300;
-    font-size: 1.5rem;
-    line-height: 1.7;
-    color: white;
-    margin-bottom: 2rem;
+
 }
 
 #controlling-tooltips-manually .btn {
@@ -253,11 +244,6 @@ section .btn, section .btn:active {
     }
 
 main .container-fluid {
-    background: white;
-    padding: 2rem 1rem;
-    box-shadow: 0 0 80px -4px rgba(0,20,40,0.1);
-    -webkit-transition: opacity 1s ease;
-    transition: opacity 1s ease;
 }
 
 table {
@@ -343,19 +329,7 @@ table {
 }
 
 .test-element {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    color: white;
-    background: linear-gradient(#5172eb,#928aff);
-    box-shadow: 0 10px 20px -5px rgba(0,20,60,0.1), 0 0 10px rgba(0,20,60,0.05);
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.25rem 0.5rem;
-    margin: 1%;
-    cursor: default;
+
 }
 
 #performance-test {
