@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <style>
+<style>
         strong {
             font-size: 1.2em;
         }
@@ -83,7 +83,6 @@
             color: #7fc215;
         }
     </style>
-    
 <style>
     .detailBox {
         width:320px;
@@ -235,7 +234,7 @@
     }
 
 </style>
-
+    
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
         KnihovnaKomentare predeslyKomentar = (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray()[0];
@@ -247,11 +246,11 @@
             dalsiKomentar = (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray()[Math.Min(index, (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray().Length - 1)];
 
             ViewBag.myclass = "card mb-2 h-25 pb-1 bg-koment col-12 offset-md-0";
-            if (predeslyKomentar.ReplyId > 0)
+            if (komentar.ReplyId > 0)
             {
-                ViewBag.myclass = "card mb-0 h-25 pb-1 bg-koment col-11 offset-md-1";
+                //ViewBag.myclass = "card mb-0 h-25 pb-1 bg-koment col-11 offset-md-1";
 
-                if (dalsiKomentar.ReplyId <= 0)
+                //if (dalsiKomentar.ReplyId <= 0)
                 {
                     ViewBag.myclass = "card mb-1 h-25 pb-1 bg-koment col-11 offset-md-1";
                 }
@@ -347,12 +346,11 @@
                                 <i class="float-right" style="color: #999999">@komentar.Date.ToString("dd MMMM, yyyy")</i>
                                 @if (User.Identity.IsAuthenticated)
                                 {
- 
                                     if (User.IsInRole("knihovnik"))
                                     {
                                         <br/>
-                                        <a class="float-right tooltext" href="#">UPRAVIT</a>
-                                        <a class="float-right tooltext" style="position: relative; top: 20px; left: 46px;" href="#">ODSTRANIT</a>
+                                        <a class="float-right tooltext"  style="position: relative; top: 3px; left: 0px;" href="#">UPRAVIT</a>
+                                        <a class="float-right tooltext"  style="position: relative; top: 20px; left: 46px;" href="#" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
                                     }
                                 }
                             </div>
@@ -384,28 +382,50 @@
         }
     }
     
-    <script>
-        function checkFunction(el) {
-            if (el.getAttribute('data-mojedata') === ' disabled') {
-                swal({
-                    title: "Zpomal",
-                    text: "Tento komentář už jsi hodnotil. Hodnocení je zamčené a nelze měnit. Více se o tom můžeš dozvědět <a href='#'>zde</a>",
-                    type: "warning",
-                    html: true
-                });
-            }
+<script>
 
+    function preDelete(commentId) {
+        swal({
+            title: "Opravdu?",
+            text: "Jsi si jistý, že chceš komentář odstranit? Budou odstraněny i všechny odpovídající komentáře.",
+            type: "warning",
+            html: true,
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Odstranit",
+            cancelButtonText: 'Zrušit'
+        },
+            function () {
+                myDelete(commentId);
+            });
+    }
+
+    function myDelete(commentId) {
+        //alert(commentId);
+        window.location.href = "/Komentare/Delete/?id=" + commentId;
+    }
+
+    function checkFunction(el) {
+        if (el.getAttribute('data-mojedata') === ' disabled') {
+            swal({
+                title: "Zpomal",
+                text: "Tento komentář už jsi hodnotil. Hodnocení je zamčené a nelze měnit. Více se o tom můžeš dozvědět <a href='#'>zde</a>",
+                type: "warning",
+                html: true
+            });
         }
 
-        function prepReply(args, a2) {
-            document.getElementById("reply").value = arguments[0];
-            window.scrollTo(0, document.body.scrollHeight);
-            var yourUl = document.getElementById("hid");
-            yourUl.style.display = 'block';
+    }
 
-            document.getElementById("hid").innerHTML = "<i>Odpovídáš na komentář uživatele " + a2 + "</i>";
-        }
-    </script>
+    function prepReply(args, a2) {
+        document.getElementById("reply").value = arguments[0];
+        window.scrollTo(0, document.body.scrollHeight);
+        var yourUl = document.getElementById("hid");
+        yourUl.style.display = 'block';
+
+        document.getElementById("hid").innerHTML = "<i>Odpovídáš na komentář uživatele " + a2 + "</i>";
+    }
+</script>
     
 
 

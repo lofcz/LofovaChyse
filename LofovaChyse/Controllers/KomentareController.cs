@@ -40,5 +40,31 @@ namespace LofovaChyse.Controllers
 
             return Redirect(this.Request.UrlReferrer.AbsolutePath);
         }
+
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            KnihovnaKomentareDao d = new KnihovnaKomentareDao();
+            KnihovnaKomentare k = d.GetbyId(id);
+
+            if (k.ReplyId != -1)
+            {
+                d.Delete(k);
+            }
+            else
+            {
+                // Musíme odstranit všechny reagující komentáře
+                IList<KnihovnaKomentare> reagujiciKomentare = d.GetCommentSubcomments(id);
+
+                foreach (KnihovnaKomentare sk in reagujiciKomentare)
+                {
+                    d.Delete(sk);
+                }
+
+                d.Delete(k);
+            }
+
+            return Redirect(this.Request.UrlReferrer.AbsolutePath);
+        }
     }
 }
