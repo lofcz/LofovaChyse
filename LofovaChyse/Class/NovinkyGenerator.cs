@@ -97,6 +97,7 @@ namespace LofovaChyse.Class
 
             if (zdroj is KnihovnaKomentare)
             {
+                existingId = -1;
                 if (existingId == -1)
                 {
                     text = "Uživatel " + user.Name + " přidal komentář k příspěvku " + postName;

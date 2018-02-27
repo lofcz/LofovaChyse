@@ -71,7 +71,6 @@ namespace LofovaChyse.Controllers
 
             return View(u); // Passnu třídu
         }
-
         public bool CurrentUserRatedComent(KnihovnaKomentare komentar)
         {
             if (User.Identity.IsAuthenticated)
@@ -99,7 +98,6 @@ namespace LofovaChyse.Controllers
 
             return true;
         }
-
         public int CurrentUserRatedComentType(KnihovnaKomentare komentar)
         {
             int r = -1;
@@ -125,7 +123,6 @@ namespace LofovaChyse.Controllers
 
             return r;
         }
-
         public ActionResult Buy(int id, string userName)
         {
             BookDao bookDao = new BookDao();
@@ -140,7 +137,6 @@ namespace LofovaChyse.Controllers
 
             return PartialView(u);
         }
-
         public ActionResult CompleteBuy(int id, string userName, int buyCost)
         {
             KnihovnaUserDao d = new KnihovnaUserDao();
@@ -161,7 +157,6 @@ namespace LofovaChyse.Controllers
 
             return Redirect(Request.UrlReferrer.ToString());
         }
-
         public ActionResult Detail(int id, bool zobrazPopis = true)
         {
             BookDao bookDao = new BookDao();
@@ -230,7 +225,6 @@ namespace LofovaChyse.Controllers
 
             return View(b);
         }
-
         public ActionResult RateKomentar(int bookId, int id, int moznost, int komentId = -1)
         {
             KnihovnaUserDao dd = new KnihovnaUserDao();
@@ -239,6 +233,7 @@ namespace LofovaChyse.Controllers
 
             KnihovnaKomentareLikesDao knihovnaKomentareLikesDao = new KnihovnaKomentareLikesDao();
             IList<KnihovnaKomentareLikes> list = knihovnaKomentareLikesDao.GetAll();
+            KnihovnaKomentare k = new KnihovnaKomentareDao().GetbyId(id);
 
             KnihovnaKomentareLikes finalLike = null;
             int userId = dd.GetByLogin(User.Identity.Name).Id;
@@ -263,6 +258,11 @@ namespace LofovaChyse.Controllers
                 finalLike.ComentId = id;
                 finalLike.UserId = dd.GetByLogin(User.Identity.Name).Id;
                 finalLike.Value = moznost;
+
+                KnihovnaUser userFrom = dd.GetByLogin(User.Identity.Name);
+                KnihovnaUser userTo = dd.GetbyId(k.OwnerId.Id);
+                HNotifikace.SendRateNotification(userTo, moznost, userFrom, book);
+                dd.Update(userTo);
 
                 knihovnaKomentareLikesDao.Create(finalLike);
             }
@@ -308,13 +308,6 @@ namespace LofovaChyse.Controllers
             ViewBag.Komentare = finalniKomenty;
             ViewBag.Zobraz = true;
 
-            KnihovnaKomentare k = new KnihovnaKomentareDao().GetbyId(id);
-
-            KnihovnaUser userFrom = dd.GetByLogin(User.Identity.Name);
-            KnihovnaUser userTo = dd.GetbyId(k.OwnerId.Id);
-            HNotifikace.SendRateNotification(userTo, moznost, userFrom, book);
-            dd.Update(userTo);
-
             if (Request.IsAjaxRequest())
             {
                 for (int i = 0; i < 4; i++)
@@ -337,7 +330,6 @@ namespace LofovaChyse.Controllers
 
             return View("Detail", book);
         }
-
         public ActionResult Rate(int id, int value = 0)
         {
             BookLikesDao bookLikesDao = new BookLikesDao();
@@ -426,7 +418,6 @@ namespace LofovaChyse.Controllers
            // return RedirectToAction("Index");
             return View("Index", fb);
         }
-
         public string BookRating(int id)
         {
             int value = 0;
@@ -443,7 +434,6 @@ namespace LofovaChyse.Controllers
 
             return value.ToString();
         }
-
         public bool CurrentUserRatedBook(Book b)
         {
             int id = b.Id;

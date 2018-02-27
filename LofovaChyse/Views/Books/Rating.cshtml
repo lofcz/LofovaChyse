@@ -16,6 +16,12 @@
     ViewBag.TempClass2 = ViewBag.TempClass;
     ViewBag.TempClass3 = ViewBag.TempClass;
     ViewBag.TempClass4 = ViewBag.TempClass;
+    ViewBag.ReallyRated = 0;
+
+    ViewBag.Reakce0 = "<i class=\"fas fa-thumbs-up fa-lg\"></i>";
+    ViewBag.Reakce1 = "<i class=\"fas fa-heart fa-lg\"></i>";
+    ViewBag.Reakce2 = "<i class=\"fas fa-cog fa-lg\"></i>";
+    ViewBag.Reakce3 = "<i class=\"fas fa-sun fa-lg\"></i>";
 
     if (ViewBag.TempClass1 == " disabled" && ViewBag.RatedIndex == 2)
     {
@@ -46,32 +52,48 @@
             if (i == 0)
             {
                 ViewBag.RatingText += "<small>" + (Model.PocetReakci[0] > 0 ? Model.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b></br>";
+                ViewBag.Reakce1 = "<i class=\"fas fa-heart fa-lg ratingUsed1\"></i>";
+                ViewBag.ReallyRated = 1;
             }
             if (i == 3)
             {
                 ViewBag.RatingText += "<small>" + (Model.PocetReakci[3] > 0 ? Model.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b></br>";
+                ViewBag.Reakce2 = "<i class=\"fas fa-cog fa-lg ratingUsed2\"></i>";
+                ViewBag.ReallyRated = 1;
             }
             if (i == 1)
             {
                 ViewBag.RatingText += "<small>" + (Model.PocetReakci[1] > 0 ? Model.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b></br>";
+                ViewBag.Reakce0 = "<i class=\"fas fa-thumbs-up fa-lg ratingUsed\"></i>";
+                ViewBag.ReallyRated = 1;
             }
             if (i == 2)
             {
                 ViewBag.RatingText += "<small>" + (Model.PocetReakci[2] > 0 ? Model.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b></br>";
+                ViewBag.Reakce3 = "<i class=\"fas fa-sun fa-lg ratingUsed3\"></i>";
+                ViewBag.ReallyRated = 1;
             }
         }
     }
 }
 
-<button class="button button-highlight button-box float-right button-small tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent"><h6 style="margin-top: 6px;">@Model.PocetReakci.Sum()</h6></button>
-<b class="float-right">‌‌ ‌‌</b>
-@Ajax.RawActionLink("<i class=\"fas fa-sun fa-lg\"></i>", "RateKomentar", "Books", new {id = Model.Id, bookId = ViewBag.topic, moznost = 2}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "button button-raised button-action button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass1, title = "<small>" + (Model.PocetReakci[2] > 0 ? Model.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-<b class="float-right">‌‌ ‌‌</b>
-@Ajax.RawActionLink("<i class=\"fas fa-heart fa-lg\"></i>", "RateKomentar", "Books", new {id = Model.Id, bookId = ViewBag.topic, moznost = 0}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "button button-raised button-caution button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass2, title = "<small>" + (Model.PocetReakci[0] > 0 ? Model.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-<b class="float-right">‌‌ ‌‌</b>
-@Ajax.RawActionLink("<i class=\"fas fa-cog fa-lg\"></i>", "RateKomentar", "Books", new {id = Model.Id, bookId = ViewBag.topic, moznost = 3}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "button button-raised button-royal button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass3, title = "<small>" + (Model.PocetReakci[3] > 0 ? Model.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-<b class="float-right">‌‌ ‌‌</b>
-@Ajax.RawActionLink("<i class=\"fas fa-thumbs-up fa-lg\"></i>", "RateKomentar", "Books", new {id = Model.Id, bookId = ViewBag.topic, moznost = 1}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "button button-raised button-primary button-jumbo button-circle float-right button-small tippy" + ViewBag.TempClass4, title = "<small>" + (Model.PocetReakci[1] > 0 ? Model.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this)", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+@if (User.Identity.IsAuthenticated)
+{
+    <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@Model.OwnerId.Name')" style="color: #3dacdc" href="#">ODPOVĚDĚT</a>
+    <sign class="div">|</sign>
+}
+else
+{
+    <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@Model.OwnerId.Name')" style="color: #3dacdc"> </a>
+}
+
+@if (Model.PocetReakci.Sum() > 0)
+{<sign class="total tippy" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent">@Model.PocetReakci.Sum() </sign>}
+@Ajax.RawActionLink((string)ViewBag.Reakce0, "RateKomentar", "Books", new { id = Model.Id, bookId = ViewBag.topic, moznost = 1 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass4, title = "<small>" + (Model.PocetReakci[1] > 0 ? Model.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+@Ajax.RawActionLink((string)ViewBag.Reakce1, "RateKomentar", "Books", new { id = Model.Id, bookId = ViewBag.topic, moznost = 0 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass2, title = "<small>" + (Model.PocetReakci[0] > 0 ? Model.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+@Ajax.RawActionLink((string)ViewBag.Reakce2, "RateKomentar", "Books", new { id = Model.Id, bookId = ViewBag.topic, moznost = 3 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass3, title = "<small>" + (Model.PocetReakci[3] > 0 ? Model.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+@Ajax.RawActionLink((string)ViewBag.Reakce3, "RateKomentar", "Books", new { id = Model.Id, bookId = ViewBag.topic, moznost = 2 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", Model.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass1, title = "<small>" + (Model.PocetReakci[2] > 0 ? Model.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+
 
 <script src="https://atomiks.github.io/tippyjs/tippy/tippy.js"></script>
 <script src="https://atomiks.github.io/tippyjs/js/prism.js"></script>
