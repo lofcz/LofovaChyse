@@ -353,8 +353,8 @@
                                 {
                                     if (User.IsInRole("knihovnik"))
                                     {
-                                        <a class="float-right tooltext"  style="position: relative; top: 3px; left: 0px;" href="#" onclick="preEdit('@komentar.Id', '@komentar.OwnerId.Name', '@komentar.Content', '@komentar.ReplyId')">UPRAVIT</a>
-                                        <a class="float-right tooltext"  style="position: relative; top: 20px; left: 46px;" href="#" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
+                                        <a class="float-right tooltext"  style="position: relative; top: 3px; left: 0px;" href="javascript:void(0)" onclick="preEdit('@komentar.Id', '@komentar.OwnerId.Name', '@komentar.Content', '@komentar.ReplyId')">UPRAVIT</a>
+                                        <a class="float-right tooltext"  style="position: relative; top: 20px; left: 46px;" href="javascript:void(0)" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
                                     }
                                 }
                             </div>
@@ -391,14 +391,14 @@
     function preEdit(commentId, userName, text) {
             document.getElementById("reply").value = arguments[3];
             document.getElementById("type").value = commentId;
-            window.scrollTo(0, document.body.scrollHeight);
             var yourUl = document.getElementById("hid");
             yourUl.style.display = 'block';
 
             document.getElementById("hid").innerHTML = "<i>Upravuješ komentář uživatele " + userName + "</i>";
             document.getElementById("finishBtn").innerHTML = "Upravit";
             tinymce.activeEditor.setContent(text);
-            @ViewBag.DataShit = "edit";
+            window.scrollTo(0, document.body.scrollHeight);
+
     }
 
     function preDelete(commentId) {
@@ -446,32 +446,33 @@
     
 
 
-    <div class="row">
-        @if (User.Identity.IsAuthenticated)
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
         {
-            using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
-            {
 
-                @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
-                @Html.Hidden("type", (string)ViewBag.DataShit)
-                @Html.Hidden("reply", (int)ViewBag.DataReply)
+            @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
+            @Html.Hidden("type", (string)ViewBag.DataShit)
+            @Html.Hidden("reply", (int)ViewBag.DataReply)
 
-                <p id="hid">Zapoj se do diskuze!</p>
+            <p id="hid">Zapoj se do diskuze!</p>
 
-                <div class="form-group">
-                    <div>
-                        @Html.TextArea("description", "", new {@class = "form-control formatedtext"})
-                    </div>
+            <div class="form-group">
+                <div>
+                    @Html.TextArea("description", "", new {@class = "form-control formatedtext"})
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-default" id="finishBtn">Komentovat</button>
-                    </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-default" id="finishBtn">Komentovat</button>
                 </div>
-            }
+            </div>
         }
-    </div>
+    }
+</div>
+<br/>
 
     <script>
         $(function () {
