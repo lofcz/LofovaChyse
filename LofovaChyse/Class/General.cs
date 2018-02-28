@@ -205,6 +205,20 @@ namespace LofovaChyse.Class
             textOutput = new List<string>();
         }
 
+        public static int GetBookRating(int id)
+        {
+            BookLikesDao d = new BookLikesDao();
+            int? z = d.GetBookLikesAll(id);
+
+            if (z.HasValue)
+            {
+                return (int)z;
+
+            }
+
+            return -1;
+        }
+
         public static bool AccessMatch(int permLevel, string userName)
         {
             if (permLevel == 0)

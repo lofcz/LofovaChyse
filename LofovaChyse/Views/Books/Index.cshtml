@@ -15,7 +15,7 @@
     {
         ViewBag.Granted = false;
 
-        <script>          
+        <script>
             swal("Přístup odmítnut", "Vypadá to, že sem nepatříš", "error")
         </script>
     }
@@ -24,7 +24,7 @@
 @if (ViewBag.Granted)
 {
     <div id="ajaxContent">
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-body" id="modalContent">
@@ -33,12 +33,11 @@
                 </div>
             </div>
         </div>
-
         @{
             ViewBag.Title = "Index";
 
             <h2>Nové příspěvky</h2>
-            <hr/>
+            <hr />
             <div class="clearfix"></div>
 
             foreach (BookSekce s in ViewBag.SeznamKategorii as List<BookSekce>)
@@ -58,19 +57,19 @@
                             <div class="col-sm-8 order-sm-1">
                                 <div class="p-2">
                                     <a style="color: inherit; text-decoration: none;" href="@Url.Action("Index", "Books", new {cat = s.Id})">@Html.Raw(s.Name)</a>
-                                    <br/>
+                                    <br />
                                     @{
                                         ViewBag.sSekce = General.GetCurrentCategories(s.Id, User.Identity.Name);
                                         ViewBag.c = 0;
                                         ViewBag.mc = (ViewBag.sSekce as List<BookSekce>).Count;
                                     }
 
-                                        @foreach (BookSekce ss in ViewBag.sSekce as List<BookSekce>)
-                                        {
-                                           <a href="@Url.Action("Index", "Books", new {cat = ss.Id})" style="color: inherit; text-decoration: none;" class="badge badge-light">@Html.Raw(ss.DebugName)</a>    
-                                        }   
+                                    @foreach (BookSekce ss in ViewBag.sSekce as List<BookSekce>)
+                                    {
+                                        <a href="@Url.Action("Index", "Books", new {cat = ss.Id})" style="color: inherit; text-decoration: none;" class="badge badge-light">@Html.Raw(ss.DebugName)</a>
+                                    }
 
-                                </div>                             
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,11 +119,11 @@
                         Napsal @b.OwnerId.Name, verze @b.Version.ToString().Replace(",", ".") (@b.LastEditDateTime.ToString("dd MMMM, yyyy"))
                         @if (b.ReadButton == "Číst →")
                         {
-                            @Html.ActionLink(b.ReadButton, "Detail", "Books", new {id = b.Id, zobrazPopis = true}, new {title = b.Name, @class = "btn " + b.TempClass + " float-right btn-sm"})
+                            @Html.ActionLink(b.ReadButton, "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "btn " + b.TempClass + " float-right btn-sm" })
                         }
                         else
                         {
-                            @Ajax.ActionLink(b.ReadButton, "Buy", "Books", new {id = b.Id, userName = User.Identity.Name}, new AjaxOptions() {UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow"}, new {@class = "btn btn-warning float-right btn-sm"})
+                            @Ajax.ActionLink(b.ReadButton, "Buy", "Books", new { id = b.Id, userName = User.Identity.Name }, new AjaxOptions() { UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow" }, new { @class = "btn btn-warning float-right btn-sm" })
                         }
                     </div>
                 </div>
@@ -142,7 +141,7 @@
                         @for (int i = 1; i <= ViewBag.Pages; i++)
                         {
                             <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
-                                @Ajax.ActionLink(i.ToString(), "Index", new {page = i, cat = ViewBag.Cat}, new AjaxOptions() {InsertionMode = InsertionMode.Replace, UpdateTargetId = "ajaxContent"}, new {@class = "page-link"})
+                                @Ajax.ActionLink(i.ToString(), "Index", new { page = i, cat = ViewBag.Cat }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ajaxContent" }, new { @class = "page-link" })
                             </li>
                         }
                     </ul>
@@ -151,15 +150,14 @@
         }
     </div>
 
-    <script type="text/javascript">
+    <script>
         function openModelWindow() {
-
-            $('#myModal').modal('toggle');
+            jQuery('#myModal2').modal('toggle');
         }
     </script>
 
     <script>
-        $(".chbox").click(function() {
+        jQuery(".chbox").click(function () {
             $(this).toggleClass("rubberBand");
         });
     </script>
