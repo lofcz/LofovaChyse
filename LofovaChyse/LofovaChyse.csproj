@@ -822,6 +822,7 @@
     <Compile Include="Controllers\NotifikaceController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\TinyMceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -886,7 +887,9 @@
     <Folder Include="Uploads\Odznaky\" />
     <Folder Include="Uploads\Sekce\" />
     <Folder Include="Uploads\Temp\" />
+    <Folder Include="Uploads\UsersContent\" />
     <Folder Include="Views\Komentare\" />
+    <Folder Include="Views\TinyMce\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\source\repos\LofovaChyse\DataAccess\DataAccess\DataAccess.csproj">

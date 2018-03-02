@@ -70,7 +70,7 @@ namespace LofovaChyse.Controllers
             }
 
             return View(u); // Passnu třídu
-        }
+        }                                                                                               
         public bool CurrentUserRatedComent(KnihovnaKomentare komentar)
         {
             if (User.Identity.IsAuthenticated)
@@ -160,7 +160,29 @@ namespace LofovaChyse.Controllers
         public ActionResult Detail(int id, bool zobrazPopis = true)
         {
             BookDao bookDao = new BookDao();
+            BookLikesDao palce = new BookLikesDao();
+            KnihovnaUserDao uzivatele = new KnihovnaUserDao();
+
+            KnihovnaUser myUser = uzivatele.GetByLogin(User.Identity.Name);
+
             Book b = bookDao.GetbyId(id);
+
+            b.PocetReakci[0] = palce.GetBookLikes(b.Id, 0) ?? 0;
+            b.PocetReakci[1] = palce.GetBookLikes(b.Id, 1) ?? 0;
+            b.PocetReakci[2] = palce.GetBookLikes(b.Id, 2) ?? 0;
+            b.PocetReakci[3] = palce.GetBookLikes(b.Id, 3) ?? 0;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                b.CurrentUserReakce = General.GetBookUserRating(b.Id, myUser.Id);
+            }
+            else
+            {
+                b.CurrentUserReakce = -2;
+            }
+
+
+
 
             ViewBag.Zobraz = zobrazPopis;
 
@@ -330,8 +352,10 @@ namespace LofovaChyse.Controllers
 
             return View("Detail", book);
         }
-        public ActionResult Rate(int id, int value = 0)
+        public ActionResult Rate(int id, int moznost)
         {
+            int value = 0;
+
             BookLikesDao bookLikesDao = new BookLikesDao();
             IList<BookLikes> list = bookLikesDao.GetAll();
 
@@ -367,7 +391,7 @@ namespace LofovaChyse.Controllers
                 if (finalBL == null)
                 {
                     BookLikes like = new BookLikes();
-                    like.Value = value;
+                    like.Value = moznost;
                     like.UserId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
                     like.BookId = id;
 

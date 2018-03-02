@@ -210,14 +210,70 @@ namespace LofovaChyse.Class
             BookLikesDao d = new BookLikesDao();
             int? z = d.GetBookLikesAll(id);
 
-            if (z.HasValue)
-            {
-                return (int)z;
+            return z ?? 0;
+        }
 
+        public static int GetBookUserRating(int id, int userId)
+        {
+            BookLikesDao d = new BookLikesDao();
+            int k = d.GetBookUserLike(id, userId);
+
+            return k;
+        }
+
+        public static string GetBookPath(int id)
+        {
+            // 1) Reverzně určíme cestu
+            // --> Vezmeme aktuální kategorii příspěvku
+            // --> Najdeme kategorii, která má jako potomka tuto kategorii
+            // --> Opakujeme dokud p != -1
+            // --> Na každé iteraci stavíme aktuální část cesty
+
+            string outputString = "";
+
+            BookDao d = new BookDao();
+            BookSekceDao sekceDao = new BookSekceDao();
+
+            Book prispevek = d.GetbyId(id);
+            bool dalsiIterace = true;
+
+            BookSekce aktualniSekce = sekceDao.GetbyIdNull(prispevek.SectionId);
+            outputString += aktualniSekce.DebugName + "/ ";
+
+            while (dalsiIterace)
+            {                       
+                // Najdeme potomka sekce
+                aktualniSekce = sekceDao.GetParentSekce(aktualniSekce.Id);
+                outputString += aktualniSekce.DebugName + "/";
+                if (aktualniSekce.ParentId <= 0)
+                {
+                    dalsiIterace = false;
+                }
             }
 
-            return -1;
+            // 2) Teď máme cestu, ale reverzně
+            // --> Konec cesty / Střed cesty / Začátek
+            // --> Potřebujeme: Začátek / Střed / Konec
+            // --> Rozdělíme string na tokeny
+            // --> Reverzně dáme tokeny do správného pořadí
+
+            string[] tokeny = outputString.Split('/');
+            outputString = "";
+
+            for (var i = tokeny.Length - 1; i >= 0; i--)
+            {
+                outputString += tokeny[i];
+
+                // Vizuálně oddělujeme části cesty
+                if (i > 0 && i != tokeny.Length - 1)
+                {
+                    outputString += " / ";
+                }
+            }
+
+            return outputString;
         }
+
 
         public static bool AccessMatch(int permLevel, string userName)
         {

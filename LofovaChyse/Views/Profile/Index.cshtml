@@ -92,7 +92,7 @@
 <script type="text/javascript">
     function openModelWindow() {
 
-        $('#myModal').modal('toggle');
+        jQuery('#myModal').modal('toggle');
     }
 </script>
 
@@ -101,13 +101,13 @@
 </script>
 
 <script type="text/javascript">
-    $("#loadPartialView").click(function () {
+    jQuery("#loadPartialView").click(function () {
 
-        var u = $(this).attr('mydata');
+        var u = jQuery(this).attr('mydata');
 
 
-        $.get('@Url.Action("Test","Home")', {Id: u}, function (response) {
-            $("#modalContent").html(response);
+        jQuery.get('@Url.Action("Test","Home")', {Id: u}, function (response) {
+            jQuery("#modalContent").html(response);
         });
     });
 
