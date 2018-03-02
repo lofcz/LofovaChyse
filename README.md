@@ -14,6 +14,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
   - Render
   - Prémium
   - Kategorie a neomezené subkategorie
+  - Ocenění pro příspěvky (cena moderátora / komunitní volba..) - stuhy
   - Přidat
   - Upravit
   - Smazat
