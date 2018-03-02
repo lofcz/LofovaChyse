@@ -1,0 +1,72 @@
+﻿@using DataAccess.Models
+@using LofovaChyse.Class
+@model DataAccess.Models.BookOdznak
+@{
+    ViewBag.Title = "AddOdznakBook";
+    ViewBag.AllOceneni = General.GetAllOdznaky();
+}
+
+<h2>Udělit příspěvku odznak</h2>
+
+
+@using (Html.BeginForm("CreateOdznakBook", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id odznaku:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.OdznakId, new { @class = "form-control", id = "ido" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id příspěvku:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.BookId, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Typ odznaku:</label>
+        <div class="col-sm-10">
+            <select id="myId" onclick="myF()" class="form-control">
+                @foreach (BookOdznakArchetyp k in ViewBag.AllOceneni as List<BookOdznakArchetyp>)
+                {
+                    <option value="@k.Name" mytext="@k.Text" idval="@k.Id"> @k.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Udělit odznak</button>
+        </div>
+    </div>
+}
+<style>
+    .mce-path { /* CSS */
+        display: none !important;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script>
+    tinymce.init({
+        selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
+
+
+    });
+</script>
+
+<script>
+    function myF() {
+        var e = document.getElementById("myId");
+        var strUser = e.options[e.selectedIndex].getAttribute('mytext');
+        var id = e.options[e.selectedIndex].getAttribute('idval');
+        var msg = document.getElementById("ido");
+
+        msg.value = id;
+
+        var z = strUser;
+        tinymce.activeEditor.setContent(z, {format: 'html'});
+
+    }
+</script>

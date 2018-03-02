@@ -1,0 +1,51 @@
+﻿@model DataAccess.Models.BookOdznakArchetyp
+@{
+    ViewBag.Title = "AddOdznakArchetypBook";
+}
+
+<h2>Vytvořit odznak pro příspěvky</h2>
+
+
+@using (Html.BeginForm("CreateOdznakArchetypBook", "Books", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Název</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Popis</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(x => x.Text, new { @class = "form-control formatedtext" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Obrázek</label>
+        <div class="col-sm-10">
+            <input type="file" name="picture" />
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Vytvořit odznak</button>
+        </div>
+    </div>
+}
+<style>
+    .mce-path { /* CSS */
+        display: none !important;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script>
+    tinymce.init({
+        selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%',  language: 'cs'
+
+
+    });</script>

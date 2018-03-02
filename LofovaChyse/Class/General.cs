@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using System.Web.Mvc;
@@ -140,7 +141,8 @@ namespace LofovaChyse.Class
                 "get; in; get; out; (repeat)",
                 "[ $[ $RANDOM % 6 ] == 0 ] && rm -rf",
                 "K běhu sítě je vyžadován os win XP nebo lepší (například Linux)",
-                "Proč nemá c++ garbage collector? Nic by nezůstalo."
+                "Proč nemá c++ garbage collector? Nic by nezůstalo.",
+                "Vyje Likandro na měsíc?"
             };
 
             return options[random.Next(0, options.Length)];
@@ -313,12 +315,25 @@ namespace LofovaChyse.Class
             return list;
         }
 
+        public static List<BookOdznakArchetyp> GetAllOdznaky()
+        {
+            BookOdznakArchetypDao dao = new BookOdznakArchetypDao();
+            List<BookOdznakArchetyp> list = dao.GetAll() as List<BookOdznakArchetyp>;
+            return list;
+        }
+
         public static List<KnihovnaOceneni> GetUserOceneni(string username)
         {
             KnihovnaOceneniDao d = new KnihovnaOceneniDao();
             List<KnihovnaOceneni> l = d.GetUserAchievements(new KnihovnaUserDao().GetByLogin(username).Id) as List<KnihovnaOceneni>;
 
             return l;
+        }
+
+        public static List<BookOdznak> GetBookOceneni(int id)
+        {
+            BookOdznakDao d = new BookOdznakDao();
+            return d.GetBookOceneni(id) as List<BookOdznak>;
         }
 
     }

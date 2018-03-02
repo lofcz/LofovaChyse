@@ -599,6 +599,8 @@
     <Content Include="Scripts\ext-language_tools.js" />
     <Content Include="Scripts\fontawesome-all.js" />
     <Content Include="Scripts\fontawesome.js" />
+    <Content Include="Areas\Admin\Views\Books\AddOdznakArchetypBook.cshtml" />
+    <Content Include="Areas\Admin\Views\Books\AddOdznakBook.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -886,6 +888,7 @@
     <Folder Include="Uploads\Novinky\" />
     <Folder Include="Uploads\Odznaky\" />
     <Folder Include="Uploads\Sekce\" />
+    <Folder Include="Uploads\Stuhy\" />
     <Folder Include="Uploads\Temp\" />
     <Folder Include="Uploads\UsersContent\" />
     <Folder Include="Views\Komentare\" />

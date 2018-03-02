@@ -14,9 +14,42 @@
 
     // Spočítat trasu k příspěvku: 
     ViewBag.Path = General.GetBookPath(Model.Id);
+
+
+    // Autorizace
+    ViewBag.Access = true;
+
+    if (Model.IsPayed)
+    {
+        // Uživatel není přihlášený -> instantní fuck off
+        if (!User.Identity.IsAuthenticated)
+        {
+            ViewBag.Access = false;
+        }
+        else
+        {
+            // Pořádně si na to posvítíme
+            ViewBag.Access = General.UserUnlockedPost(Model.Id, User.Identity.Name);
+        }
+    }
+
+    // Získaná ocenění
+    List<BookOdznak> oceneni = General.GetBookOceneni(Model.Id);
+    BookOdznak posledniOdznak = null;
+    BookOdznakArchetyp arch = null;
+
+    if (oceneni.Count > 0)
+    {
+        posledniOdznak = oceneni[0];
+        arch = new BookOdznakArchetypDao().GetbyId(posledniOdznak.OdznakId);
+    }
+
+    ViewBag.PosledniOdznak = posledniOdznak;
 }
 
-<div id="ajaxContent" class="container-fluid col-md-12">
+@if (ViewBag.Access)
+{
+    <div id="ajaxContent" class="container-fluid col-md-12">
     <style>
         .btn-space {
             margin-right: 5px;
@@ -73,11 +106,11 @@
             color: #7fc215;
         }
 
-        .fa-heart {
+        .fa-check {
             display: inline;
             border-radius: 60px;
             box-shadow: 0px 0px 2px #888;
-            background: #d44d32;
+            background: #7fc215;
             width: 18px !important;
             height: 18px !important;
             text-align: center;
@@ -91,15 +124,33 @@
     @{
         // Zpracování dat pro hlavní příspěvek
         ViewBag.Reakce0 = "<i class=\"fas fa-thumbs-up fa-lg\"></i> ";
-        ViewBag.Reakce1 = "<i class=\"fas fa-heart fa-lg\"></i> ";
+        ViewBag.Reakce1 = "<i class=\"fas fa-check fa-lg\"></i> ";
         ViewBag.Reakce2 = "<i class=\"fas fa-medkit fa-lg\"></i> ";
         ViewBag.Reakce3 = "<i class=\"fas fa-heartbeat fa-lg\"></i> ";
 
-        if (Model.CurrentUserReakce == 0) { ViewBag.Reakce0 = "<i class=\"fas fa-thumbs-up fa-lg ratingUsedBig\"></i> "; }
-        if (Model.CurrentUserReakce == 1) { ViewBag.Reakce1 = "<i class=\"fas fa-heart fa-lg ratingUsedBig1\"></i> "; }
-        if (Model.CurrentUserReakce == 2) { ViewBag.Reakce2 = "<i class=\"fas fa-medkit fa-lg ratingUsedBig2\"></i> "; }
-        if (Model.CurrentUserReakce == 3) { ViewBag.Reakce3 = "<i class=\"fas fa-heartbeat fa-lg ratingUsedBig3\"></i> "; }
+        if (Model.CurrentUserReakce == 0)
+        {
+            ViewBag.Reakce0 = "<i class=\"fas fa-thumbs-up fa-lg ratingUsedBig\"></i> ";
+        }
+        if (Model.CurrentUserReakce == 1)
+        {
+            ViewBag.Reakce1 = "<i class=\"fas fa-check fa-lg ratingUsedBig1\"></i> ";
+        }
+        if (Model.CurrentUserReakce == 2)
+        {
+            ViewBag.Reakce2 = "<i class=\"fas fa-medkit fa-lg ratingUsedBig2\"></i> ";
+        }
+        if (Model.CurrentUserReakce == 3)
+        {
+            ViewBag.Reakce3 = "<i class=\"fas fa-heartbeat fa-lg ratingUsedBig3\"></i> ";
+        }
     }
+    
+    <script>
+        function ribbon() {
+            swal(arguments[0], "[Text ocenění]", "info");
+        }
+    </script>
 
     <!-- Hlavní příspěvek-->
     <div class="row">
@@ -107,10 +158,15 @@
             <div class="card mb-3">
 
                 <div class="card-body">
+                    
+                    @if (posledniOdznak != null)
+                    {
+                        <img src="@Url.Content("~/Uploads/Stuhy/" + arch.Image)" class="globalInline" style="position: relative; top: -20px; left: -20px;" onclick="ribbon('@arch.Name')"/>
+                    }
 
                     <i class="float-right postInfo">(@Model.LastEditDateTime.ToString("dd MMMM, yyyy"))</i>
                     <i class="float-right postInfo" style="position: relative; top: 10px; left: 110px;">Verze @Model.Version.ToString().Replace(",", ".")</i>
-                    
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("knihovnik"))
@@ -124,7 +180,7 @@
 
 
                     <div class="postImageWrapper" style="display: table-cell">
-                        <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + Model.OwnerId.ImageName)" class="postImage" />
+                        <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + Model.OwnerId.ImageName)" class="postImage"/>
                     </div>
 
                     <!-- Autor line -->
@@ -135,7 +191,7 @@
                     </div>
 
                     <!-- Obsah -->
-                    <br />
+                    <br/>
                     <p>
                         @Html.Raw(Model.Description)
                     </p>
@@ -146,10 +202,10 @@
 
                     <!-- Hodnocení -->
                     <div id="prispevek" class="globalInline">
-                        @Ajax.RawActionLink((string)ViewBag.Reakce3, "Rate", "Books", new { id = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtnBig tippy float-right" + ViewBag.TempClass1, title = "<small>" + (Model.PocetReakci[2] > 0 ? Model.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                        @Ajax.RawActionLink((string)ViewBag.Reakce2, "Rate", "Books", new { id = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtnBig tippy float-right" + ViewBag.TempClass3, title = "<small>" + (Model.PocetReakci[3] > 0 ? Model.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                        @Ajax.RawActionLink((string)ViewBag.Reakce1, "Rate", "Books", new { id = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtnBig tippy float-right" + ViewBag.TempClass2, title = "<small>" + (Model.PocetReakci[0] > 0 ? Model.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                        @Ajax.RawActionLink((string)ViewBag.Reakce0, "Rate", "Books", new { id = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtnBig tippy float-right" + ViewBag.TempClass4, title = "<small>" + (Model.PocetReakci[1] > 0 ? Model.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+                        @Ajax.RawActionLink((string) ViewBag.Reakce3, "Rate", "Books", new {id = Model.Id, moznost = 3}, new AjaxOptions() {UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtnBig tippy float-right" + ViewBag.TempClass1, title = "<small>" + (Model.PocetReakci[2] > 0 ? Model.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
+                        @Ajax.RawActionLink((string) ViewBag.Reakce2, "Rate", "Books", new {id = Model.Id, moznost = 2}, new AjaxOptions() {UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtnBig tippy float-right" + ViewBag.TempClass3, title = "<small>" + (Model.PocetReakci[3] > 0 ? Model.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
+                        @Ajax.RawActionLink((string) ViewBag.Reakce1, "Rate", "Books", new {id = Model.Id, moznost = 1}, new AjaxOptions() {UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtnBig tippy float-right" + ViewBag.TempClass2, title = "<small>" + (Model.PocetReakci[0] > 0 ? Model.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
+                        @Ajax.RawActionLink((string) ViewBag.Reakce0, "Rate", "Books", new {id = Model.Id, moznost = 0}, new AjaxOptions() {UpdateTargetId = "prispevek", InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtnBig tippy float-right" + ViewBag.TempClass4, title = "<small>" + (Model.PocetReakci[1] > 0 ? Model.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
                         <sign class="totalBig tippy float-right margarin" title="@ViewBag.RatingText" data-tippy-placement="bottom" data-tippy-theme="translucent">@ViewBag.PostVotes </sign>
                     </div>
                 </div>
@@ -300,24 +356,24 @@
             padding: 10px;
         }
 
-            .titleBox label {
-                color: #444;
-                margin: 0;
-                display: inline-block;
-            }
+        .titleBox label {
+            color: #444;
+            margin: 0;
+            display: inline-block;
+        }
 
         .commentBox {
             padding: 10px;
             border-top: 1px dotted #bbb;
         }
 
-            .commentBox .form-group:first-child, .actionBox .form-group:first-child {
-                width: 80%;
-            }
+        .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+            width: 80%;
+        }
 
-            .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
-                width: 18%;
-            }
+        .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+            width: 18%;
+        }
 
         .actionBox .form-group * {
             width: 100%;
@@ -340,9 +396,9 @@
             right: 12px
         }
 
-            .commenterImage img {
-                width: 100%;
-            }
+        .commenterImage img {
+            width: 100%;
+        }
 
         .commentText p {
             margin: 0;
@@ -454,6 +510,14 @@
         body {
             background-color: #F6F6F6 !important;
         }
+
+        .odpoved {
+            margin-left: 15px;
+            width: 97%;
+            position: relative;
+            top: -9px;
+            border-radius: 0px !important;
+        }
     </style>
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
@@ -473,7 +537,7 @@
 
                 //if (dalsiKomentar.ReplyId <= 0)
                 {
-                    ViewBag.myclass = "card mb-1 h-25 pb-1 bg-koment col-11 offset-md-1";
+                    ViewBag.myclass = "card mb-1 h-25 pb-1 bg-koment col-12 offset-md-0 odpoved";
                 }
             }
 
@@ -572,16 +636,16 @@
 
                         <div class="card-title mt-0" style="font-size: 12px;">
                             <div class="commenterImage" style="display: table-cell">
-                                <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + komentar.OwnerId.ImageName)" style="width: 36px; height: 36px; margin-top: 0px" />
+                                <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + komentar.OwnerId.ImageName)" style="width: 36px; height: 36px; margin-top: 0px"/>
                             </div>
                             <div class="commentText">
-                                @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new { id = komentar.OwnerId.Id }, new { @class = "tippy h5", title = "<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left" })
+                                @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new {id = komentar.OwnerId.Id}, new {@class = "tippy h5", title = "<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left"})
                                 <i class="float-right" style="color: #999999">@komentar.Date.ToString("dd MMMM, yyyy")</i>
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    if (User.IsInRole("knihovnik"))
+                                    if (User.IsInRole("knihovnik") || komentar.OwnerId.Login == User.Identity.Name)
                                     {
-                                        <br />
+                                        <br/>
                                         <a class="float-right tooltext" style="position: relative; top: 3px; left: 0px;" href="javascript:void(0)" onclick="preEdit('@komentar.Id', '@komentar.OwnerId.Name', '@komentar.Content', '@komentar.ReplyId', '@User.Identity.Name', '@komentar.OwnerId.Login')">UPRAVIT</a>
                                         <a class="float-right tooltext" style="position: relative; top: 20px; left: 46px;" href="javascript:void(0)" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
                                     }
@@ -608,10 +672,10 @@
                             }
 
 
-                            @Ajax.RawActionLink((string)ViewBag.Reakce0, "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 1 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                            @Ajax.RawActionLink((string)ViewBag.Reakce1, "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 0 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                            @Ajax.RawActionLink((string)ViewBag.Reakce2, "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 3 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
-                            @Ajax.RawActionLink((string)ViewBag.Reakce3, "RateKomentar", "Books", new { id = komentar.Id, bookId = Model.Id, moznost = 2 }, new AjaxOptions() { UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith }, new { @class = "ratingbtn tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass })
+                            @Ajax.RawActionLink((string) ViewBag.Reakce0, "RateKomentar", "Books", new {id = komentar.Id, bookId = Model.Id, moznost = 1}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtn tippy" + ViewBag.TempClass4, title = "<small>" + (komentar.PocetReakci[1] > 0 ? komentar.PocetReakci[1].ToString() + "x" : "") + " </small><b style=\"color: #bbebff\">Souhlasím</b> - palec nahoru", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
+                            @Ajax.RawActionLink((string) ViewBag.Reakce1, "RateKomentar", "Books", new {id = komentar.Id, bookId = Model.Id, moznost = 0}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtn tippy" + ViewBag.TempClass2, title = "<small>" + (komentar.PocetReakci[0] > 0 ? komentar.PocetReakci[0].ToString() + "x" : "") + " </small><b style=\"color: #ff5252\">Super</b> - skvělý příspěvek", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
+                            @Ajax.RawActionLink((string) ViewBag.Reakce2, "RateKomentar", "Books", new {id = komentar.Id, bookId = Model.Id, moznost = 3}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtn tippy" + ViewBag.TempClass3, title = "<small>" + (komentar.PocetReakci[3] > 0 ? komentar.PocetReakci[3].ToString() + "x" : "") + " </small><b style=\"color: #a9a0e3\">Užitečné</b> - tohle mi pomohlo", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
+                            @Ajax.RawActionLink((string) ViewBag.Reakce3, "RateKomentar", "Books", new {id = komentar.Id, bookId = Model.Id, moznost = 2}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtn tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "')", id = "mojeid", data_mojedata = @ViewBag.TempClass})
 
                         </div>
                     </div>
@@ -691,16 +755,17 @@
                 window.scrollTo(0, document.body.scrollHeight);
             } else {
                 swal({
-                    title: "Nemůžeš komentovat",
-                    text: "Pro zapojení do diskuze je potřeba se registrovat. Je to zdarma a získáš spoustu dalších výhod - zeď, galerii, snippet, možnost hodnotit příspěvky a další.",
+                        title: "Nemůžeš komentovat",
+                        text:
+                            "Pro zapojení do diskuze je potřeba se registrovat. Je to zdarma a získáš spoustu dalších výhod - zeď, galerii, snippet, možnost hodnotit příspěvky a další.",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonClass: "btn-success",
                         confirmButtonText: "Vytvořit účet",
                         cancelButtonText: "Později"
-                }
+                    }
                 );
-           }
+            }
         }
 
         function prepReply(args, a2) {
@@ -717,17 +782,18 @@
     <div class="row">
         @if (User.Identity.IsAuthenticated)
         {
-            using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data", onsubmit = "return upload(this);" })) // Umožní zpracovat nahrané soubory
+            using (Html.BeginForm("Add", "Komentare", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data", onsubmit = "return upload(this);"})) // Umožní zpracovat nahrané soubory
             {
                 @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
-                @Html.Hidden("type", (string)ViewBag.DataShit)
-                @Html.Hidden("reply", (int)ViewBag.DataReply)
+                @Html.Hidden("type", (string) ViewBag.DataShit)
+                @Html.Hidden("reply", (int) ViewBag.DataReply)
 
+                <br/>
                 <p id="hid">Zapoj se do diskuze!</p>
 
                 <div class="form-group">
                     <div>
-                        @Html.TextArea("description", "", new { @class = "form-control formatedtext" })
+                        @Html.TextArea("description", "", new {@class = "form-control formatedtext"})
                     </div>
                 </div>
 
@@ -740,10 +806,10 @@
             }
         }
     </div>
-    <br />
+    <br/>
 
     <script>
-        $(function () {
+        $(function() {
             $("#description").html("");
         });
 
@@ -762,9 +828,9 @@
             selector: '.formatedtext',
             branding: false,
             plugins:
-            'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount,imagetools',
+                'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount,imagetools',
             toolbar:
-            'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
+                'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
             width: '100%',
             language: 'cs',
             browser_spellcheck: true,
@@ -775,7 +841,7 @@
         });
 
         function upload(form) {
-            tinymce.activeEditor.uploadImages(function (success) {
+            tinymce.activeEditor.uploadImages(function(success) {
                 form.submit();
             });
             return false;
@@ -785,4 +851,19 @@
     <script src="https://atomiks.github.io/tippyjs/tippy/tippy.js"></script>
     <script src="https://atomiks.github.io/tippyjs/js/prism.js"></script>
     <script src="https://atomiks.github.io/tippyjs/js/app.js"></script>
-</div>
+    </div>
+}
+else
+{
+    <script>
+        swal({
+                title: "Ups",
+                text:
+                    "Snažíš se dostat na prémiový příspěvek. K přístupu je potřeba si zakoupit přístup. Podpoříš tím autory!",
+                type: "error",
+                confirmButtonText: "Dobrý pokus",
+                confirmButtonClass: "btn-danger"
+            }
+        );
+    </script>
+}

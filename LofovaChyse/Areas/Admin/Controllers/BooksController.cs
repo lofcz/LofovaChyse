@@ -360,11 +360,80 @@ namespace LofovaChyse.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = "knihovnik")]
+        public ActionResult AddOdznakBook()
+        {
+            BookOdznak o = new BookOdznak();
+            ViewBag.DruhyOdznaku = new BookOdznakArchetypDao().GetAll();
+
+            return View(o);
+        }
+
+        [Authorize(Roles = "knihovnik")]
         public ActionResult AddOdznakArchetyp()
         {
             KnihovnaOceneniArchetyp o = new KnihovnaOceneniArchetyp();
 
             return View(o); 
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        public ActionResult AddOdznakArchetypBook()
+        {
+            BookOdznakArchetyp o = new BookOdznakArchetyp();
+
+            return View(o);
+        }
+
+
+        [Authorize(Roles = "knihovnik")]
+        [ValidateInput(false)]
+        public ActionResult CreateOdznakArchetypBook(BookOdznakArchetyp book, HttpPostedFileBase picture)
+        {
+            if (ModelState.IsValid)
+            {
+                BookOdznakArchetyp b = new BookOdznakArchetyp()
+                {
+                    Name = book.Name,
+                    Id = Books.Counter(),
+                    Text = book.Text
+                };
+
+
+                if (picture != null)
+                {
+                    var z = picture.ContentLength;
+
+                    if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
+                    {
+                        Image image = Image.FromStream(picture.InputStream);
+                        Image smalImage = ImageHelper.ScaleImage(image, 64, 64);
+
+
+                        Bitmap btmBitmap = new Bitmap(smalImage);
+                        Guid guid = Guid.NewGuid();
+
+                        string imageName = guid.ToString() + ".png";
+                        btmBitmap.Save(Server.MapPath("~/Uploads/Stuhy/") + imageName, ImageFormat.Png); // Je potřeba namapovat cestu!
+
+                        btmBitmap.Dispose();
+                        image.Dispose();
+
+                        b.Image = imageName;
+                    }
+                }
+
+                BookOdznakArchetypDao bookDao = new BookOdznakArchetypDao();
+                bookDao.Create(b);
+
+                // Notifikace
+                TempData["scs"] = "V pořádku";
+            }
+            else
+            {
+                return View("AddOdznakArchetypBook", book); // Vrátím vstupní data
+            }
+
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         [Authorize(Roles = "knihovnik")]
@@ -452,6 +521,34 @@ namespace LofovaChyse.Areas.Admin.Controllers
             else
             {
                 return View("AddOdznak", book); // Vrátím vstupní data
+            }
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [Authorize(Roles = "knihovnik")]
+        [ValidateInput(false)]
+        public ActionResult CreateOdznakBook(BookOdznak book)
+        {
+            if (ModelState.IsValid)
+            {
+                BookOdznak b = new BookOdznak()
+                {
+                    Id = Books.Counter(),
+                    OdznakId = book.OdznakId,
+                    BookId = book.BookId,
+                    Date = DateTime.Now           
+                };
+
+                BookOdznakDao bookDao = new BookOdznakDao();
+                bookDao.Create(b);
+
+                // Notifikace
+                TempData["scs"] = "V pořádku";
+            }
+            else
+            {
+                return View("AddOdznakBook", book); // Vrátím vstupní data
             }
 
             return Redirect(Request.UrlReferrer.ToString());
