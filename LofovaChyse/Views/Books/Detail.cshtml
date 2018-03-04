@@ -119,6 +119,17 @@
             padding: 3px;
             color: white !important;
         }
+
+        .fa-ellipsis-v:hover{
+            color: #444444;
+        }
+
+        .menuIco {
+            position: relative;
+            right: 6px;
+            top: 15px;
+            color: #999999
+        }
     </style>
 
     @{
@@ -150,6 +161,10 @@
         function ribbon() {
             swal(arguments[0], "[Text ocenění]", "info");
         }
+
+        function toggleOptions() {
+            jQuery("#postMenu").fadeToggle(200);
+        }
     </script>
 
     <!-- Hlavní příspěvek-->
@@ -161,22 +176,20 @@
                     
                     @if (posledniOdznak != null)
                     {
-                        <img src="@Url.Content("~/Uploads/Stuhy/" + arch.Image)" class="globalInline" style="position: relative; top: -20px; left: -20px;" onclick="ribbon('@arch.Name')"/>
+                        <div style="position: absolute; top: 0px; left: 0px; width: 100%;">
+                            <img src="@Url.Content("~/Uploads/Stuhy/" + arch.Image)" style="width: 40px; height: 40px" onclick="ribbon('@arch.Name')"/>
+                        </div>
+                            <!-- Kontextové menu-->
+                        <div style="position: absolute; top: 0px; left: 0px; width: 100%;">
+                            <i class="fas fa-ellipsis-v float-right menuIco" onclick="toggleOptions()"></i>
+                        </div>
                     }
+                    
 
                     <i class="float-right postInfo">(@Model.LastEditDateTime.ToString("dd MMMM, yyyy"))</i>
                     <i class="float-right postInfo" style="position: relative; top: 10px; left: 110px;">Verze @Model.Version.ToString().Replace(",", ".")</i>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        if (User.IsInRole("knihovnik"))
-                        {
-                            @Html.ActionLink("UPRAVIT", "Edit", "Books", new {id = Model.Id}, new {@class = "float-right tooltextBig", style = "position: relative; left: 175px; top: 40px;"})
-                            @Html.ActionLink("ODSTRANIT", "Delete", "Books", new {id = Model.Id}, new {onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');", @class = "float-right tooltextBig", style = "position: relative; left: 225px; top: 58px;"})
-                        }
-                    }
-
-                    <h5 class="postTitle">@Html.Raw(Model.Name)</h5> <!-- Nadipis -->
+                    <h5 class="postTitle" >@Html.Raw(Model.Name)</h5> <!-- Nadipis -->
 
 
                     <div class="postImageWrapper" style="display: table-cell">
@@ -189,9 +202,23 @@
                         <i class="fas fa-caret-right globalInline postNavigate postCarret"></i>
                         <p class="globalInline postNavigate">@ViewBag.Path</p>
                     </div>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("knihovnik"))
+                        {
+                            <div style="position: absolute; top: 0px; left: 0px; width: 100%;">
+                                <div id="postMenu" style="display: none">
+                                    @Html.ActionLink("UPRAVIT", "Edit", "Books", new { id = Model.Id }, new { @class = "float-right tooltextBig", style = "position: relative; left: 60px; top: 6px;" })
+                                    @Html.ActionLink("ODSTRANIT", "Delete", "Books", new { id = Model.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');", @class = "float-right tooltextBig", style = "position: relative; left: 129px; top: 24px;" })
+                                    @Html.ActionLink("NAHLÁSIT", "Delete", "Books", new { id = Model.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');", @class = "float-right tooltextBig", style = "position: relative; left: 188px; top: 42px;" })
+                                    @Html.ActionLink("UDĚLIT OCENĚNÍ", "Delete", "Books", new { id = Model.Id }, new { onclick = "return confirm('Opravdu smazat knihu [" + Model.Name + "] ?');", @class = "float-right tooltextBig", style = "position: relative; left: 288px; top: 60px;" })
+                                </div>
+                            </div>
+                        }
+                    }
 
                     <!-- Obsah -->
-                    <br/>
                     <p>
                         @Html.Raw(Model.Description)
                     </p>
@@ -299,6 +326,7 @@
             font-size: 24px;
             font-family: 'Open Sans', sans-serif;
             font-weight: 700;
+            position: relative;
         }
 
         .postImage {

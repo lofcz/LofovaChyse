@@ -40,6 +40,11 @@ namespace LofovaChyse.Controllers
             return View();
         }
 
+        public ActionResult NastavNaladu()
+        {
+            return PartialView();
+        }
+
         public ActionResult Test(int id)
         {
             KnihovnaOceneniDao d = new KnihovnaOceneniDao();

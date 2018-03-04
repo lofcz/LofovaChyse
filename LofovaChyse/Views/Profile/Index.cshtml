@@ -8,7 +8,6 @@
 
 <script src="https://unpkg.com/tippy.js@2.0.9/dist/tippy.all.min.js"></script>
 
-
 <div id="ajaxContent">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -28,11 +27,11 @@
     <div class="col-sm-12">
         @foreach (KnihovnaOceneni o in ViewBag.Oceneni as List<KnihovnaOceneni>)
         {
-            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float:right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata ="@o.Id" />
+            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float:right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id" />
         }
         <br />
     </div>
-    <br/>
+    <br />
     <sub>Přidal se: @Model.JoinedDateTime</sub>
 
     @if (ViewBag.Owner)
@@ -41,6 +40,12 @@
         <p>Uživatelské ID: @Model.Id</p>
         <p>Heslo: @Model.Password</p>
         <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
+
+        <div>
+            <p>Nálada: @Model.NeedJob</p>
+            <button class="btn btn-default" onclick="openModelWindow()" id="loadPartialView2">[Upravit]</button>
+        </div>
+
 
         <p>Nastav si text pro návštěvy:</p>
         <div class="row">
@@ -107,6 +112,13 @@
 
 
         jQuery.get('@Url.Action("Test","Home")', {Id: u}, function (response) {
+            jQuery("#modalContent").html(response);
+        });
+    });
+
+    jQuery("#loadPartialView2").click(function () {
+
+        jQuery.get('@Url.Action("NastavNaladu","Home")', {}, function (response) {
             jQuery("#modalContent").html(response);
         });
     });
