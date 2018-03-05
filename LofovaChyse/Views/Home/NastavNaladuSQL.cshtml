@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "NastavNaladuSQL";
+
+    ViewBag.ch1 = "";
+    ViewBag.ch2 = "";
+    ViewBag.ch3 = "";
+    ViewBag.ch4 = "";
+
+    if (ViewBag.checkedId == 1)
+    {
+        ViewBag.ch1 = "checked";
+    }
+    if (ViewBag.checkedId == 2)
+    {
+        ViewBag.ch2 = "checked";
+    }
+    if (ViewBag.checkedId == 3)
+    {
+        ViewBag.ch3 = "checked";
+    }
+    if (ViewBag.checkedId == 4)
+    {
+        ViewBag.ch4 = "checked";
+    }
+
+}
+
+@using (Ajax.BeginForm("NastavNaladuSQL", new AjaxOptions { UpdateTargetId = "ajax", InsertionMode = InsertionMode.Replace }))
+{
+    <div class="pretty p-default p-round p-smooth p-plain">
+        <input type="radio" name="radio1" value="inp1" @ViewBag.ch1/>
+        <div class="state p-success">
+            <label><strong>Chci se zapojit do projektu</strong></label>
+        </div>
+    </div>
+    <br />
+    <sub style="position: relative; top: -5px;">
+        Kdokoli ti může napsat a nabídnout účast na (bezrozpočtovém) projektu
+    </sub>
+
+    <div class="pretty p-default p-round p-smooth p-plain">
+        <input type="radio" name="radio1" value="inp2"  @ViewBag.ch2>
+        <div class="state p-primary">
+            <label><strong>Pouze projekty s rozpočtem</strong></label>
+        </div>
+    </div>
+    <br />
+    <sub style="position: relative; top: -5px;">
+        Máš zájem o nabídky práce, ale pouze na placené pozice
+    </sub>
+
+    <div class="pretty p-default p-round p-smooth p-plain">
+        <input type="radio" name="radio1" value="inp3"  @ViewBag.ch3/>
+        <div class="state p-warning">
+            <label><strong>Aktuálně mám dost práce</strong></label>
+        </div>
+    </div>
+    <br />
+    <sub style="position: relative; top: -5px;">
+        Signál pro uživatele, že by tě neměli rušit, nicméně stále dostáváš notifikace a zprávy.
+    </sub>
+
+    <div class="pretty p-default p-round p-smooth p-plain">
+        <input type="radio" name="radio1" value="inp4"  @ViewBag.ch4/>
+        <div class="state p-danger">
+            <label><strong>Mám více práce, než bych chtěl</strong></label>
+        </div>
+    </div>
+    <br />
+    <sub style="position: relative; top: -5px;">
+        Odesilatel zprávy dostane upozornění, že se tvoje odpověď může zpozdit.
+    </sub>
+
+    <br />
+    <small>Okno zavřeš kliknutím mimo. Tvůj výběr je aktualizován při změně.</small>
+}
+
+    <script>
+    jQuery(document).ready(function () {
+
+        jQuery("input[name='radio1']").change(function () {
+            jQuery(this).closest("form").submit();
+        });
+
+    });
+    </script>

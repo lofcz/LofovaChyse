@@ -40,8 +40,51 @@ namespace LofovaChyse.Controllers
             return View();
         }
 
-        public ActionResult NastavNaladu()
+        public ActionResult NastavNaladu(int checkedId = -1)
         {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            ViewBag.checkedId = u.NeedJob;
+            return PartialView();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult NastavNaladuSQL(FormCollection frm, int checkedId = -1)
+        {
+            string text = frm["radio1"].ToString();
+
+            if (text == "inp1")
+            {
+                checkedId = 1;
+            }
+            if (text == "inp2")
+            {
+                checkedId = 2;
+            }
+            if (text == "inp3")
+            {
+                checkedId = 3;
+            }
+            if (text == "inp4")
+            {
+                checkedId = 4;
+            }
+
+            // zapíšeme do db
+            if (checkedId > 0)
+            {
+                KnihovnaUserDao d = new KnihovnaUserDao();
+                KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+                u.NeedJob = checkedId;
+                d.Update(u);
+            }
+
+
+
+            ViewBag.checkedId = checkedId;
             return PartialView();
         }
 

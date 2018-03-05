@@ -873,6 +873,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Home\NastavNaladu.cshtml" />
+    <Content Include="Views\Home\NastavNaladuSQL.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
