@@ -34,7 +34,7 @@
       <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Iesi.Collections.4.0.2\lib\net461\Iesi.Collections.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Iesi.Collections.4.0.3\lib\net461\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="JsAction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\JsAction.0.5\lib\net40\JsAction.dll</HintPath>
@@ -48,8 +48,8 @@
     <Reference Include="NHibernate, Version=5.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\NHibernate.5.0.3\lib\net461\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Remotion.Linq.2.1.2\lib\net45\Remotion.Linq.dll</HintPath>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq.EagerFetching, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Remotion.Linq.EagerFetching.2.1.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
@@ -63,22 +63,22 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\LofovaChyse\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -95,6 +95,8 @@
     <Compile Include="Dao\BookCategoryDao.cs" />
     <Compile Include="Dao\BookDao.cs" />
     <Compile Include="Dao\BookLikesDao.cs" />
+    <Compile Include="Dao\BookOdznakArchetypDao.cs" />
+    <Compile Include="Dao\BookOdznakDao.cs" />
     <Compile Include="Dao\BookPaymentDao.cs" />
     <Compile Include="Dao\BookSekceDao.cs" />
     <Compile Include="Dao\DaoBase.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Dao\KnihovnaKomentareDao.cs" />
     <Compile Include="Dao\KnihovnaKomentareLikesDao.cs" />
     <Compile Include="Dao\KnihovnaNotifikaceDao.cs" />
+    <Compile Include="Dao\KnihovnaNovinkyDao.cs" />
     <Compile Include="Dao\KnihovnaOceneniArchetypDao.cs" />
     <Compile Include="Dao\KnihovnaOceneniDao.cs" />
     <Compile Include="Dao\KnihovnaRoleDao.cs" />
@@ -112,6 +115,8 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookCategory.cs" />
     <Compile Include="Models\BookLikes.cs" />
+    <Compile Include="Models\BookOdznak.cs" />
+    <Compile Include="Models\BookOdznakArchetyp.cs" />
     <Compile Include="Models\BookPayment.cs" />
     <Compile Include="Models\Books.cs" />
     <Compile Include="Models\BookSekce.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="Models\KnihovnaKomentare.cs" />
     <Compile Include="Models\KnihovnaKomentareLikes.cs" />
     <Compile Include="Models\KnihovnaNotifikace.cs" />
+    <Compile Include="Models\KnihovnaNovinky.cs" />
     <Compile Include="Models\KnihovnaOceneni.cs" />
     <Compile Include="Models\KnihovnaOceneniArchetyp.cs" />
     <Compile Include="Models\KnihovnaRole.cs" />
@@ -144,9 +150,25 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\KnihovnaOceneni.hbm.xml" />
     <EmbeddedResource Include="Mappings\KnihovnaOceneniArchetyp.hbm.xml" />
-    <Content Include="Scripts\jquery-1.8.0.intellisense.js" />
-    <Content Include="Scripts\jquery-1.8.0.js" />
-    <Content Include="Scripts\jquery-1.8.0.min.js" />
+    <EmbeddedResource Include="Mappings\KnihovnaNovinky.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="nhibernate-mapping.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Scripts\jquery-3.2.1.min.map" />
+    <None Include="Scripts\jquery-3.2.1.slim.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\BookOdznak.hbm.xml" />
+    <EmbeddedResource Include="Mappings\BookOdznakArchetyp.hbm.xml" />
+    <Content Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -155,13 +177,5 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="nhibernate-mapping.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

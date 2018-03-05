@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models;
+using NHibernate.Criterion;
 
 namespace DataAccess.Dao
 {
@@ -12,6 +13,11 @@ namespace DataAccess.Dao
         public KnihovnaKomentareDao() : base()
         {
 
+        }
+
+        public IList<KnihovnaKomentare> GetCommentSubcomments(int id)
+        {
+            return session.CreateCriteria<KnihovnaKomentare>().Add(Restrictions.Like("ReplyId", id)).List<KnihovnaKomentare>();
         }
     }
 }

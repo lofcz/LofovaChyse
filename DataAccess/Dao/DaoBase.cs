@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interface;
 using NHibernate;
+using NHibernate.Context;
 using NHibernate.Criterion;
 
 namespace DataAccess.Dao
@@ -57,6 +58,11 @@ namespace DataAccess.Dao
                 session.Update(entity);
                 transaction.Commit();
             }
+        }
+
+        public void Close()
+        {
+            session.Close();
         }
     }
 }

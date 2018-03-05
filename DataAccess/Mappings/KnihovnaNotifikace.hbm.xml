@@ -7,6 +7,7 @@
     <property name="UserFrom" column="user_from" />
     <property name="UserTo" column="user_to" />
     <property name="Text" column="text" />
+    <property name="Description" column="description" />
     <property name="Displayed" column="displayed" />
     <property name="ForceType" column="forceType" />
     <property name="RewardType" column="rewardType" />

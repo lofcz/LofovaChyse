@@ -30,5 +30,6 @@ namespace DataAccess.Models
         public virtual int Reputation { get; set; }
         public virtual double Money { get; set; }
         public virtual string ImageName { get; set; }
+        public virtual int NeedJob { get; set; }
     }
 }

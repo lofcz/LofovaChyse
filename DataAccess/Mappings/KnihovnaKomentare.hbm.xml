@@ -7,6 +7,7 @@
     <property name="Content" column="post_content" />
     <property name="Date" column="post_date" />
     <property name="TopicId" column="post_topic" />
+    <property name="ReplyId" column="post_reply" />
     <many-to-one name="OwnerId" column="post_by" foreign-key="" />
   </class>
 

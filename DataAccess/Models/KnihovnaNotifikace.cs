@@ -17,6 +17,8 @@ namespace DataAccess.Models
         [AllowHtml]
         public virtual string Text { get; set; }
 
+        [AllowHtml]
+        public virtual string Description { get; set; }
 
         public virtual bool Displayed { get; set; }
         public virtual int ForceType { get; set; }

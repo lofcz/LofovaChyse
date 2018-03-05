@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+  <class name="BookOdznakArchetyp" table="book_odznaky_archetyp">
+    <id name="Id" column="id">
+      <generator class="native" />
+    </id>
+    <property name="Text" column="text" />
+    <property name="Image" column="image" />
+    <property name="Name" column="name" />
+  </class>
+
+</hibernate-mapping>

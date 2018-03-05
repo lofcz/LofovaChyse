@@ -57,5 +57,20 @@ namespace DataAccess.Models
         public virtual string TempAction { get; set; }
         public virtual string TempClass { get; set; }
 
+        public virtual bool AlreadyRated { get; set; }
+        public virtual int RatedType { get; set; }
+        public virtual string AjaxUserText { get; set; }
+
+        public enum Reakce
+        {
+            Super,
+            Libi,
+            Nadeje,
+            Uzitecne
+        }
+
+        public virtual int[] PocetReakci { get; set; } = new[] { 0, 0, 0, 0 };
+        public virtual int CurrentUserReakce { get; set; }
+
     }
 }

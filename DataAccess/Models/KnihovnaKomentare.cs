@@ -18,11 +18,25 @@ namespace DataAccess.Models
         public virtual DateTime Date { get; set; }
 
         public virtual int TopicId { get; set; }
+        public virtual int ReplyId { get; set; }
 
         public virtual KnihovnaUser OwnerId{ get; set; }
 
         // TEMP VLATNOSTi
         public virtual  bool AlreadyRated { get; set; }
+        public virtual int RatedType { get; set; }
+        public virtual string AjaxUserText { get; set; }
+
+        public enum Reakce
+        {
+            Super,
+            Libi,
+            Nadeje,
+            Uzitecne
+        }
+
+        public virtual int[] PocetReakci { get; set; } = new[] {0, 0, 0, 0};
+
     }
 }
        

@@ -13,6 +13,9 @@
     <property name="Version" column="version" />
     <property name="Priority" column="priority" />
     <property name="Sticky" column="sticky" />
+    <property name="RefId" column="refId" />
+    <property name="Action" column="action" />
+    <property name="Controller" column="controller" />
   </class>
 
 </hibernate-mapping>
