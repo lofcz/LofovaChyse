@@ -37,6 +37,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - Uvítací text
     - Profilový obrázek
     - Ocenění
+    - Nálada / nabídky práce
   - Zeď
 - Úrovně přístupu, autentifikace
 - AJAX validace + WYSIWYG editor (sbohem bb)
