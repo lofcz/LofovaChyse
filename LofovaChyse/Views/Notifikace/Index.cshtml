@@ -14,7 +14,7 @@
 
 @foreach (KnihovnaNotifikace k in Model)
 {
-    <div>
+    <div id="@k.Id">
         <div class="card mb-3 h-25 mt-0 bg-light">
             <div class="card-body">
                 <p class="card-text">@Html.Raw(k.Text)</p>
@@ -22,7 +22,16 @@
             </div>
             <div class="card-footer text-muted">
                 Od @HNotifikace.GetFrom(k.UserFrom), přijato @k.DateSent.ToString("dd MMMM, yyyy")      
-                <small class="btn btn-primary float-right btn-sm" onclick="myFunction(@k.Id)" >@HNotifikace.GetButton(k.RewardType)</small>
+                
+                @if (k.RewardType == -666)
+                {
+                    <small class="btn btn-primary float-right btn-sm" onclick="ConfirmFriend('@k.Id', '@k.ForceType')" style="margin-left: 20px;">Přijmout</small>
+                    <small class="btn btn-primary float-right btn-sm" onclick="myFunction('@k.Id')" >Odmítnout</small>
+                }
+                else
+                {
+                    <small class="btn btn-primary float-right btn-sm" onclick="myFunction(@k.Id)" >@HNotifikace.GetButton(k.RewardType)</small>
+                }
             </div>
         </div>
     </div>
@@ -47,4 +56,26 @@
                 }
             });
     }
-    </script>
+
+    function ConfirmFriend(id, fid) {
+        swal({
+                title: "Potvrzeno",
+                text: "Žádost o přátelství přijata!",
+                type: "success",
+                confirmButtonClass: "btn-success",
+                confirmButtonText: "Pokračovat"
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    jQuery("#" + id).remove();
+
+                    jQuery.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AcceptFriend", "Home")',
+                        data: { id: fid, notifikaceId: id}
+                    });
+                }
+            });
+    }
+
+</script>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
 using DataAccess.Dao;
 using DataAccess.Models;
 
@@ -336,5 +337,44 @@ namespace LofovaChyse.Class
             return d.GetBookOceneni(id) as List<BookOdznak>;
         }
 
+        public static bool UsersAreFrineds(string name1, string name2)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser user1 = d.GetByLogin(name1);
+            KnihovnaUser user2 = d.GetByLogin(name2);
+
+            KnihovnaPrateleDao pd = new KnihovnaPrateleDao();
+            bool pratele = pd.GetFriendship(user1.Id, user2.Id);
+
+            return pratele;
+        }
+
+        public static bool UsersAreFriendsConfirmed(string name1, string name2)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser user1 = d.GetByLogin(name1);
+            KnihovnaUser user2 = d.GetByLogin(name2);
+
+            KnihovnaPrateleDao pd = new KnihovnaPrateleDao();
+            bool pratele = pd.GetFriendshipConfirmed(user1.Id, user2.Id);
+
+            return pratele;
+        }
+
+        public static object Test()
+        {
+            // Hello
+            return null;
+        }
+
+        public static void ConfirmFriendShip(int friendID)
+        {
+            KnihovnaPrateleDao d = new KnihovnaPrateleDao();
+            KnihovnaPratele p = d.GetbyId(friendID);
+
+            p.Accepted = true;
+            p.DateAccepted = DateTime.Now;
+            d.Update(p);
+        }
     }
 }

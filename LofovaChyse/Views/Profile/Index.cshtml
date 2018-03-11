@@ -4,10 +4,53 @@
 @{
     ViewBag.Title = "Index";
     ViewBag.Oceneni = General.GetUserOceneni(Model.Login);
+
+    bool areFriends = true;
+    bool canAdd = false;
+
+    string friendMessage = "Přihlášení uživatelé si mohou přidat přátele";
+
+    if (User.Identity.IsAuthenticated)
+    {
+        areFriends = General.UsersAreFrineds(User.Identity.Name, Model.Login);
+
+        if (!areFriends)
+        {
+            if (Model.Login == User.Identity.Name)
+            {
+                friendMessage = "Nemůžeš mít sám sebe za přítele";
+            }
+            else
+            {
+                friendMessage = "Tohoto člověka si můžeš přidat za přítele";
+                canAdd = true;
+            }
+        }
+        else
+        {
+            bool friendsConfirmed = General.UsersAreFriendsConfirmed(User.Identity.Name, Model.Login);
+
+            if (friendsConfirmed)
+            {
+                friendMessage = "S tímto člověkem již jsi kamarád";
+            }
+            else
+            {
+                friendMessage = "Žádost byla odeslána a čeká na vyřízení";
+            }
+
+        }
+    }
 }
 
 <script src="https://unpkg.com/tippy.js@2.0.9/dist/tippy.all.min.js"></script>
 
+<script>
+    function onAdd() {
+        jQuery('#friendRequest').remove();
+        swal("Požadavek odeslán", "Dostaneš upozornění jakmile bude vyřízen", "success");
+    }
+</script>
 <div id="ajaxContent">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -20,18 +63,26 @@
     </div>
 
     <h2>Profil uživatele @Model.Name</h2>
-    <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float:right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new { id = Model.Id }) | Galerie | Snippety</sub>
-    <br />
-    <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float:right">Získaná ocenění:</sub>
-    <br />
+    <p>Jste přátelé? @friendMessage</p>
+    @if (canAdd)
+    {
+        <div id="friendRequest">
+            @Ajax.ActionLink("Přidat přítele", "CallGeneral", "Home", new {user1 = User.Identity.Name, user2 = Model.Login}, new AjaxOptions() {}, new {onclick="onAdd()"})
+            <br/>
+        </div>
+    }
+    <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float: right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new {id = Model.Id}) | Galerie | Snippety</sub>
+    <br/>
+    <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float: right">Získaná ocenění:</sub>
+    <br/>
     <div class="col-sm-12">
         @foreach (KnihovnaOceneni o in ViewBag.Oceneni as List<KnihovnaOceneni>)
         {
-            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float:right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id" />
+            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float: right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id"/>
         }
-        <br />
+        <br/>
     </div>
-    <br />
+    <br/>
     <sub>Přidal se: @Model.JoinedDateTime</sub>
 
     @if (ViewBag.Owner)
@@ -51,11 +102,11 @@
         <div class="row">
             @if (User.Identity.IsAuthenticated)
             {
-                using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+                using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
                 {
                     <div class="form-group">
                         <div>
-                            @Html.TextAreaFor(x => x.WelcomeText, new { @class = "form-control formatedtext" })
+                            @Html.TextAreaFor(x => x.WelcomeText, new {@class = "form-control formatedtext"})
                         </div>
                     </div>
 
@@ -69,13 +120,13 @@
         </div>
 
         <script type="text/javascript">
-            $(function () {
+            $(function() {
                 $("#welcomeText").html("");
             });
 
-          //  jQuery('#myModal').on('hidden.bs.modal', function () {
-          //      location.reload();
-          //  })
+            //  jQuery('#myModal').on('hidden.bs.modal', function () {
+            //      location.reload();
+            //  })
         </script>
 
         <style>
@@ -86,14 +137,22 @@
         <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
         <script>
             tinymce.init({
-                selector: '.formatedtext', branding: false, plugins: 'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount', toolbar: 'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace', width: '100%', language: 'cs'
+                selector: '.formatedtext',
+                branding: false,
+                plugins:
+                    'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount',
+                toolbar:
+                    'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
+                width: '100%',
+                language: 'cs'
 
 
-            });</script>
+            });
+        </script>
     }
     else
     {
-        <hr />
+        <hr/>
         <p>@Html.Raw(Model.WelcomeText)</p>
     }
 </div>
@@ -110,21 +169,25 @@
 </script>
 
 <script type="text/javascript">
-    jQuery("#loadPartialView").click(function () {
+    jQuery("#loadPartialView").click(function() {
 
         var u = jQuery(this).attr('mydata');
 
 
-        jQuery.get('@Url.Action("Test","Home")', {Id: u}, function (response) {
-            jQuery("#modalContent").html(response);
-        });
+        jQuery.get('@Url.Action("Test", "Home")',
+            { Id: u },
+            function(response) {
+                jQuery("#modalContent").html(response);
+            });
     });
 
-    jQuery("#loadPartialView2").click(function () {
+    jQuery("#loadPartialView2").click(function() {
 
-        jQuery.get('@Url.Action("NastavNaladu","Home")', {}, function (response) {
-            jQuery("#modalContent").html(response);
-        });
+        jQuery.get('@Url.Action("NastavNaladu", "Home")',
+            {},
+            function(response) {
+                jQuery("#modalContent").html(response);
+            });
     });
 
     openModelWindow();

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccess.Dao;
 using DataAccess.Models;
+using LofovaChyse.Class;
 
 namespace LofovaChyse.Controllers
 {
@@ -156,6 +157,67 @@ namespace LofovaChyse.Controllers
         public ActionResult UzivatelNahled()
         {
             return PartialView();
+        }
+
+        // From, to
+        public JsonResult CallGeneral(string user1, string user2)
+        {
+            KnihovnaPrateleDao pd = new KnihovnaPrateleDao();
+            KnihovnaUserDao d = new KnihovnaUserDao();
+
+            // Najdeme oba účastníky
+            KnihovnaUser from = d.GetByLogin(user1);
+            KnihovnaUser to = d.GetByLogin(user2);
+
+            // Sestavíme žádost
+            KnihovnaPratele zadost = new KnihovnaPratele();
+            zadost.Id = Books.Counter();
+            zadost.Accepted = false;
+            zadost.DateAccepted = DateTime.MinValue;
+            zadost.DateDeclined = DateTime.MinValue;
+            zadost.DateSent = DateTime.Now;
+            zadost.Declined = false;
+            zadost.Type = 0;
+            zadost.UserFrom = from.Id;
+            zadost.UserTo = to.Id;
+
+            // Pošleme žádost
+            pd.Create(zadost);
+
+            // Žádaný obdrží notifikaci
+            KnihovnaNotifikace n = new KnihovnaNotifikace();
+            n.Id = Books.Counter();
+            n.DateSent = DateTime.Now;
+            n.Description = "Uživatel " + from.Name + " si tě chce přidat do přátel";
+            n.Displayed = false;
+            n.ForceType = 0;
+            n.RewardType = -666;
+            n.Text = "Uživatel " + from.Name + " si tě chce přidat do přátel";
+            n.UserFrom = -1;
+            n.UserTo = to.Id;
+            n.ForceType = zadost.Id; // použijeme jako data-storage [FUJ, HACK]
+
+            // Pošleme notifikaci
+            KnihovnaNotifikaceDao dd = new KnihovnaNotifikaceDao();
+            dd.Create(n);
+
+            return Json(new {});
+        }
+
+        public JsonResult AcceptFriend(int id = 0, int notifikaceId = 0)
+        {
+            General.ConfirmFriendShip(id);
+
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            KnihovnaNotifikaceDao dao = new KnihovnaNotifikaceDao();
+            KnihovnaNotifikace n = dao.GetbyId(notifikaceId); 
+
+            d.Update(u);
+            dao.Delete(n);
+
+            return Json(new { });
         }
     }
 }
