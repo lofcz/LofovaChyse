@@ -26,7 +26,7 @@ namespace LofovaChyse.Controllers
             return View(list);
         }
 
-        public ActionResult Dismiss(int notifikaceId)
+        public JsonResult Dismiss(int notifikaceId)
         {
             KnihovnaUserDao d = new KnihovnaUserDao();
             KnihovnaUser u = d.GetByLogin(User.Identity.Name);
@@ -43,7 +43,7 @@ namespace LofovaChyse.Controllers
             dao.Delete(n);
             TempData["Message"] = "Your Order";
 
-            return Redirect(Request.UrlReferrer.ToString());
+            return Json(new { });
         }
     }
 }

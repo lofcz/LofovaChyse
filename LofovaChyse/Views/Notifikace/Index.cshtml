@@ -47,12 +47,17 @@
                 text: "Užij si to, zasloužíš si ji!",
                 type: "success",
                 confirmButtonClass: "btn-success",
-                confirmButtonText: "Otevřít",
-                closeOnConfirm: false,
+                confirmButtonText: "Otevřít"
             },
             function(isConfirm) {
                 if (isConfirm) {
-                    window.location.href = "/Notifikace/Dismiss/?notifikaceId="+id;
+                    jQuery("#" + id).remove();
+
+                    jQuery.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Dismiss", "Notifikace")',
+                        data: {notifikaceId: id}
+                    });
                 }
             });
     }

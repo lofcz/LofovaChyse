@@ -219,5 +219,19 @@ namespace LofovaChyse.Controllers
 
             return Json(new { });
         }
+
+        public JsonResult Dissmis(int notifikaceId = 0)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            KnihovnaNotifikaceDao dao = new KnihovnaNotifikaceDao();
+            KnihovnaNotifikace n = dao.GetbyId(notifikaceId);
+
+            d.Update(u);
+            dao.Delete(n);
+
+            return Json(new { });
+        }
     }
 }
