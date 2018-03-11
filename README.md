@@ -46,6 +46,8 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
 - MasterPage + partialní layouty
 - Lazy loading
 - Notifikace
+  - Možnost odměny při potvrzení notifikace
+  - AJAX
 - ACP
 - Ukládání obrázků na server, automatický resize 
 - Paginace
