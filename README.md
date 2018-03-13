@@ -62,3 +62,23 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - AJAX
 - Menu autorouting
 - Hlavní zeď aktivity, automaticky generované (novinky)
+
+## Lokální setup: 
+Prerekvizity:
+  - Visual Studio 2017
+  - Sql Server 17.4+
+  
+Naklonovat lokálně projekt  
+Připojení k databázi
+  - Otevřít Sql server  
+  - Připojení:  
+    - Server type: Database engine  
+    - Server name: [jméno-tvého-desktopu]  
+    - Auth: Win auth  
+  - Connect  
+  - V horní liště: File -> Open -> File -> dbdump.sql  
+  
+Připojení k db - VS  
+  - Projekt LofovaChýše -> hibernate.cfg.xml (třetí soubor odzdola) -> nahradit hodnotu [Data Source] na řádku 6 názvem serveru (desktop name)
+
+Projekt by měl jít zkompilovat s tím, že se připojí k lokální db.
