@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="KnihovnaPratele" table="knihovna_pratele">
+    <id name="Id" column="id">
+      <generator class="native" />
+    </id>
+    <property name="UserFrom" column="user_from" />
+    <property name="UserTo" column="user_to" />
+    <property name="Accepted" column="accepted" />
+    <property name="DateSent" column="date_sent" />
+    <property name="DateAccepted" column="date_accepted" />
+    <property name="Declined" column="declined" />
+    <property name="DateDeclined" column="date_declined" />
+    <property name="Type" column="type" />
+  </class>
+
+</hibernate-mapping>

@@ -356,6 +356,8 @@ namespace LofovaChyse.Class
             KnihovnaUser user2 = d.GetByLogin(name2);
 
             KnihovnaPrateleDao pd = new KnihovnaPrateleDao();
+           // pd.
+
             bool pratele = pd.GetFriendshipConfirmed(user1.Id, user2.Id);
 
             return pratele;
