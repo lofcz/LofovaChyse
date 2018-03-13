@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LofovaChyse", "LofovaChyse\LofovaChyse.csproj", "{13AEF1EF-0F43-46A6-A3BB-4260C5BA9E5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "..\..\source\repos\LofovaChyse\DataAccess\DataAccess\DataAccess.csproj", "{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
