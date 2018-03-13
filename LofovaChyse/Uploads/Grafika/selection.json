@@ -1,0 +1,67 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M510.188 15.699c-273.098 0.001-494.487 221.391-494.488 494.489l0-0c-0 0-0 0.001-0 0.002 0 273.099 221.389 494.489 494.488 494.491l0 0c0 0 0.001 0 0.002 0 273.1 0 494.491-221.391 494.491-494.491 0-0.001-0-0.001-0-0.002l0 0c-0.001-273.099-221.392-494.488-494.491-494.488-0.001 0-0.001 0-0.002 0l0-0zM502.309 112.5l43.242 4.477-12.289 118.734-43.242-4.477 12.289-118.734zM573.156 120.020l43.242 4.473-12.289 118.73-43.242-4.477 12.289-118.727zM325.023 216.48l139.82 14.469-25.395 245.414 219.098-225.367 162.035 16.77-237.879 228.945 192.328 314.309-171.496-17.746-139.574-233.777-36.875 36.293-18.348 177.324-139.82-14.469 56.105-542.164zM435.309 777.516l43.242 4.477-12.289 118.727-43.242-4.473 12.289-118.73zM506.156 785.027l43.242 4.477-12.289 118.734-43.242-4.477 12.289-118.734z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "coins_fin"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 2,
+        "id": 0,
+        "name": "coins_fin",
+        "prevSize": 32,
+        "code": 127744
+      },
+      "setIdx": 0,
+      "setId": 2,
+      "iconIdx": 0
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "icomoon"
+  },
+  "preferences": {
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "icon-",
+      "metadata": {
+        "fontFamily": "icomoon"
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "embed": false
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon"
+    },
+    "historySize": 50,
+    "showCodes": true,
+    "gridSize": 16
+  }
+}
