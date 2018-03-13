@@ -51,3 +51,4 @@ C:\Users\lof\Documents\LofovaChyse\DataAccess\obj\Debug\DataAccess.csprojResolve
 C:\Users\lof\Documents\LofovaChyse\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
 C:\Users\lof\Documents\LofovaChyse\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\lof\Documents\LofovaChyse\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\lof\Documents\LofovaChyse\DataAccess\bin\Debug\Iesi.Collections.dll
