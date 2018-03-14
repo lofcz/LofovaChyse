@@ -1,0 +1,7 @@
+/.vs
+DataAccess/bin
+DataAccess/obj
+LofovaChyse/bin
+LofovaChyse/obj
+*.csproj*
+*.dll
