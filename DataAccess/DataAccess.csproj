@@ -110,6 +110,7 @@
     <Compile Include="Dao\KnihovnaPrateleDao.cs" />
     <Compile Include="Dao\KnihovnaRoleDao.cs" />
     <Compile Include="Dao\KnihovnaUserDao.cs" />
+    <Compile Include="Dao\KnihovnaUserRoleDao.cs" />
     <Compile Include="Dao\KnihovnaZedDao.cs" />
     <Compile Include="Interface\IDaoBase.cs" />
     <Compile Include="Interface\IEntity.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Models\KnihovnaPratele.cs" />
     <Compile Include="Models\KnihovnaRole.cs" />
     <Compile Include="Models\KnihovnaUser.cs" />
+    <Compile Include="Models\KnihovnaUserRole.cs" />
     <Compile Include="Models\KnihovnaZed.cs" />
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,6 +169,7 @@
     <EmbeddedResource Include="Mappings\BookOdznak.hbm.xml" />
     <EmbeddedResource Include="Mappings\BookOdznakArchetyp.hbm.xml" />
     <EmbeddedResource Include="Mappings\KnihovnaPratele.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaUserRole.hbm.xml" />
     <Content Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="KnihovnaUserRole" table="knihovna_user_role">
+    <id name="Id" column="Id">
+      <generator class="native" />
+    </id>
+    <property name="UserId" column="userId" />
+    <property name="RoleId" column="roleId" />
+    <property name="DateFrom" column="dateFrom" />
+    <property name="DateTo" column="dateTo" />
+    <property name="Data" column="data" />
+
+  </class>
+
+</hibernate-mapping>
