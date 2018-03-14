@@ -59,6 +59,17 @@ namespace LofovaChyse.Areas.Admin.Controllers
             KnihovnaUserDao dao = new KnihovnaUserDao();
             dao.Create(user);
 
+            KnihovnaUserRoleDao rd = new KnihovnaUserRoleDao();
+            KnihovnaUserRole r = new KnihovnaUserRole();
+            r.Id = Books.Counter();
+            r.Data = -1;
+            r.DateFrom = DateTime.Now;
+            r.DateTo = DateTime.MinValue;
+            r.RoleId = 2;
+            r.UserId = user.Id;
+
+            rd.Create(r);
+
             NovinkyGenerator.PridatNovinku(user, dao.GetByLogin(user.Name).Id);
 
             return RedirectToAction("Index");

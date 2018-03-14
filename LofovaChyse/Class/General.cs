@@ -277,7 +277,7 @@ namespace LofovaChyse.Class
             return outputString;
         }
 
-
+        
         public static bool AccessMatch(int permLevel, string userName)
         {
             if (permLevel == 0)
@@ -377,6 +377,33 @@ namespace LofovaChyse.Class
             p.Accepted = true;
             p.DateAccepted = DateTime.Now;
             d.Update(p);
+        }
+
+        public static List<KnihovnaUserRole> GetUserRoles(string login)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(login);
+            KnihovnaUserRoleDao dd = new KnihovnaUserRoleDao();
+
+            List<KnihovnaUserRole> role = dd.GetUserRoles(u.Id) as List<KnihovnaUserRole>;
+            return role;
+        }
+
+        public static string UserRoleName(KnihovnaUserRole r)
+        {
+            string s = "";
+
+            if (r.RoleId == 1)
+            {
+                s = "Admin";    
+            }
+
+            if (r.RoleId == 2)
+            {
+                s = "Uživatel";
+            }
+
+            return s;
         }
     }
 }

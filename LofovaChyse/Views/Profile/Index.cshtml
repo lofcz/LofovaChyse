@@ -41,6 +41,9 @@
 
         }
     }
+
+    List<KnihovnaUserRole> tvojeRole = General.GetUserRoles(Model.Login);
+
 }
 
 <script>
@@ -69,6 +72,16 @@
             <br/>
         </div>
     }
+    
+    <p>Seznam tvých rolí:</p>
+    <ul>
+        @foreach (KnihovnaUserRole r in tvojeRole)
+        {
+            <li>
+                @General.UserRoleName(r)
+            </li>
+        }
+    </ul>
     <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float: right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new {id = Model.Id}) | Galerie | Snippety</sub>
     <br/>
     <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float: right">Získaná ocenění:</sub>

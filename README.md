@@ -33,6 +33,8 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
   - Přihlášení + registrace
   - Odhlášení
   - Role
+    - Jeden uživatel může mít více rolí
+    - Role může mít omezenou dobu trvání
   - Profil
     - Uvítací text
     - Profilový obrázek
@@ -77,6 +79,9 @@ Připojení k databázi
     - Auth: Win auth  
   - Connect  
   - V horní liště: File -> Open -> File -> dbdump.sql  
+  - Nová databáze
+  - Na prvním řádku v otevřeném dumpu změnit hodnotu [Use] na název nové databáze
+  - Execute
   
 Připojení k db - VS  
   - Projekt LofovaChýše -> hibernate.cfg.xml (třetí soubor odzdola) -> nahradit hodnotu [Data Source] na řádku 6 názvem serveru (desktop name)

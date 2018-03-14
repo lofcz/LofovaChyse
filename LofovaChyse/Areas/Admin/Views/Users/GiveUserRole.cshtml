@@ -1,0 +1,61 @@
+﻿@model DataAccess.Models.KnihovnaUserRole
+
+@{
+    ViewBag.Title = "GiveUserRole";
+}
+
+<h2>Udělit uživateli roli</h2>
+
+
+@using (Html.BeginForm("AddRole", "Users", FormMethod.Post, new { @class = "form-horizontal" })) // Umožní zpracovat nahrané soubory
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id uživatele:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.UserId, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Data [opt]:</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Data, new { @class = "form-control", placeholder="-1" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Je role časově omezená?</label>
+        <div class="col-sm-10">
+            <input type="checkbox" name="limit" value="lim" onchange="tog()">
+        </div>
+
+        <div class="col-sm-10" id="dP" style="display: none;">
+            @Html.TextBoxFor(x => x.DateTo, new { @class = "form-control", data_provide = "datepicker" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Typ role:</label>
+        <div class="col-sm-10">
+            @Html.DropDownList("roleId", new SelectList(ViewBag.Categories, "Id", "RoleDescription"), new { @class = "form-control" })
+
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Udělit roli</button>
+        </div>
+    </div>
+}
+
+<script>
+    function tog() {
+        jQuery("#dP").toggle();
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
