@@ -41,12 +41,14 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - Ocenění
     - Nálada / nabídky práce
   - Zeď
+  - Ban
 - Úrovně přístupu, autentifikace
 - AJAX validace + WYSIWYG editor (sbohem bb)
 - Linkování k databázi
 - DaoModel
 - MasterPage + partialní layouty
 - Lazy loading
+- Cachování výsledků dotazů z databáze
 - Notifikace
   - Možnost odměny při potvrzení notifikace
   - AJAX
