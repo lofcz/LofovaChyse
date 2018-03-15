@@ -12,22 +12,50 @@ namespace LofovaChyse.Areas.Admin.Controllers
 {
     public class LoginController : Controller
     {
+        private static string name = "";
+
         // GET: Login
         public ActionResult Index()
         {
+            ViewBag.fuckOff = "";
             return View();
+        }
+
+        public ActionResult IndexR()
+        {
+            ViewBag.fuckOff = "ban";
+            ViewBag.restrictedTo = General.UserBannedUntil(name).ToString("yyyy-MM-ddTHH:mm:ss");
+            return View("Index");
         }
 
         [HttpPost]
         public ActionResult SignIn(string login, string password)
         {
+            Cache.SessionRequest(Session);
+            ViewBag.fuckOff = "";
+
             if (Membership.ValidateUser(login, password))
             {
+                Cache.CacheSession cacheSession = Cache.Open(Session);
+                KnihovnaUser knihovnaUser = cacheSession.Get<KnihovnaUser>("user");
+                cacheSession.Flush();
+                DateTime restrictedTo = knihovnaUser.RestrictedTo;
+                
+                // User is banned.
+                if (DateTime.Compare(restrictedTo, DateTime.Now) >= 0)
+                {
+                    TempData["error"] = "Váš účet byl zablokován.";
+
+                    name = knihovnaUser.Login;
+                    return RedirectToAction("IndexR", "Login");
+                }
+
                 FormsAuthentication.SetAuthCookie(login, false);
                 return RedirectToAction("Index", "Home", new {area = ""});
             }
 
             TempData["error"] = "Přihlášení selhalo";
+            ViewBag.fuckOff = "";
             return RedirectToAction("Index", "Login");
 
 
@@ -55,6 +83,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             user.Surname = "";
             user.WelcomeText = "";
             user.Role = new KnihovnaRoleDao().GetbyId(2);
+            user.RestrictedTo = DateTime.MinValue;
 
             KnihovnaUserDao dao = new KnihovnaUserDao();
             dao.Create(user);

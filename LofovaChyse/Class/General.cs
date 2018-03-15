@@ -405,5 +405,35 @@ namespace LofovaChyse.Class
 
             return s;
         }
+
+        public static KnihovnaUser GetUser(string name)
+        {
+            KnihovnaUserDao dao = new KnihovnaUserDao();
+            KnihovnaUser user = dao.GetByLogin(name);
+            
+                return user;
+        }
+
+        public static bool IsUserBanned(string name)
+        {
+            KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+            KnihovnaUser knihovnaUser = knihovnaUserDao.GetByLogin(name);
+		    DateTime restrictedTo = knihovnaUser.RestrictedTo;
+
+            if (DateTime.Compare(restrictedTo, DateTime.Now) >= 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static DateTime UserBannedUntil(string name)
+        {
+            KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+            KnihovnaUser knihovnaUser = knihovnaUserDao.GetByLogin(name);
+            DateTime restrictedTo = knihovnaUser.RestrictedTo;
+            return restrictedTo;
+        }
     }
 }
