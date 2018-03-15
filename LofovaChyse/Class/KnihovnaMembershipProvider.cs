@@ -47,6 +47,8 @@ namespace LofovaChyse.Class
             KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
             KnihovnaUser user = knihovnaUserDao.GetByLoginAndPassword(username, password);
 
+			Cache.Open().Set("user", user);
+
             return user != null;
 
         }

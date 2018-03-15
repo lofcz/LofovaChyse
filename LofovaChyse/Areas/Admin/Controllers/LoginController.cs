@@ -21,8 +21,20 @@ namespace LofovaChyse.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult SignIn(string login, string password)
         {
+			Cache.SessionRequest(Session);
             if (Membership.ValidateUser(login, password))
             {
+				Cache.CacheSession cacheSession = Cache.Open(Session);
+				KnihovnaUser knihovnaUser = cacheSession.Get<KnihovnaUser>("user");
+				cacheSession.Flush();
+				DateTime restrictedTo = knihovnaUser.RestrictedTo == null ? DateTime.MinValue : knihovnaUser.RestrictedTo;
+				// User is banned.
+				if (DateTime.Compare(restrictedTo, DateTime.Now) >= 0)
+				{
+					TempData["error"] = "Váš účet byl zablokován.";
+					return RedirectToAction("Index", "Login");
+				}
+
                 FormsAuthentication.SetAuthCookie(login, false);
                 return RedirectToAction("Index", "Home", new {area = ""});
             }
@@ -55,6 +67,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             user.Surname = "";
             user.WelcomeText = "";
             user.Role = new KnihovnaRoleDao().GetbyId(2);
+			user.RestrictedTo = DateTime.MinValue;
 
             KnihovnaUserDao dao = new KnihovnaUserDao();
             dao.Create(user);

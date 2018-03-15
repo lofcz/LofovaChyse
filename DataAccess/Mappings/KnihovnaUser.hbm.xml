@@ -20,6 +20,7 @@
     <property name="Money" column="money" />
     <property name="ImageName" column="image" />
     <property name="NeedJob" column="needJob" />
+    <property name="RestrictedTo" column="restrictedTo" />
     <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
   </class>
 
