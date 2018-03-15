@@ -31,6 +31,5 @@ namespace DataAccess.Models
         public virtual double Money { get; set; }
         public virtual string ImageName { get; set; }
         public virtual int NeedJob { get; set; }
-		public virtual DateTime RestrictedTo { get; set; }
     }
 }

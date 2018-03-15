@@ -47,12 +47,6 @@
             {
                 Notifikace = General.GetCurrentUserNotificationsObject(User.Identity.Name, true);
                 totalNotifikace = General.GetCurrentUserNotificationsAll(User.Identity.Name);
-
-                // Check whether user is banned..
-                if (General.IsUserBanned(User.Identity.Name))
-                {
-                    Response.Redirect(Url.Action("Logout", "Login"));
-                }
             }
 
             Color MyColor = Color.Red;

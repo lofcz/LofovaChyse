@@ -32,14 +32,6 @@ namespace LofovaChyse.Class
             return user.Name;
         }
 
-		public static KnihovnaUser GetUser(string name)
-		{
-			KnihovnaUserDao dao = new KnihovnaUserDao();
-			KnihovnaUser user = dao.GetByLogin(name);
-
-			return user;
-		}
-
         public static int GetCurrentUserNotifications(string name)
         {
             KnihovnaUserDao dao = new KnihovnaUserDao();
@@ -387,21 +379,12 @@ namespace LofovaChyse.Class
             d.Update(p);
         }
 
-		public static bool IsUserBanned(string name)
-		{
-			KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
-			KnihovnaUser knihovnaUser = knihovnaUserDao.GetByLogin(name);
-			DateTime restrictedTo = knihovnaUser.RestrictedTo == null ? DateTime.MinValue : knihovnaUser.RestrictedTo;
-			return DateTime.Compare(restrictedTo, DateTime.Now) >= 0 ? true : false;
-		}
-
-		public static List<KnihovnaUserRole> GetUserRoles(string login)
+        public static List<KnihovnaUserRole> GetUserRoles(string login)
         {
             KnihovnaUserDao d = new KnihovnaUserDao();
             KnihovnaUser u = d.GetByLogin(login);
             KnihovnaUserRoleDao dd = new KnihovnaUserRoleDao();
 
-			
             List<KnihovnaUserRole> role = dd.GetUserRoles(u.Id) as List<KnihovnaUserRole>;
             return role;
         }
@@ -422,6 +405,5 @@ namespace LofovaChyse.Class
 
             return s;
         }
-		
     }
 }
