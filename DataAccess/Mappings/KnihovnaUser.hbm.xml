@@ -21,6 +21,12 @@
     <property name="ImageName" column="image" />
     <property name="NeedJob" column="needJob" />
     <property name="RestrictedTo" column="restrictedTo" />
+    <property name="ProfileViews" column="profileViews" />
+    <property name="TotalViews" column="totalViews" />
+    <property name="LastLogin" column="lastLogin" />
+    <property name="PrimaryIp" column="primaryIp" />
+    <property name="RateRemains" column="rateRemains" />
+
     <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
   </class>
 

@@ -42,6 +42,8 @@ namespace LofovaChyse.Controllers
                 KnihovnaUserDao dao = new KnihovnaUserDao();
                 KnihovnaUser user = dao.GetByLogin(User.Identity.Name);
 
+                UserStats.NewComment(dao, user);
+
                 NovinkyGenerator.PridatNovinku(komentar, user.Id);
             }
 

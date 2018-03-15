@@ -32,5 +32,10 @@ namespace DataAccess.Models
         public virtual string ImageName { get; set; }
         public virtual int NeedJob { get; set; }
         public virtual DateTime RestrictedTo { get; set; }
+        public virtual int ProfileViews { get; set; }
+        public virtual int TotalViews { get; set; }
+        public virtual DateTime LastLogin { get; set; }
+        public virtual string PrimaryIp { get; set; }
+        public virtual int RateRemains { get; set; }
     }
 }

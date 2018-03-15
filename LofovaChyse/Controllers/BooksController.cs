@@ -269,7 +269,7 @@ namespace LofovaChyse.Controllers
                 }
             }
 
-            if (finalLike == null) {value = 1;}
+            if (finalLike == null && userId != k.OwnerId.Id) {value = 1;}
             else {value = -1;}
 
             // Hodnotit
@@ -284,7 +284,8 @@ namespace LofovaChyse.Controllers
                 KnihovnaUser userFrom = dd.GetByLogin(User.Identity.Name);
                 KnihovnaUser userTo = dd.GetbyId(k.OwnerId.Id);
                 HNotifikace.SendRateNotification(userTo, moznost, userFrom, book);
-                dd.Update(userTo);
+
+                UserStats.NewRating(dd, userFrom);
 
                 knihovnaKomentareLikesDao.Create(finalLike);
             }
@@ -534,6 +535,10 @@ namespace LofovaChyse.Controllers
 
                 BookDao bookDao = new BookDao();
                 bookDao.Create(b);
+
+                KnihovnaUserDao d = new KnihovnaUserDao();
+                KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+                UserStats.NewPost(u);
 
                 // Notifikace
                 TempData["scs"] = "V pořádku";

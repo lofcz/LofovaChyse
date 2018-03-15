@@ -51,6 +51,14 @@ namespace LofovaChyse.Areas.Admin.Controllers
                 }
 
                 FormsAuthentication.SetAuthCookie(login, false);
+
+                KnihovnaUserDao d = new KnihovnaUserDao();
+                knihovnaUser = d.GetByLogin(login);
+                knihovnaUser.LastLogin = DateTime.Now;
+                knihovnaUser.PrimaryIp = GetUserIp();
+
+                d.Update(knihovnaUser);
+
                 return RedirectToAction("Index", "Home", new {area = ""});
             }
 
@@ -70,7 +78,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             user.CommentsNumber = 0;
             user.Exp = 0;
             user.Id = Books.Counter();
-            user.ImageName = null;
+            user.ImageName = "avatar.png";
             user.JoinedDateTime = DateTime.Now;
             user.LikesNumber = 0;
             user.Login = login;
@@ -111,6 +119,18 @@ namespace LofovaChyse.Areas.Admin.Controllers
             Session.Clear();
 
             return RedirectToAction("Index", "Login");
+        }
+
+        private string GetUserIp()
+        {
+            string ipList = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipList))
+            {
+                return ipList.Split(',')[0];
+            }
+
+            return Request.ServerVariables["REMOTE_ADDR"];
         }
 
     }

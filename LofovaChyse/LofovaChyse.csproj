@@ -824,6 +824,7 @@
     <Compile Include="Class\KnihovnaRoleProvider.cs" />
     <Compile Include="Class\NovinkyGenerator.cs" />
     <Compile Include="Class\Sklonovani.cs" />
+    <Compile Include="Class\UserStats.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KomentareController.cs" />
