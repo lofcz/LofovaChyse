@@ -32,6 +32,14 @@ namespace LofovaChyse.Class
             return user.Name;
         }
 
+		public static KnihovnaUser GetUser(string name)
+		{
+			KnihovnaUserDao dao = new KnihovnaUserDao();
+			KnihovnaUser user = dao.GetByLogin(name);
+
+			return user;
+		}
+
         public static int GetCurrentUserNotifications(string name)
         {
             KnihovnaUserDao dao = new KnihovnaUserDao();
@@ -277,7 +285,7 @@ namespace LofovaChyse.Class
             return outputString;
         }
 
-        
+
         public static bool AccessMatch(int permLevel, string userName)
         {
             if (permLevel == 0)
@@ -379,31 +387,14 @@ namespace LofovaChyse.Class
             d.Update(p);
         }
 
-        public static List<KnihovnaUserRole> GetUserRoles(string login)
-        {
-            KnihovnaUserDao d = new KnihovnaUserDao();
-            KnihovnaUser u = d.GetByLogin(login);
-            KnihovnaUserRoleDao dd = new KnihovnaUserRoleDao();
+		public static bool IsUserBanned(string name)
+		{
+			KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+			KnihovnaUser knihovnaUser = knihovnaUserDao.GetByLogin(name);
 
-            List<KnihovnaUserRole> role = dd.GetUserRoles(u.Id) as List<KnihovnaUserRole>;
-            return role;
-        }
+			DateTime restrictedTo = knihovnaUser.RestrictedTo == null ? DateTime.MinValue : knihovnaUser.RestrictedTo;
 
-        public static string UserRoleName(KnihovnaUserRole r)
-        {
-            string s = "";
-
-            if (r.RoleId == 1)
-            {
-                s = "Admin";    
-            }
-
-            if (r.RoleId == 2)
-            {
-                s = "Uživatel";
-            }
-
-            return s;
-        }
+			return DateTime.Compare(restrictedTo, DateTime.Now) >= 0 ? true : false;
+		}
     }
 }

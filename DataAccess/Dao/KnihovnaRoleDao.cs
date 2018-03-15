@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models;
-using NHibernate.Criterion;
 
 namespace DataAccess.Dao
 {

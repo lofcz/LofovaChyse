@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Security;
 using DataAccess.Dao;
@@ -29,30 +28,12 @@ namespace LofovaChyse.Class
             KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
             KnihovnaUser user = knihovnaUserDao.GetByLogin(username);
 
-            KnihovnaUserRoleDao dd = new KnihovnaUserRoleDao();
-            List<KnihovnaUserRole> r = dd.GetUserRoles(user.Id) as List<KnihovnaUserRole>;
-
-            List<KnihovnaRole> vsechnyRole = new KnihovnaRoleDao().GetAll() as List<KnihovnaRole>;
-
-            List<string> konecneRole = new List<string>();
-
-            foreach (KnihovnaUserRole cr in r)
-            {
-                foreach (KnihovnaRole aktR in vsechnyRole)
-                {
-                    if (cr.RoleId == aktR.Id)
-                    {
-                        konecneRole.Add(aktR.Identificator);
-                    }
-                }
-            }
-
             if (user == null)
             {
                 return new string[] { };
             }
 
-            return konecneRole.ToArray();
+            return new string[] {user.Role.Identificator};
         }
 
         public override void CreateRole(string roleName)
