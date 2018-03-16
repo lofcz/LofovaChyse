@@ -563,9 +563,10 @@ namespace LofovaChyse.Controllers
             return View(b);
         }
 
+        
         [Authorize(Roles = "knihovnik")]
-        [HttpPost]
-        public ActionResult Update(Book book, HttpPostedFileBase picture, int categoryId)
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Update(Book book, HttpPostedFileBase picture, int categoryId, string sumText, string userName)
         {
             try
             {
@@ -577,6 +578,23 @@ namespace LofovaChyse.Controllers
                 book.Category = bookCategory;
                 book.Version = book.Version + 0.1;
                 book.LastEditDateTime = DateTime.Now;
+
+                KnihovnaUser usr = new KnihovnaUserDao().GetByLogin(userName);
+
+                // Zaneseme verzování
+                BookVersion ver = new BookVersion();
+                ver.Id = Books.Counter();
+                ver.SumText = sumText;
+                ver.Version = book.Version;
+                ver.ChangedBy = usr.Id;
+                ver.Date = DateTime.Now;
+                ver.IsApproved = false;
+                ver.IsSuggestion = false;
+                ver.Text = book.Description;
+                ver.PostId = book.Id;
+
+                BookVersionDao vd = new BookVersionDao();
+                vd.Create(ver);
                 
 
                 if (picture != null)
@@ -635,6 +653,20 @@ namespace LofovaChyse.Controllers
         public ActionResult RateDenied()
         {
             return PartialView("RateDenied");
+        }
+
+        public ActionResult BookHistory(int id)
+        {
+            BookVersionDao d = new BookVersionDao();
+            List<BookVersion> seznamEditu = d.GetBookVersions(id) as List<BookVersion>;
+
+            return PartialView(seznamEditu);
+        }
+
+        public ActionResult BookHistoryShow(int id)
+        {
+            BookVersion v = new BookVersionDao().GetbyId(id);
+            return PartialView(v);
         }
     }
 }

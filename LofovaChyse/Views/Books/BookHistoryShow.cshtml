@@ -1,0 +1,12 @@
+﻿@model DataAccess.Models.BookVersion
+@{
+    ViewBag.Title = "BookHistoryShow";
+}
+
+@Html.Raw(Model.Text)
+
+
+<script>
+    var elem = document.getElementById('verzeID');
+    elem.innerHTML = "Verze " + @Model.Version.ToString().Replace(",", ".");
+</script>
