@@ -1,0 +1,11 @@
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\bin\Debug\netcoreapp2.0\NetBuilder.deps.json
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\bin\Debug\netcoreapp2.0\NetBuilder.runtimeconfig.json
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\bin\Debug\netcoreapp2.0\NetBuilder.runtimeconfig.dev.json
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\bin\Debug\netcoreapp2.0\NetBuilder.dll
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\bin\Debug\netcoreapp2.0\NetBuilder.pdb
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\obj\Debug\netcoreapp2.0\NetBuilder.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\obj\Debug\netcoreapp2.0\NetBuilder.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\obj\Debug\netcoreapp2.0\NetBuilder.AssemblyInfoInputs.cache
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\obj\Debug\netcoreapp2.0\NetBuilder.AssemblyInfo.cs
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\obj\Debug\netcoreapp2.0\NetBuilder.dll
+C:\Users\User\Documents\Projects\KrevetaNET\NetBuilder\obj\Debug\netcoreapp2.0\NetBuilder.pdb

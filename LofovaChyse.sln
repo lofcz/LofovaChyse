@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LofovaChyse", "LofovaChyse\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBuilder", "NetBuilder\NetBuilder.csproj", "{228CB2A9-4123-4505-B0ED-FE9D71F09DFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B7F68C8-FB82-4D43-B190-14B1C8CFBFBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{228CB2A9-4123-4505-B0ED-FE9D71F09DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228CB2A9-4123-4505-B0ED-FE9D71F09DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228CB2A9-4123-4505-B0ED-FE9D71F09DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228CB2A9-4123-4505-B0ED-FE9D71F09DFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
