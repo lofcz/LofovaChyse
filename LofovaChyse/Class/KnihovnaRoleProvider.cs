@@ -11,6 +11,11 @@ namespace LofovaChyse.Class
 {
     public class KnihovnaRoleProvider : RoleProvider
     {
+        public enum Auth
+        {
+            A, B, C, D, E, F
+        }
+
         public override bool IsUserInRole(string username, string roleName)
         {
             KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
@@ -22,6 +27,19 @@ namespace LofovaChyse.Class
             }
 
             return user.Role.Identificator == roleName; 
+        }
+
+        public static bool IsUserInAuth(string username, Auth a)
+        {
+            KnihovnaUserDao knihovnaUserDao = new KnihovnaUserDao();
+            KnihovnaUser user = knihovnaUserDao.GetByLogin(username);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return user.AuthLevel >= (int)a;
         }
 
         public override string[] GetRolesForUser(string username)

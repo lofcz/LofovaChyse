@@ -242,6 +242,16 @@
                 <div class="card-footer text-muted infoFooter">
                     <i class="fas fa-comment globalInline postIco"></i>
                     <a class="globalInline postQuickComment" href="javascript:void(0)" onclick="endPage()">KOMENTÁŘ</a>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (KnihovnaRoleProvider.IsUserInAuth(User.Identity.Name, KnihovnaRoleProvider.Auth.C) || User.IsInRole("knihovnik"))
+                        {
+                            <i class="fas fa-edit globalInline postIco" style="position: relative; left: 20px;"></i>
+                            <a class="globalInline postQuickComment" href="javascript:void(0)" onclick="preSugs('@Model.Id', '@User.Identity.Name')" style="position: relative; left: 20px;">Navrhnout úpravu</a>
+                        }
+                    }
+
 
                     <!-- Hodnocení -->
                     <div id="prispevek" class="globalInline">
@@ -696,7 +706,7 @@
                                     if (User.IsInRole("knihovnik") || komentar.OwnerId.Login == User.Identity.Name)
                                     {
                                         <br />
-                                        <a class="float-right tooltext" style="position: relative; top: 3px; left: 0px;" href="javascript:void(0)" onclick="preEdit('@komentar.Id', '@komentar.OwnerId.Name', '@komentar.Content', '@komentar.ReplyId', '@User.Identity.Name', '@komentar.OwnerId.Login')">UPRAVIT</a>
+                                        <a class="float-right tooltext" style="position: relative; top: 3px; left: 0px; z-index: 3;" href="javascript:void(0)" onclick="preEdit('@komentar.Id', '@komentar.OwnerId.Name', '@komentar.Content', '@komentar.ReplyId', '@User.Identity.Name', '@komentar.OwnerId.Login')">UPRAVIT</a>
                                         <a class="float-right tooltext" style="position: relative; top: 20px; left: 46px;" href="javascript:void(0)" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
                                     }
                                 }
@@ -759,6 +769,19 @@
             tinymce.activeEditor.setContent(text);
             window.scrollTo(0, document.body.scrollHeight);
 
+        }
+
+        function preSugs() {
+            var hBtn = document.getElementById("helperBtn");
+            hBtn.style.display = 'inline-block';
+            hBtn.innerHTML = 'Zrušit úpravu';
+
+            document.getElementById("hid").innerHTML = "<i>Navrhuješ úpravu příspěvku</i>";
+            document.getElementById("finishBtn").innerHTML = "Navrhnout";
+
+            var ele = document.getElementById("obsahKnihy");
+            tinymce.activeEditor.setContent(ele.outerHTML);
+            window.scrollTo(0, document.body.scrollHeight);
         }
 
         function preDelete(commentId) {
@@ -824,6 +847,27 @@
             }
         }
 
+        function endEdit() {
+            swal({
+                    title: "Jsi si jistý?",
+                    text: "Změny, které jsi vytvořil budou zahozeny",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Ano",
+                    cancelButtonText: "Zpět"
+                },
+                function () {
+                    swal.close();
+                    document.getElementById("finishBtn").innerHTML = "Komentovat";
+                    tinymce.activeEditor.setContent('');
+
+                    var hBtn = document.getElementById("helperBtn");
+                    hBtn.style.display = 'none';
+                    document.getElementById("hid").innerHTML = "Zapoj se do diskuze!";
+                });
+        }
+
         function prepReply(args, a2) {
             document.getElementById("reply").value = arguments[0];
             window.scrollTo(0, document.body.scrollHeight);
@@ -856,7 +900,7 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-default" id="finishBtn">Komentovat</button>
-                        <button type="button" class="btn btn-default" id="helperBtn">Zrušit úpravu</button>
+                        <button type="button" class="btn btn-default" id="helperBtn" onclick="endEdit()">Zrušit úpravu</button>
                     </div>
                 </div>
             }

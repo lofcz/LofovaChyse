@@ -668,5 +668,21 @@ namespace LofovaChyse.Controllers
             BookVersion v = new BookVersionDao().GetbyId(id);
             return PartialView(v);
         }
+
+        public ActionResult BookHistorySet(int id)
+        {
+            BookVersion v = new BookVersionDao().GetbyId(id);
+            BookDao bd = new BookDao();
+            Book b = bd.GetbyId(v.PostId);
+            b.Version = v.Version;
+            b.Description = v.Text;
+            bd.Update(b);
+
+
+            BookVersionDao d = new BookVersionDao();
+            List<BookVersion> seznamEditu = d.GetBookVersions(v.PostId) as List<BookVersion>;
+
+            return PartialView("BookHistory", seznamEditu);
+        }
     }
 }
