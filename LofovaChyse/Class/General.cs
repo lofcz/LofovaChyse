@@ -435,5 +435,17 @@ namespace LofovaChyse.Class
             DateTime restrictedTo = knihovnaUser.RestrictedTo;
             return restrictedTo;
         }
+
+        public static KnihovnaUser GetUserById(int userId)
+        {
+            KnihovnaUser k = new KnihovnaUserDao().GetbyId(userId);
+            return k;
+        }
+
+        public static Book GetBook(int bookId)
+        {
+            Book b = new BookDao().GetbyId(bookId);
+            return b;
+        }
     }
 }

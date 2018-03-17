@@ -99,6 +99,7 @@
     <Compile Include="Dao\BookOdznakDao.cs" />
     <Compile Include="Dao\BookPaymentDao.cs" />
     <Compile Include="Dao\BookSekceDao.cs" />
+    <Compile Include="Dao\BookVersionDao.cs" />
     <Compile Include="Dao\DaoBase.cs" />
     <Compile Include="Dao\KnihovnaKategorieDao.cs" />
     <Compile Include="Dao\KnihovnaKomentareDao.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Models\BookPayment.cs" />
     <Compile Include="Models\Books.cs" />
     <Compile Include="Models\BookSekce.cs" />
+    <Compile Include="Models\BookVersion.cs" />
     <Compile Include="Models\KnihovnaKategorie.cs" />
     <Compile Include="Models\KnihovnaKomentare.cs" />
     <Compile Include="Models\KnihovnaKomentareLikes.cs" />
@@ -170,6 +172,7 @@
     <EmbeddedResource Include="Mappings\BookOdznakArchetyp.hbm.xml" />
     <EmbeddedResource Include="Mappings\KnihovnaPratele.hbm.xml" />
     <EmbeddedResource Include="Mappings\KnihovnaUserRole.hbm.xml" />
+    <EmbeddedResource Include="Mappings\BookVersion.hbm.xml" />
     <Content Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

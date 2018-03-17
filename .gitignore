@@ -2,3 +2,9 @@
 LofovaChyse/obj/*
 DataAccess/obj/*
 NetBuilder/obj/*
+NetBuilder/obj/Debug/netcoreapp2.0/NetBuilder.csproj.CoreCompileInputs.cache
+NetBuilder/obj/Debug/netcoreapp2.0/NetBuilder.csproj.CoreCompileInputs.cache
+NetBuilder/obj/NetBuilder.csproj.nuget.cache
+NetBuilder/obj/NetBuilder.csproj.nuget.g.props
+*.cache
+*.dll

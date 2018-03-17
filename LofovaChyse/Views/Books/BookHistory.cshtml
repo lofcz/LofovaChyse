@@ -1,0 +1,95 @@
+﻿@using DataAccess.Models
+@using LofovaChyse.Class
+@model List<DataAccess.Models.BookVersion>
+@{
+    ViewBag.Title = "BookHistory";
+}
+
+<h2>Verze příspěvku:</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Verze</th>
+            <th scope="col">Souhrn</th>
+            <th scope="col">Návrh od</th>
+            <th scope="col">Schváleno</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Změny</th>
+            <th scope="col">Veřejná</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+    @foreach (BookVersion b in Model)
+    {
+        Book book = General.GetBook(b.PostId);
+
+        <tr>
+            <th scope="row">
+                @if (b.Version == book.Version)
+                {
+                    <strong>@b.Version</strong>
+                }
+                else
+                {
+                    @b.Version
+                }
+
+            </th>
+            <td>@Html.Raw(b.SumText)</td>
+            <td>
+                
+                @if (b.IsSuggestion)
+                {
+                    <div class="pretty p-icon p-round p-locked p-jelly">
+                        <input type="checkbox" checked/>
+                        <div class="state p-success">
+                            <i class="icon mdi mdi-check"></i>
+                            <label>Moderátor</label>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="pretty p-icon p-round p-locked p-jelly">
+                        <input type="checkbox" checked/>
+                        <div class="state p-warning">
+                            <i class="icon mdi mdi-check"></i>
+                            <label>Uživatele</label>
+                        </div>
+                    </div>
+                }
+
+            </td>
+            <td>
+                @if (b.IsApproved)
+                {
+                    <div class="pretty p-icon p-round p-locked p-jelly">
+                        <input type="checkbox" checked/>
+                        <div class="state p-success">
+                            <i class="icon mdi mdi-check"></i>
+                            <label>Ano</label>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="pretty p-icon p-round p-locked p-jelly">
+                        <input type="checkbox" checked/>
+                        <div class="state p-danger">
+                            <i class="icon mdi mdi-check"></i>
+                            <label>Ne</label>
+                        </div>
+                    </div>
+                }
+            </td>
+            <td>@General.GetUserById(b.ChangedBy).Name</td>
+            <td>@b.Date.ToString("D")</td>
+            <td>@Ajax.ActionLink("Zobrazit", "BookHistoryShow", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "obsahKnihy", InsertionMode = InsertionMode.Replace, OnBegin = "openModal" }, new { @class = "btn btn-sm btn-primary"})</td>
+            <td>@Ajax.ActionLink("Nastavit", "BookHistoryShow", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "obsahKnihy", InsertionMode = InsertionMode.Replace, OnBegin = "openModal" }, new { @class = "btn btn-sm btn-success"})</td>
+        </tr>
+    }
+    </tbody>
+</table>
