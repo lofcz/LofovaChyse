@@ -159,3 +159,4 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csprojResol
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csproj.CoreCompileInputs.cache
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.pdb
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\NHibernate.xml

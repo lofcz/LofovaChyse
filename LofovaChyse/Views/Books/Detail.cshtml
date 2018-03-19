@@ -707,7 +707,7 @@
                                     {
                                         <br />
                                         <a class="float-right tooltext" style="position: relative; top: 3px; left: 0px; z-index: 3;" href="javascript:void(0)" onclick="preEdit('@komentar.Id', '@komentar.OwnerId.Name', '@komentar.Content', '@komentar.ReplyId', '@User.Identity.Name', '@komentar.OwnerId.Login')">UPRAVIT</a>
-                                        <a class="float-right tooltext" style="position: relative; top: 20px; left: 46px;" href="javascript:void(0)" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
+                                        <a class="float-right tooltext" style="position: relative; top: 20px; left: 46px; z-index: 3;" href="javascript:void(0)" onclick="preDelete(@komentar.Id)">ODSTRANIT</a>
                                     }
                                 }
                             </div>
@@ -751,6 +751,7 @@
         function preEdit(commentId, userName, text) {
             document.getElementById("reply").value = arguments[3];
             document.getElementById("type").value = commentId;
+            document.getElementById("typeData").value = "komentEdit";
             var yourUl = document.getElementById("hid");
             yourUl.style.display = 'block';
 
@@ -775,6 +776,9 @@
             var hBtn = document.getElementById("helperBtn");
             hBtn.style.display = 'inline-block';
             hBtn.innerHTML = 'Zrušit úpravu';
+            document.getElementById("typeData").value = "prispevekEdit";
+            document.getElementById("reply").value = '666';
+            document.getElementById("type").value = '666';
 
             document.getElementById("hid").innerHTML = "<i>Navrhuješ úpravu příspěvku</i>";
             document.getElementById("finishBtn").innerHTML = "Navrhnout";
@@ -782,6 +786,10 @@
             var ele = document.getElementById("obsahKnihy");
             tinymce.activeEditor.setContent(ele.outerHTML);
             window.scrollTo(0, document.body.scrollHeight);
+
+            //var yourUl = document.getElementById("difText");
+            $("#difText").show(1000);
+
         }
 
         function preDelete(commentId) {
@@ -865,6 +873,7 @@
                     var hBtn = document.getElementById("helperBtn");
                     hBtn.style.display = 'none';
                     document.getElementById("hid").innerHTML = "Zapoj se do diskuze!";
+                    $("#difText").hide(1000);
                 });
         }
 
@@ -887,19 +896,28 @@
                 @Html.Hidden("topicID", Url.RequestContext.RouteData.Values["id"])
                 @Html.Hidden("type", (string)ViewBag.DataShit)
                 @Html.Hidden("reply", (int)ViewBag.DataReply)
+                @Html.Hidden("typeData", (string)ViewBag.DataShit)
 
                 <br />
                 <p id="hid">Zapoj se do diskuze!</p>
 
-                <div class="form-group">
+                <div class="form-group" id="mainInput" style="display: none" >
                     <div>
                         @Html.TextArea("description", "", new { @class = "form-control formatedtext" })
                     </div>
                 </div>
 
+                
+                <div class="form-group" style="display: none" id="difText">
+                    <div>
+                        <i>Co jsi změnil? Velmi stručně.</i>
+                        @Html.TextBox("sumText", "", new {@class = "form-control", placeholder="Např: opraveno typo"})
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-default" id="finishBtn">Komentovat</button>
+                        <button type="submit" class="btn btn-default" id="finishBtn"  style="display: none" >Komentovat</button>
                         <button type="button" class="btn btn-default" id="helperBtn" onclick="endEdit()">Zrušit úpravu</button>
                     </div>
                 </div>
@@ -921,8 +939,19 @@
         .mce-path { /* CSS */
             display: none !important;
         }
+
+        del {
+            background-color: #FEE6E6 !important;
+        }
+
+        ins {
+            background-color: #E7FFE7 !important;
+        }
+
+
     </style>
-    <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+<script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
+
     <script>
         tinymce.init({
             selector: '.formatedtext',
@@ -946,6 +975,13 @@
             });
             return false;
         }
+
+        jQuery(document).ready(function() {
+            jQuery("#mainInput").show(500);
+            jQuery("#finishBtn").show(500);
+
+            
+        });
     </script>
 
 </div>

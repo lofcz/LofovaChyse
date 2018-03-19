@@ -8,5 +8,24 @@
 
 <script>
     var elem = document.getElementById('verzeID');
-    elem.innerHTML = "Verze " + @Model.Version.ToString().Replace(",", ".");
+    elem.innerHTML = 'Verze ' + @Model.Version.ToString().Replace(",", ".");
+
+   // textPrev = '<b>Pejsek</b>';
+//    var txt = diffString(textPrev, textAfter);
+
+// Sets the HTML
+//    jQuery('#obsahKnihy').html(txt);
+
+// Find the `del` and `ins` in there, if any, before doing the re-interpretation
+// (don't do it after, since the re-interpretation may create further `del` or
+// `ins` elements)
+   // var del = jQuery('#obsahKnihy del');
+  //  var ins = jQuery('#obsahKnihy ins');
+
+// Re-interprets `del`'s text as HTML:
+ //   del.html(del.text());
+
+// Re-interprets `ins`'s text as HTML:
+  //  ins.html(ins.text());
+
 </script>

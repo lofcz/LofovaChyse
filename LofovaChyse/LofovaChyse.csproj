@@ -105,8 +105,8 @@
     <Reference Include="WebActivator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivator.1.5\lib\net40\WebActivator.dll</HintPath>
     </Reference>
-    <Reference Include="Z.Expressions.Eval, Version=2.4.19.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Z.Expressions.Eval.2.4.19\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    <Reference Include="Z.Expressions.Eval, Version=2.4.20.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.Expressions.Eval.2.4.20\lib\net45\Z.Expressions.Eval.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -598,11 +598,12 @@
     <Content Include="Scripts\fontawesome.js" />
     <Content Include="Areas\Admin\Views\Books\AddOdznakArchetypBook.cshtml" />
     <Content Include="Areas\Admin\Views\Books\AddOdznakBook.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\GiveUserRole.cshtml" />
+    <Content Include="package.json" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="Areas\Admin\Views\Users\GiveUserRole.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -620,7 +621,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jsdif.js" />
+    <Content Include="Scripts\jsd.js" />
+    <Content Include="Scripts\jsdifff.js" />
+    <Content Include="Scripts\jsdiffinal.js" />
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -872,6 +875,8 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Home\NastavNaladu.cshtml" />
     <Content Include="Views\Home\NastavNaladuSQL.cshtml" />
+    <Content Include="Views\Books\BookHistory.cshtml" />
+    <Content Include="Views\Books\BookHistoryShow.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -881,8 +886,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Books\BookHistory.cshtml" />
-    <Content Include="Views\Books\BookHistoryShow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
