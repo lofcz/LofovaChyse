@@ -135,6 +135,8 @@
     <Compile Include="Models\KnihovnaRole.cs" />
     <Compile Include="Models\KnihovnaUser.cs" />
     <Compile Include="Models\KnihovnaUserRole.cs" />
+    <Compile Include="Models\KnihovnaVouchery.cs" />
+    <Compile Include="Models\KnihovnaVoucheryArchetyp.cs" />
     <Compile Include="Models\KnihovnaZed.cs" />
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,6 +175,8 @@
     <EmbeddedResource Include="Mappings\KnihovnaPratele.hbm.xml" />
     <EmbeddedResource Include="Mappings\KnihovnaUserRole.hbm.xml" />
     <EmbeddedResource Include="Mappings\BookVersion.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaVoucheryArchetyp.hbm.xml" />
+    <EmbeddedResource Include="Mappings\KnihovnaVouchery.hbm.xml" />
     <Content Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

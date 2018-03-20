@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="DataAccess" namespace="DataAccess.Models">
+
+  <class name="KnihovnaVouchery" table="knihovna_vouchery">
+    <id name="Id" column="Id">
+      <generator class="native" />
+    </id>
+    <property name="Code" column="code" />
+    <property name="Used" column="used" />
+    <property name="UsedId" column="usedId" />
+    <property name="UsedDate" column="usedDate" />
+    <property name="Type" column="type" />
+  </class>
+
+</hibernate-mapping>
