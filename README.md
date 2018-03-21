@@ -18,7 +18,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
   - Přidat
   - Upravit
   - Smazat
-  - Verzování
+  - Verzování + návrhy na úpravy příspěvků
   - Náhled
   - Detail
     - AJAX
@@ -66,6 +66,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - AJAX
 - Menu autorouting
 - Hlavní zeď aktivity, automaticky generované (novinky)
+- Vouchery / dárkové poukazy
 
 ## Lokální setup: 
 Prerekvizity:
