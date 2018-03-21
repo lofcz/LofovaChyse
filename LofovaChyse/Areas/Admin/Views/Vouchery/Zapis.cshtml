@@ -1,0 +1,71 @@
+﻿@model DataAccess.Models.KnihovnaVouchery
+
+
+
+<h2>Přidat voucher</h2>
+
+
+@using (Html.BeginForm("Pridat", "Vouchery", FormMethod.Post, new { @class = "form-horizontal" })) // Umožní zpracovat nahrané soubory
+{
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Klíč</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Code, new { @class = "form-control", @id=@"goDie", @Value="random-key"})
+            <p class="btn btn-light" onclick="f()">Generovat</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Typ</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Type, new { @class = "form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Přidat voucher</button>
+        </div>
+    </div>
+
+    <p id="omgsuck">DIE</p>
+}
+
+<script>
+
+        function getRandomInt( min, max ) {
+            return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+        }
+    
+        function generateProductKey() {
+            var tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                chars = 5,
+                segments = 4,
+                keyString = "";
+			
+            for( var i = 0; i < segments; i++ ) {
+                var segment = "";
+			
+                for( var j = 0; j < chars; j++ ) {
+                    var k = getRandomInt( 0, 35 );
+                    segment += tokens[ k ];
+                }
+			
+                keyString += segment;
+			
+                if( i < ( segments - 1 ) ) {
+                    keyString += "-";
+                }
+            }
+		
+            return keyString;
+
+        }
+
+    jQuery("#goDie").val(generateProductKey());
+
+    function f() {
+        jQuery("#goDie").val(generateProductKey());
+
+    }
+</script>

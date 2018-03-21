@@ -1,0 +1,55 @@
+﻿@using DataAccess.Models
+@model List<DataAccess.Models.KnihovnaVouchery>
+@{
+    ViewBag.Title = "Vypis";
+}
+
+<h2>Seznam voucherů</h2>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Klíč</th>
+        <th>Použito</th>
+        <th>Přiřazeno</th>
+        <th>Použil uživatel</th>
+        <th>Použito dne</th>
+    </tr>
+
+    @foreach (KnihovnaVouchery v in Model)
+    {
+    <tr>
+        <td>@v.Id</td>
+        <td>@v.Code</td>
+
+        @if (v.Used)
+        {
+            <td>
+                <div class="pretty p-icon p-rotate">
+                    <input type="checkbox" checked="checked"/>
+                    <div class="state p-success">
+                        <i class="icon mdi mdi-check"></i>
+                        <label></label>
+                    </div>
+                </div>
+            </td>
+        }
+        else
+        {
+            <td>
+                <div class="pretty p-icon p-rotate">
+                    <input type="checkbox" checked="checked"/>
+                    <div class="state p-danger-o">
+                        <i class="icon mdi mdi-close"></i>
+                        <label></label>
+                    </div>
+                </div>
+            </td>
+        }
+
+        <td>@v.Assigned</td>
+        <td>@v.UsedId</td>
+        <td>@v.UsedDate</td>
+    </tr>
+    }
+</table>   

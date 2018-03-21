@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Administrace</h2>
-
 <ul>
     <li><a href="@Url.Action("Index", "Books")">Správa knih</a></li>
     <li><a href="@Url.Action("UpravitUzivatele", "Books")">Správa uživatelů</a></li>
@@ -13,17 +11,21 @@
     <li><a href="@Url.Action("AddOdznak", "Books")">Udělit odznak</a></li>
     <li><a href="@Url.Action("AddOdznakArchetyp", "Books")">Vytvořit odznak</a></li>
 </ul>
-
 <hr />
 <p>Odznaky pro příspěvky:</p>
-
 <ul>
     <li><a href="@Url.Action("AddOdznakArchetypBook", "Books")">Vytvořit</a></li>
     <li><a href="@Url.Action("AddOdznakBook", "Books")">Udělit</a></li>
 </ul>
-
 <hr />
 <p>Uživatelé:</p>
 <ul>
     <li><a href="@Url.Action("GiveUserRole", "Users")">Udělit uživateli roli</a></li>
+</ul>
+<hr />
+<p>Vouchery:</p>
+<ul>
+    <li><a href="@Url.Action("Index", "Vouchery")">Vytvořit typ voucheru</a></li>
+    <li><a href="@Url.Action("Zapis", "Vouchery")">Přidat voucher do DB</a></li>
+    <li><a href="@Url.Action("Vypis", "Vouchery")">Zobrazit vouchery</a></li>
 </ul>

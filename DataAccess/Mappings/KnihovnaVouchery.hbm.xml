@@ -10,6 +10,7 @@
     <property name="UsedId" column="usedId" />
     <property name="UsedDate" column="usedDate" />
     <property name="Type" column="type" />
+    <property name="Assigned" column="assigned"/>
   </class>
 
 </hibernate-mapping>

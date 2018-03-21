@@ -15,5 +15,6 @@ namespace DataAccess.Models
         public virtual int UsedId { get; set; }
         public virtual DateTime UsedDate { get; set; }
         public virtual int Type { get; set; }
+        public virtual bool Assigned { get; set; }
     }
 }

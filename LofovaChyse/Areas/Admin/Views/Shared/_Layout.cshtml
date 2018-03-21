@@ -13,12 +13,16 @@
     <script src="~/Scripts/MicrosoftMvcAjax.js"></script>
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    </head>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.1.99/css/materialdesignicons.min.css">
+</head>
 <body>
         <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-inverse">
         <div class="container">
             <div class="navbar-header">
-                @Html.ActionLink("Odejít z ACP", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ACP", "Index", "Home", new {}, new { @class = "navbar-brand" })
+                @Html.ActionLink("Odejít z ACP", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

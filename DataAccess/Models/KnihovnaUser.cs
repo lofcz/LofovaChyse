@@ -37,5 +37,8 @@ namespace DataAccess.Models
         public virtual DateTime LastLogin { get; set; }
         public virtual string PrimaryIp { get; set; }
         public virtual int RateRemains { get; set; }
+
+        // Internal shit
+        public virtual string _ChatID { get; set; }
     }
 }

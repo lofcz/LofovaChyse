@@ -110,7 +110,7 @@ namespace LofovaChyse.Controllers
             Random r = new Random();
 
             List<int> testData = new List<int>();          
-
+            
             for (var i = 0; i < 10; i++)
             {
                 testData.Add(r.Next(1, 100));
@@ -118,17 +118,25 @@ namespace LofovaChyse.Controllers
             }
 
             List<int> backup = testData.ToList();
-            List<int> result = Z.Expressions.Eval.Execute<List<int>>(header + "\r\n" + popis);
-           
-            ViewBag.Result = result;
-            ViewBag.RawData = backup.ToList();
 
-            testData.Sort();
-            ViewBag.Desired = testData;
+            try
+            {
+                List<int> result = Z.Expressions.Eval.Execute<List<int>>(header + "\r\n" + popis);
 
-            bool equal = ListEqual(result, testData);
+                ViewBag.Result = result;
+                ViewBag.RawData = backup.ToList();
 
-            ViewBag.Ok = equal;
+                testData.Sort();
+                ViewBag.Desired = testData;
+
+                bool equal = ListEqual(result, testData);
+
+                ViewBag.Ok = equal;
+            }
+            catch (Exception e)
+            {
+            }
+         
 
             return PartialView();
         }
@@ -232,6 +240,39 @@ namespace LofovaChyse.Controllers
             dao.Delete(n);
 
             return Json(new { });
+        }
+
+        public JsonResult UplatnitPoukaz(string code)
+        {
+            // Dostaneme všechny poukazy
+            List<KnihovnaVouchery> v = new KnihovnaVoucheryDao().GetAll() as List<KnihovnaVouchery>;
+            bool s = false;
+
+            foreach (KnihovnaVouchery w in v)
+            {
+                if (w.Code == code && !w.Used)
+                {
+                    KnihovnaVoucheryDao d = new KnihovnaVoucheryDao();
+                    w.Used = true;
+                    w.UsedId = new KnihovnaUserDao().GetByLogin(User.Identity.Name).Id;
+                    w.UsedDate = DateTime.Now;
+
+                    d.Update(w);
+                    s = true;
+                    break;
+                }
+            }
+
+            if (s)
+            {
+                ViewBag.yes = true;
+            }
+            else
+            {
+                ViewBag.yes = false;
+            }
+
+            return Json(s, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -112,6 +112,8 @@
     <Compile Include="Dao\KnihovnaRoleDao.cs" />
     <Compile Include="Dao\KnihovnaUserDao.cs" />
     <Compile Include="Dao\KnihovnaUserRoleDao.cs" />
+    <Compile Include="Dao\KnihovnaVoucheryArchetypDao.cs" />
+    <Compile Include="Dao\KnihovnaVoucheryDao.cs" />
     <Compile Include="Dao\KnihovnaZedDao.cs" />
     <Compile Include="Interface\IDaoBase.cs" />
     <Compile Include="Interface\IEntity.cs" />
