@@ -1,24 +1,49 @@
-﻿@using DataAccess.Models
+﻿@using System.Text
+@using DataAccess.Dao
+@using DataAccess.Models
+@using System.Collections.Generic;
+
 @model List<DataAccess.Models.KnihovnaVouchery>
 @{
     ViewBag.Title = "Vypis";
+    KnihovnaVoucheryArchetypDao d = new KnihovnaVoucheryArchetypDao();
+    List<KnihovnaVoucheryArchetyp> lst = d.GetAll() as List<KnihovnaVoucheryArchetyp>;
 }
 
 <h2>Seznam voucherů</h2>
 
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>ID</th>
         <th>Klíč</th>
         <th>Použito</th>
-        <th>Přiřazeno</th>
+        <th>Volné k využití</th>
         <th>Použil uživatel</th>
-        <th>Použito dne</th>
+        <th>Datum použití</th>
+        <th>Typ</th>
     </tr>
 
     @foreach (KnihovnaVouchery v in Model)
     {
-    <tr>
+        {
+            ViewBag.cls = "";
+
+            if (v.UsedId != -1)
+            {
+                KnihovnaUser u = new KnihovnaUserDao().GetbyId(v.UsedId);
+                ViewBag.name = u.Name;
+            }
+            else
+            {
+                ViewBag.name = "Nikdo";
+
+                if (!v.Assigned)
+                {
+                    ViewBag.cls = "table-warning";
+                }
+            }
+        }
+    <tr class="@ViewBag.cls" id="@("bunka" + v.Id)">
         <td>@v.Id</td>
         <td>@v.Code</td>
 
@@ -46,10 +71,58 @@
                 </div>
             </td>
         }
-
-        <td>@v.Assigned</td>
-        <td>@v.UsedId</td>
+        
+        @if (!v.Assigned && v.UsedId == -1)
+        {
+            <td>
+                <button class="btn btn-warning btn-sm" type="button" onclick="prirad(@v.Id)" id="@("tlacitko" + v.Id)">Přiřadit</button>
+            </td>
+        }
+        else
+        {
+            <td>
+            </td>
+        }
+        <td>@ViewBag.name</td>
         <td>@v.UsedDate</td>
+        <td>
+            @{
+                foreach (KnihovnaVoucheryArchetyp kvr in lst)
+                {
+                    if (kvr.Type == v.Type)
+                    {
+                        ViewBag.name = kvr.Name;
+                        ViewBag.desc = kvr.Description;
+                        break;
+                    }
+                }
+            }
+
+            <i onclick="swwl(`@ViewBag.desc`);">@ViewBag.name</i>
+        </td>
     </tr>
     }
 </table>   
+
+<script>
+    function prirad(id) {
+        jQuery("#bunka" + id.toString()).removeClass("table-warning");
+        jQuery("#tlacitko" + id.toString()).hide(100);
+
+        
+        jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("Odskrtnout", "Home")',
+            data: { id: id }
+        });
+    }
+
+    function swwl() {
+        swal({
+            title: "",
+            text: arguments[0],
+            type: "info",
+            html: true
+        });
+    }
+</script>

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using DataAccess.Dao;
+using DataAccess.Models;
 
 namespace LofovaChyse.Areas.Admin.Controllers
 {
@@ -20,6 +22,17 @@ namespace LofovaChyse.Areas.Admin.Controllers
         {
             ViewBag.Id = id;
             return View();
+        }
+
+        public JsonResult Odskrtnout(int id)
+        {
+            KnihovnaVouchery v = new KnihovnaVoucheryDao().GetbyId(id);
+            v.Assigned = true;
+
+            KnihovnaVoucheryDao d = new KnihovnaVoucheryDao();
+            d.Update(v);
+
+            return new JsonResult();
         }
     }
 }

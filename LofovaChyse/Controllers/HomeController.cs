@@ -259,6 +259,16 @@ namespace LofovaChyse.Controllers
 
                     d.Update(w);
                     s = true;
+
+                    // Přidat uživateli odměnu
+                    KnihovnaUserDao dd = new KnihovnaUserDao();
+                    KnihovnaUser u = dd.GetByLogin(User.Identity.Name);
+                    if (w.Type == 0)
+                    {
+                        u.Money += 10;           
+                    }
+
+                    dd.Update(u);
                     break;
                 }
             }

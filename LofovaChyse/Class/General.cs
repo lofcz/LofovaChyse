@@ -447,5 +447,15 @@ namespace LofovaChyse.Class
             Book b = new BookDao().GetbyId(bookId);
             return b;
         }
+
+        public static string VoucherToString(int type)
+        {
+            if (type == 0)
+            {
+                return "Krevity x10";
+            }
+
+            return "[UNDEFINED-VOUCHER-GENERAL]";
+        }
     }
 }
