@@ -145,6 +145,20 @@
 
 </div>
 
+
+
+<span id="newTime">dsadas</span>
+<textarea id="chatText" data-test="@User.Identity.Name"></textarea>
+<input type="button" id="btnClick22" value="Send Message" /><br />
+<span id="messageShit">Message here</span>
+
+@Html.Raw(General.RestoreChat())
+
+
+<script src="~/Scripts/jquery.signalR-2.2.3.js"></script>
+<script src="~/SignalR/hubs"></script>
+<script src="~/Scripts/test/timer.js"></script>
+
 <script>
     var editor = CodeMirror.fromTextArea(myTextarea,
         {
@@ -164,19 +178,6 @@
 <script>
     $('form').ajaxForm({
         target: '#modalContent'
-    });
-
-    $(function() {
-
-        // Declare a proxy to reference the hub.   
-        var chatHub = $.connection.chatHub;
-        registerClientMethods(chatHub);
-        // Start Hub  
-        $.connection.hub.start().done(function() {
-
-            registerEvents(chatHub);
-
-        });
     });
 
     function inputFunction() {

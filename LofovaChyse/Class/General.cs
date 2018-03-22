@@ -457,5 +457,22 @@ namespace LofovaChyse.Class
 
             return "[UNDEFINED-VOUCHER-GENERAL]";
         }
+
+        public static string RestoreChat()
+        {
+            string s = "";
+
+            KnihovnaUserDao ud = new KnihovnaUserDao();
+            ChatZpravyDao d = new ChatZpravyDao();
+            List<ChatZpravy> l = d.GetAll() as List<ChatZpravy>;
+
+            foreach (ChatZpravy z in l)
+            {
+                KnihovnaUser u = ud.GetbyId(z.UserFrom);
+                s += u.Name + ": " + z.Text + "<br/>";
+            }
+
+            return s;
+        }
     }
 }

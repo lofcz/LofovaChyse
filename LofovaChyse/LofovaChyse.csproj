@@ -665,6 +665,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\prism.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\test\timer.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\langs\cs.js" />
     <Content Include="Scripts\tinymce\license.txt" />
@@ -843,7 +844,6 @@
     <Compile Include="Areas\Admin\Controllers\NotifikaceController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Controllers\VoucheryController.cs" />
-    <Compile Include="ChatHub.cs" />
     <Compile Include="Class\Cache.cs" />
     <Compile Include="Class\General.cs" />
     <Compile Include="Class\HNotifikace.cs" />
@@ -864,6 +864,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MyHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
