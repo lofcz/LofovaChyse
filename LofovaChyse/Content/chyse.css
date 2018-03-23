@@ -1,0 +1,384 @@
+﻿   .btn-space {
+       margin-right: 5px;
+   }
+
+   .btn-sm {
+       height: 26px;
+       padding: 2px 5px;
+       font-size: 12px;
+       line-height: 1.5;
+       border-radius: 3px;
+       margin-right: 5px;
+   }
+
+   .ratingbtnBig {
+       font-size: 12px;
+       color: #999999;
+       position: relative;
+       top: -1px;
+       margin-left: 8px;
+       left: 10px;
+   }
+
+   .totalBig {
+       font-family: 'Open Sans', sans-serif;
+       font-size: 18px;
+       font-weight: 600;
+       color: #999999;
+       text-align: left;
+       position: relative;
+       top: -4px;
+       left: 5px;
+   }
+
+   .card-footer {
+       margin: 0 7px;
+       border-top: solid 1px #DDDDDD;
+       color: white;
+   }
+
+   .ratingUsedBig {
+       color: #00a6dd;
+   }
+
+   .ratingUsedBig1 {
+       color: #d44d32;
+   }
+
+   .ratingUsedBig2 {
+       color: #eab513;
+   }
+
+   .ratingUsedBig3 {
+       color: #7fc215;
+   }
+
+   .fa-check {
+       display: inline;
+       border-radius: 60px;
+       box-shadow: 0px 0px 2px #888;
+       background: #7fc215;
+       width: 18px !important;
+       height: 18px !important;
+       text-align: center;
+       line-height: 30px;
+       vertical-align: middle;
+       padding: 3px;
+       color: white !important;
+   }
+
+   .fa-ellipsis-v:hover {
+       color: #444444;
+   }
+
+   .menuIco {
+       position: relative;
+       right: 6px;
+       top: 15px;
+       color: #999999
+   }
+
+.margarin {
+    margin-right: 5px;
+}
+
+.postIco {
+    color: #999999;
+    position: relative;
+    right: 10px;
+}
+
+.postQuickComment {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 600;
+    color: #999999;
+    position: relative;
+    right: 10px;
+}
+
+.postInfo {
+    color: #999999;
+    position: relative;
+    top: -10px;
+}
+
+.tooltextBig {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    color: #999999;
+    position: relative;
+    top: 6px;
+}
+
+.tooltext {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    color: #999999;
+    position: relative;
+    top: 6px;
+}
+
+.infoFooter {
+    background-color: white;
+    color: white;
+}
+
+.postCarret {
+    font-size: 12px;
+    position: relative;
+    top: -1px;
+}
+
+.postNavigate {
+    color: #999999;
+}
+
+.globalInline {
+    display: inline;
+}
+
+.postAuthor {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.postImageWrapper {
+    margin-right: 10px;
+    float: left;
+    position: relative;
+}
+
+.postTitle {
+    font-size: 24px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    position: relative;
+}
+
+.postImage {
+    width: 20px !important;
+    height: 20px !important;
+    position: relative;
+    top: -2px;
+}
+
+strong {
+    font-size: 1.2em;
+}
+
+.fa-thumbs-up {
+    margin-bottom: 2px;
+}
+
+.fa-cog {
+    margin-bottom: 1px;
+}
+
+.fa-sun {
+    font-size: 1.6em;
+}
+
+.no-click {
+    pointer-events: none;
+}
+
+.fa-thumbs-up:hover {
+    color: #26addf;
+}
+
+.fa-cog:hover {
+    color: #eab513;
+}
+
+.fa-heart:hover {
+    color: #d44d32;
+}
+
+.fa-sun:hover {
+    color: #7fc215;
+}
+
+.detailBox {
+    width: 320px;
+    border: 1px solid #bbb;
+    margin: 50px;
+}
+
+.titleBox {
+    background-color: #fdfdfd;
+    padding: 10px;
+}
+
+    .titleBox label {
+        color: #444;
+        margin: 0;
+        display: inline-block;
+    }
+
+.commentBox {
+    padding: 10px;
+    border-top: 1px dotted #bbb;
+}
+
+    .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+        width: 80%;
+    }
+
+    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+        width: 18%;
+    }
+
+.actionBox .form-group * {
+    width: 100%;
+}
+
+.taskDescription {
+    margin-top: 10px;
+}
+
+.commentList {
+    list-style: none;
+}
+
+.commenterImage {
+    width: 30px;
+    margin-right: 10px;
+    height: 100%;
+    float: left;
+    position: relative;
+    right: 12px
+}
+
+    .commenterImage img {
+        width: 100%;
+    }
+
+.commentText p {
+    margin: 0;
+}
+
+.sub-text {
+    color: #aaa;
+    font-family: verdana;
+    font-size: 11px;
+}
+
+.actionBox {
+    border-top: 1px dotted #bbb;
+    padding: 10px;
+}
+
+.h5 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.ctext {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    color: #444444;
+    position: relative;
+    top: -6px;
+}
+
+.rep {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #00a6dd;
+    padding-left: 38px
+}
+
+.total {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #00a6dd;
+}
+
+.div {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #444444;
+    opacity: 0.2;
+    position: relative;
+    top: -1px;
+}
+
+.ratingbtn {
+    font-size: 8px;
+    color: #999999;
+    position: relative;
+    top: -1px;
+}
+
+.ratingUsed {
+    color: #00a6dd;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.ratingUsed1 {
+    color: #d44d32;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.ratingUsed2 {
+    color: #eab513;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.ratingUsed3 {
+    color: #7fc215;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.bg-koment {
+    background-color: #FFFFFF
+}
+
+.circle-icon {
+    background: #ffc0c0;
+    border-radius: 50%;
+    width: 24px;
+    height: 12px;
+    text-align: center;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.icon-background1 {
+    color: #ffc0ff;
+}
+
+body {
+    background-color: #F6F6F6 !important;
+}
+
+.odpoved {
+    margin-left: 15px;
+    width: 97%;
+    position: relative;
+    top: -9px;
+    border-radius: 0px !important;
+}
