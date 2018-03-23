@@ -284,5 +284,17 @@ namespace LofovaChyse.Controllers
 
             return Json(s, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult SetName(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.Name = value;
+            d.Update(u);
+            return Json(new { });
+        }
     }
 }

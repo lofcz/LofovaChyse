@@ -145,7 +145,30 @@
 
 </div>
 
+<i id="nameData" class=""></i>
+<script>
 
+    $(function() {
+        $("#nameData").editstrap({
+            type: 'text',
+            validateClass:'success',
+            saveOptions:'block',
+            title: 'Upravit',
+            editClasses: 'fas fa-check',
+            url: '@Url.Action("SetName", "Home")',         
+            emptyField: 'No data',
+            displaySuccess:function(editable,value,text){
+                var element = editable.parent().parent().find(".result-message");
+                element.html("Úspěšně synchronizováno");
+                element.addClass('edit-has-succes animated bounceOutLeft'); 
+                element.show().delay(1000).fadeOut();
+            
+            }
+         
+        });
+    });
+
+</script>
 
 <span id="newTime">dsadas</span>
 <textarea id="chatText" data-test="@User.Identity.Name"></textarea>
@@ -154,10 +177,7 @@
 
 @Html.Raw(General.RestoreChat())
 
-
-<script src="~/Scripts/jquery.signalR-2.2.3.js"></script>
-<script src="~/SignalR/hubs"></script>
-<script src="~/Scripts/test/timer.js"></script>
+<button class="btn" title="I'm a tooltip!">Text</button>
 
 <script>
     var editor = CodeMirror.fromTextArea(myTextarea,

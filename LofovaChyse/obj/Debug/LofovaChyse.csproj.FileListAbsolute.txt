@@ -171,3 +171,4 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.AspNet.SignalR.Syst
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.Owin.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.Owin.Security.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Remotion.Linq.EagerFetching.xml

@@ -43,3 +43,5 @@ C:\Users\lof\Documents\LofovaChyse\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\lof\Documents\LofovaChyse\DataAccess\obj\Debug\DataAccess.pdb
 C:\Users\lof\Documents\LofovaChyse\DataAccess\bin\Debug\NHibernate.dll
 C:\Users\lof\Documents\LofovaChyse\DataAccess\bin\Debug\NHibernate.xml
+C:\Users\lof\Documents\LofovaChyse\DataAccess\bin\Debug\Remotion.Linq.EagerFetching.dll
+C:\Users\lof\Documents\LofovaChyse\DataAccess\bin\Debug\Remotion.Linq.EagerFetching.xml
