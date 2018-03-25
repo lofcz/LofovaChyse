@@ -296,5 +296,10 @@ namespace LofovaChyse.Controllers
             d.Update(u);
             return Json(new { });
         }
+
+        public string UserImage(string name)
+        {
+            return Url.Content("~/Uploads/KnihovnaUzivatele/" + General.GetMiniaturePicture(name));
+        }
     }
 }

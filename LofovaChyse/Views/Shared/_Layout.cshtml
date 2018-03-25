@@ -35,401 +35,484 @@
 
 <body>
 
-<header>
-    @{
-        var action = (ViewContext.RouteData.Values["action"] ?? "").ToString().ToLower();
-        var controller = (ViewContext.RouteData.Values["controller"] ?? "").ToString().ToLower();
-        IList<KnihovnaNotifikace> Notifikace = null;
-        int totalNotifikace = 0;
 
-        if (User.Identity.IsAuthenticated)
-        {
-            Notifikace = General.GetCurrentUserNotificationsObject(User.Identity.Name, true);
-            totalNotifikace = General.GetCurrentUserNotificationsAll(User.Identity.Name);
+    <header>
+        @{
+            var action = (ViewContext.RouteData.Values["action"] ?? "").ToString().ToLower();
+            var controller = (ViewContext.RouteData.Values["controller"] ?? "").ToString().ToLower();
+            IList<KnihovnaNotifikace> Notifikace = null;
+            int totalNotifikace = 0;
 
-            // Check whether user is banned..
-            if (General.IsUserBanned(User.Identity.Name))
+            if (User.Identity.IsAuthenticated)
             {
-                Response.Redirect(Url.Action("Logout", "Login"));
+                Notifikace = General.GetCurrentUserNotificationsObject(User.Identity.Name, true);
+                totalNotifikace = General.GetCurrentUserNotificationsAll(User.Identity.Name);
+
+                // Check whether user is banned..
+                if (General.IsUserBanned(User.Identity.Name))
+                {
+                    Response.Redirect(Url.Action("Logout", "Login"));
+                }
             }
+
+            Color MyColor = Color.Red;
         }
 
-        Color MyColor = Color.Red;
-    }
+        <style>
 
-    <style>
+            .mainNav {
+                background-color: white !important;
+                box-shadow: 2px 4px 4px #DDDDDD;
+            }
 
-        .mainNav {
-            background-color: white !important;
-            box-shadow: 2px 4px 4px #DDDDDD;
-        }
+            .mainNavTitle {
+                font-size: 26px !important;
+                font-weight: 600;
+                font-family: Verdana, Geneva, sans-serif;
+            }
 
-        .mainNavTitle {
-            font-size: 26px !important;
-            font-weight: 600;
-            font-family: Verdana, Geneva, sans-serif;
-        }
+            .mainNavLogo {
+                position: relative;
+                top: -4px;
+                left: -4px;
+            }
 
-        .mainNavLogo {
-            position: relative;
-            top: -4px;
-            left: -4px;
-        }
+            .mainNavNotf {
+                position: absolute;
+                height: 18px !important;
+                width: 18px !important;
+                text-align: center;
+                border-radius: 10px;
+                background: #111111;
+                color: white;
+                top: 8px;
+                right: -2px;
+                font-weight: 600;
+            }
 
-        .mainNavNotf {
-            position: absolute;
-            height: 18px !important;
-            width: 18px !important;
-            text-align: center;
-            border-radius: 10px;
-            background: #111111;
-            color: white;
-            top: 8px;
-            right: -2px;
-            font-weight: 600;
-        }
+            .mainNavText {
+                position: relative;
+                top: -2px;
+            }
 
-        .mainNavText {
-            position: relative;
-            top: -2px;
-        }
+            .mainNavCoin {
+                width: 20px;
+                height: 20px;
+            }
 
-        .mainNavCoin {
-            width: 20px;
-            height: 20px;
-        }
+            #uiCoin {
+                width: 20px;
+                height: 20px;
+                fill: #7F7F7F !important;
+                position: relative;
+                top: 7px;
+                left: -6px;
+            }
 
-        #uiCoin {
-            width: 20px;
-            height: 20px;
-            fill: #7F7F7F !important;
-            position: relative;
-            top: 7px;
-            left: -6px;
-        }
+            .navHot {
+                color: #7F7F7F;
+                text-decoration: none !important;
+            }
 
-        .navHot {
-            color: #7F7F7F;
-            text-decoration: none !important;
-        }
-
-        .navC {
-            position: relative;
-            top: 4px;
-        }
-    </style>
+            .navC {
+                position: relative;
+                top: 4px;
+            }
+        </style>
 
 
-    <nav class="navbar navbar-light navbar-expand-sm navbar-inverse mainNav">
-        <div class="container">
+        <nav class="navbar navbar-light navbar-expand-sm navbar-inverse mainNav">
+            <div class="container">
 
-            <div>
-                <img src="@Url.Content("~/Uploads/Grafika/kreveta.png")" class="mainNavLogo"/>
-                <a class="navbar-brand  mainNavTitle" href="@Url.Action("Home", "Home")">Kreveta .NET</a>
-            </div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="nav navbar-nav ml-auto">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item dropdown">
-                            <a data-toggle="dropdown" class="nav-link" href="@Url.Action("Index", "Profile")" style="@((General.GetCurrentUserNotifications(User.Identity.Name) > 0) ? "color: Orange" : "")">
-                                <span class=" fas fa-bell navC" style="font-size: 1.3em; color: @MyColor; vertical-align: middle;"></span>
-                                @if (Notifikace.Count > 0)
-                                {<span class="mainNavNotf" style="font-size: 0.8em;"><ttag class="mainNavText">@General.GetCurrentUserNotifications(User.Identity.Name)</ttag></span>}
-                            </a>
-                            <ul class="dropdown-menu animated">
-                                @if (Notifikace.Count > 0)
-                                {
-                                    foreach (var n in Notifikace)
+                <div>
+                    <img src="@Url.Content("~/Uploads/Grafika/kreveta.png")" class="mainNavLogo" />
+                    <a class="navbar-brand  mainNavTitle" href="@Url.Action("Home", "Home")">Kreveta .NET</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="nav navbar-nav ml-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a data-toggle="dropdown" class="nav-link" href="@Url.Action("Index", "Profile")" style="@((General.GetCurrentUserNotifications(User.Identity.Name) > 0) ? "color: Orange" : "")">
+                                    <span class=" fas fa-bell navC" style="font-size: 1.3em; color: @MyColor; vertical-align: middle;"></span>
+                                    @if (Notifikace.Count > 0)
+                                    {<span class="mainNavNotf" style="font-size: 0.8em;"><ttag class="mainNavText">@General.GetCurrentUserNotifications(User.Identity.Name)</ttag></span>}
+                                </a>
+                                <ul class="dropdown-menu animated">
+                                    @if (Notifikace.Count > 0)
                                     {
-                                        <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Notifikace", new {userId = ImageHelper.GetCurrentUserId(User.Identity.Name)})">@Html.Raw(n.Text)</a></li>
-                                    }
-                                }
-                                else
-                                {
-                                    if (totalNotifikace > 0)
-                                    {
-                                        <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Notifikace", new {userId = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Nemáš žádná nová upozornění. <br/>Můžeš se podívat na @totalNotifikace @Sklonovani.Sklonuj("starší", totalNotifikace).</a></li>
+                                        foreach (var n in Notifikace)
+                                        {
+                                            <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Notifikace", new {userId = ImageHelper.GetCurrentUserId(User.Identity.Name)})">@Html.Raw(n.Text)</a></li>
+                                        }
                                     }
                                     else
                                     {
+                                        if (totalNotifikace > 0)
+                                        {
+                                            <li class=""><a class="dropdown-item" href="@Url.Action("Index", "Notifikace", new {userId = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Nemáš žádná nová upozornění. <br />Můžeš se podívat na @totalNotifikace @Sklonovani.Sklonuj("starší", totalNotifikace).</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="">
+                                                <p class="dropdown-item">Nemáš žádná upozornění.</p>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Profile")"><span class=" fas fa-envelope navC" style="font-size: 1.3em; vertical-align: middle;"></span></a>
+                            </li>
+
+                            <!-- [Hack]: krevity-->
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Profile")" style="color: coral;">
+                                    <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                         xmlns:cc="http://creativecommons.org/ns#"
+                                         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                         xmlns:svg="http://www.w3.org/2000/svg"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                         xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                         viewBox="0 0 512 512"
+                                         id="uiCoin"
+                                         version="1.1"
+                                         inkscape:version="0.91 r13725"
+                                         sodipodi:docname="coins_fin.svg">
+                                        <metadata id="metadata5795">
+                                            <rdf:RDF>
+                                                <cc:Work rdf:about="">
+                                                    <dc:format>image/svg+xml</dc:format>
+                                                    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                                    <dc:title></dc:title>
+                                                </cc:Work>
+                                            </rdf:RDF>
+                                        </metadata>
+                                        <defs id="defs5793" />
+                                        <sodipodi:namedview pagecolor="#ffffff"
+                                                            bordercolor="#666666"
+                                                            borderopacity="1"
+                                                            objecttolerance="10"
+                                                            gridtolerance="10"
+                                                            guidetolerance="10"
+                                                            inkscape:pageopacity="0"
+                                                            inkscape:pageshadow="2"
+                                                            inkscape:window-width="1920"
+                                                            inkscape:window-height="1017"
+                                                            id="namedview5791"
+                                                            showgrid="false"
+                                                            inkscape:zoom="1.65625"
+                                                            inkscape:cx="256"
+                                                            inkscape:cy="256"
+                                                            inkscape:window-x="-8"
+                                                            inkscape:window-y="-8"
+                                                            inkscape:window-maximized="1"
+                                                            inkscape:current-layer="svg5787"
+                                                            showguides="true"
+                                                            inkscape:guide-bbox="true">
+                                            <sodipodi:guide position="230.64151,348.37736"
+                                                            orientation="1,0"
+                                                            id="guide5842" />
+                                        </sodipodi:namedview>
+                                        <path style="color: #000000; clip-rule: nonzero; display: inline; overflow: visible; visibility: visible; opacity: 1; isolation: auto; mix-blend-mode: normal; color-interpolation: sRGB; color-interpolation-filters: linearRGB; solid-color: #000000; solid-opacity: 1; fill-opacity: 1; fill-rule: nonzero; stroke: none; stroke-width: 4.29300022; stroke-linecap: round; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0; stroke-opacity: 1; color-rendering: auto; image-rendering: auto; shape-rendering: auto; text-rendering: auto; enable-background: accumulate"
+                                              d="M 255.09375 7.8496094 A 247.24529 247.24529 0 0 0 7.8496094 255.09375 A 247.24529 247.24529 0 0 0 255.09375 502.33984 A 247.24529 247.24529 0 0 0 502.33984 255.09375 A 247.24529 247.24529 0 0 0 255.09375 7.8496094 z M 251.1543 56.25 L 272.77539 58.488281 L 266.63086 117.85547 L 245.00977 115.61719 L 251.1543 56.25 z M 286.57812 60.009766 L 308.19922 62.246094 L 302.05469 121.61133 L 280.43359 119.37305 L 286.57812 60.009766 z M 162.51172 108.24023 L 232.42188 115.47461 L 219.72461 238.18164 L 329.27344 125.49805 L 410.29102 133.88281 L 291.35156 248.35547 L 387.51562 405.50977 L 301.76758 396.63672 L 231.98047 279.74805 L 213.54297 297.89453 L 204.36914 386.55664 L 134.45898 379.32227 L 162.51172 108.24023 z M 217.6543 388.75781 L 239.27539 390.99609 L 233.13086 450.35938 L 211.50977 448.12305 L 217.6543 388.75781 z M 253.07812 392.51367 L 274.69922 394.75195 L 268.55469 454.11914 L 246.93359 451.88086 L 253.07812 392.51367 z "
+                                              id="path5797" />
+                                        <g transform="matrix(4.1427813,0.4287362,-0.4287362,4.1427813,782.44113,-259.30884)"
+                                           style="font-style: normal; font-weight: normal; font-size: 90px; line-height: 125%; font-family: sans-serif; letter-spacing: 0px; word-spacing: 0px; fill-opacity: 1; stroke: none; stroke-width: 1px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1"
+                                           id="flowRoot5799" />
+                                    </svg> <span class="" style="font-size: 1em; font-weight: 600; color: #7f7f7f; position: relative; top: 2px; left: -6px;">@(General.GetCurrentUserMoney(User.Identity.Name))</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a data-toggle="dropdown" class="@((action == "index" && controller == "profile") ? "nav-link active dropdown-toggle" : "nav-link dropdown-toggle")" href="@Url.Action("Index", "Profile")" style="position: relative; font-size: 1.4em; top: -2px;"><img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + General.GetMiniaturePicture(User.Identity.Name))" class="rounded-circle" style="position: relative; top: -2px; left: -6px; box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.8), 0 2px 2px 0 rgba(0, 0, 0, 0.8);"> @(General.GetCurrentUserName(User.Identity.Name))</a>
+                                <ul class="dropdown-menu animated">
+                                    <li class=""> <a class="dropdown-item" href="@Url.Action("Index", "Profile", new {id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Profil</a></li>
+                                    <li class=""><a class="dropdown-item" href="#">Nastavení</a></li>
+                                    <li class="dropdown-divider"></li>
+                                    <li class=""><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Odhlásit se</a></li>
+                                    @if (User.IsInRole("Knihovnik"))
+                                    {
+                                        <li class="dropdown-divider"></li>
                                         <li class="">
-                                            <p class="dropdown-item">Nemáš žádná upozornění.</p>
+                                            <a class="dropdown-item" href="@Url.Action("Index", "Home", new {area = "Admin"})">Administrace</a>
                                         </li>
                                     }
-                                }
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">Přihlásit se</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br />
+    </header>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Profile")"><span class=" fas fa-envelope navC" style="font-size: 1.3em; vertical-align: middle;"></span></a>
-                        </li>
 
-                        <!-- [Hack]: krevity-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Profile")" style="color: coral;">
-                                <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                     xmlns:cc="http://creativecommons.org/ns#"
-                                     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                     xmlns:svg="http://www.w3.org/2000/svg"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                                     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-                                     viewBox="0 0 512 512"
-                                     id="uiCoin"
-                                     version="1.1"
-                                     inkscape:version="0.91 r13725"
-                                     sodipodi:docname="coins_fin.svg">
-                                    <metadata id="metadata5795">
-                                        <rdf:RDF>
-                                            <cc:Work rdf:about="">
-                                                <dc:format>image/svg+xml</dc:format>
-                                                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-                                                <dc:title></dc:title>
-                                            </cc:Work>
-                                        </rdf:RDF>
-                                    </metadata>
-                                    <defs id="defs5793"/>
-                                    <sodipodi:namedview pagecolor="#ffffff"
-                                                        bordercolor="#666666"
-                                                        borderopacity="1"
-                                                        objecttolerance="10"
-                                                        gridtolerance="10"
-                                                        guidetolerance="10"
-                                                        inkscape:pageopacity="0"
-                                                        inkscape:pageshadow="2"
-                                                        inkscape:window-width="1920"
-                                                        inkscape:window-height="1017"
-                                                        id="namedview5791"
-                                                        showgrid="false"
-                                                        inkscape:zoom="1.65625"
-                                                        inkscape:cx="256"
-                                                        inkscape:cy="256"
-                                                        inkscape:window-x="-8"
-                                                        inkscape:window-y="-8"
-                                                        inkscape:window-maximized="1"
-                                                        inkscape:current-layer="svg5787"
-                                                        showguides="true"
-                                                        inkscape:guide-bbox="true">
-                                        <sodipodi:guide position="230.64151,348.37736"
-                                                        orientation="1,0"
-                                                        id="guide5842"/>
-                                    </sodipodi:namedview>
-                                    <path style="color: #000000; clip-rule: nonzero; display: inline; overflow: visible; visibility: visible; opacity: 1; isolation: auto; mix-blend-mode: normal; color-interpolation: sRGB; color-interpolation-filters: linearRGB; solid-color: #000000; solid-opacity: 1; fill-opacity: 1; fill-rule: nonzero; stroke: none; stroke-width: 4.29300022; stroke-linecap: round; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-dasharray: none; stroke-dashoffset: 0; stroke-opacity: 1; color-rendering: auto; image-rendering: auto; shape-rendering: auto; text-rendering: auto; enable-background: accumulate"
-                                          d="M 255.09375 7.8496094 A 247.24529 247.24529 0 0 0 7.8496094 255.09375 A 247.24529 247.24529 0 0 0 255.09375 502.33984 A 247.24529 247.24529 0 0 0 502.33984 255.09375 A 247.24529 247.24529 0 0 0 255.09375 7.8496094 z M 251.1543 56.25 L 272.77539 58.488281 L 266.63086 117.85547 L 245.00977 115.61719 L 251.1543 56.25 z M 286.57812 60.009766 L 308.19922 62.246094 L 302.05469 121.61133 L 280.43359 119.37305 L 286.57812 60.009766 z M 162.51172 108.24023 L 232.42188 115.47461 L 219.72461 238.18164 L 329.27344 125.49805 L 410.29102 133.88281 L 291.35156 248.35547 L 387.51562 405.50977 L 301.76758 396.63672 L 231.98047 279.74805 L 213.54297 297.89453 L 204.36914 386.55664 L 134.45898 379.32227 L 162.51172 108.24023 z M 217.6543 388.75781 L 239.27539 390.99609 L 233.13086 450.35938 L 211.50977 448.12305 L 217.6543 388.75781 z M 253.07812 392.51367 L 274.69922 394.75195 L 268.55469 454.11914 L 246.93359 451.88086 L 253.07812 392.51367 z "
-                                          id="path5797"/>
-                                    <g transform="matrix(4.1427813,0.4287362,-0.4287362,4.1427813,782.44113,-259.30884)"
-                                       style="font-style: normal; font-weight: normal; font-size: 90px; line-height: 125%; font-family: sans-serif; letter-spacing: 0px; word-spacing: 0px; fill-opacity: 1; stroke: none; stroke-width: 1px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1"
-                                       id="flowRoot5799"/>
-                                </svg> <span class="" style="font-size: 1em; font-weight: 600; color: #7f7f7f; position: relative; top: 2px; left: -6px;">@(General.GetCurrentUserMoney(User.Identity.Name))</span>
-                            </a>
-                        </li>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="ui-chatbox" style="display: none; " id="mainChat">
+            <div class="ui-chatbox-titlebar">
+                <p style="color: #ffffff">Matěj</p>
+            </div>
+            <div class="ui-chatbox-log">
+                @Html.Raw(General.RestoreChat(User.Identity.Name))
+            </div>
 
-                        <li class="nav-item dropdown">
-                            <a data-toggle="dropdown" class="@((action == "index" && controller == "profile") ? "nav-link active dropdown-toggle" : "nav-link dropdown-toggle")" href="@Url.Action("Index", "Profile")" style="position: relative; font-size: 1.4em; top: -2px;"><img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + General.GetMiniaturePicture(User.Identity.Name))" class="rounded-circle" style="position: relative; top: -2px; left: -6px; box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.8), 0 2px 2px 0 rgba(0, 0, 0, 0.8);"> @(General.GetCurrentUserName(User.Identity.Name))</a>
-                            <ul class="dropdown-menu animated">
-                                <li class=""> <a class="dropdown-item" href="@Url.Action("Index", "Profile", new {id = ImageHelper.GetCurrentUserId(User.Identity.Name)})">Profil</a></li>
-                                <li class=""><a class="dropdown-item" href="#">Nastavení</a></li>
-                                <li class="dropdown-divider"></li>
-                                <li class=""><a class="dropdown-item" href="@Url.Action("Logout", "Login")">Odhlásit se</a></li>
-                                @if (User.IsInRole("Knihovnik"))
-                                {
-                                    <li class="dropdown-divider"></li>
-                                    <li class="">
-                                        <a class="dropdown-item" href="@Url.Action("Index", "Home", new {area = "Admin"})">Administrace</a>
-                                    </li>
-                                }
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Home", new {area = "Admin"})">Přihlásit se</a>
-                        </li>
-                    }
-                </ul>
+            <div class="ui-chatbox-input">
+                <input style="width: 70%; z-index: 3;" type="text" />
+                <button class="float-right btn btn-sm btn-light" style="z-index: 4;">Odeslat</button>
             </div>
         </div>
-    </nav>
-    <br/>
-</header>
-<main role="main" class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            @if (TempData["scs"] != null)
-            {
-                <p>@TempData["scs"]</p>
-            }
-            @RenderBody()
-        </div>
-        <aside class="col-sm-2 ml-sm-auto blog-sidebar">
-            <div class="sidebar-module">
-                @RenderSection("SideBar", false)
-            </div>
-        </aside><!-- /.blog-sidebar -->
-    </div><!-- /.row -->
-</main><!-- /.container -->
-<footer class="footer text-center">
-    <div class="container text-center animated fadeIn" id="onPulse">
-        <span class="text-muted text-center">@General.GetFooter()</span>
-    </div>
-</footer>
+    }
+
 <script>
-    $('#onPulse').click(function() {
-        $(this).addClass("fadeOutUp");
+    $( document ).ready(function() {
+        $("#mainChat").show(500);
     });
 </script>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type='text/javascript'></script>
-<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
-<script src="@Url.Content("~/Scripts/additional-methods.js")"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="~/Scripts/MicrosoftAjax.js"></script>
-<script src="~/Scripts/MicrosoftMvcAjax.js"></script>
-<script src="~/Scripts/modernizr-2.8.3.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0.3/dist/pretty-checkbox.min.css" rel="stylesheet"/>
-<script src="@Url.Content("~/Scripts/jsd.js")"></script>
-<link href="@Url.Content("~/Content/editstrap.css")" rel="stylesheet">
-<script src="@Url.Content("~/Scripts/editstrap-3.3.1.js")"></script>
-<script src="~/Scripts/jquery.signalR-2.2.3.js"></script>
-<script src="~/SignalR/hubs"></script>
-<script src="~/Scripts/test/timer.js"></script>
-
-<style>
-
-    html {
-        position: relative;
-        min-height: 100%;
-    }
-
-    .footer {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        /* Set the fixed height of the footer here */
-        height: 40px;
-        line-height: 40px; /* Vertically center the text there */
-    }
-
-    .bs-dark.navbar-inverse {
-        background-color: #222;
-        border-color: #080808;
-    }
-
-    .bs-dark .navbar-img {
-        padding: 5px 6px !important;
-    }
-
-    .bs-dark .navbar-img img {
-        width: 40px;
-    }
-
-    .bs-dark .dropdown-menu {
-        min-width: 200px;
-        padding: 5px 0;
-        margin: 2px 0 0;
-        background-color: #000;
-        border: 1px solid rgba(0, 0, 0, 0.7);
-        border: 1px solid rgba(0, 0, 0, .15);
-        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    }
-
-    .bs-dark .dropdown-menu .divider {
-        border: 1px solid rgba(0, 0, 0, 0.8);
-    }
-
-    .bs-dark .dropdown-menu > li > a {
-        padding: 6px 20px;
-        color: rgba(255, 255, 255, 0.80);
-    }
-
-    .bs-dark .dropdown-menu > li > a:hover,
-    .bs-dark .dropdown-menu > li > a:focus {
-        color: rgba(255, 255, 255, 0.70);
-        text-decoration: none;
-        background-color: transparent;
-    }
-
-    .bs-dark .dropdown-menu > .active > a,
-    .bs-dark .dropdown-menu > .active > a:hover,
-    .bs-dark .dropdown-menu > .active > a:focus {
-        color: rgba(255, 255, 255, 0.70);
-        text-decoration: none;
-        background-color: transparent;
-        outline: 0;
-    }
-
-    .bs-dark .navbar-form {
-        margin: 0;
-        margin-top: 5px;
-        padding: 8px 0px;
-    }
-
-    .bs-dark .navbar-form .search-box {
-        border: 0px;
-        height: 35px;
-        outline: none;
-        width: 320px;
-        padding-right: 3px;
-        padding-left: 15px;
-        margin: 4px;
-        -webkit-border-radius: 22px;
-        -moz-border-radius: 22px;
-        border-radius: 22px;
-    }
-
-    .bs-dark .navbar-form button {
-        border: 0;
-        background: none;
-        padding: 2px 5px;
-        margin-top: 2px;
-        position: relative;
-        left: -34px;
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-    }
-
-    .bs-dark .search-box:focus + button {
-        z-index: 3;
-    }
 
 
-    .bs-dark .dropdown:hover {
-        background-color: #000;
-    }
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                @if (TempData["scs"] != null)
+                {
+                    <p>@TempData["scs"]</p>
+                }
+                @RenderBody()
+            </div>
+            <aside class="col-sm-2 ml-sm-auto blog-sidebar">
+                <div class="sidebar-module">
+                    @RenderSection("SideBar", false)
+                </div>
+            </aside><!-- /.blog-sidebar -->
+        </div><!-- /.row -->
+    </main><!-- /.container -->
+    <footer class="footer text-center">
+        <div class="container text-center animated fadeIn" id="onPulse">
+            <span class="text-muted text-center">@General.GetFooter()</span>
+        </div>
+    </footer>
+    <script>
+        $('#onPulse').click(function () {
+            $(this).addClass("fadeOutUp");
+        });
+    </script>
 
-    .bs-dark .dropdown:hover .dropdown-menu {
-        display: block;
-    }
 
-    .bs-dark .navbar-form {
-        padding: 0px;
-    }
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type='text/javascript'></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
+    <script src="@Url.Content("~/Scripts/additional-methods.js")"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/MicrosoftAjax.js"></script>
+    <script src="~/Scripts/MicrosoftMvcAjax.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0.3/dist/pretty-checkbox.min.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jsd.js")"></script>
+    <link href="@Url.Content("~/Content/editstrap.css")" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/editstrap-3.3.1.js")"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.3.js"></script>
+    <script src="~/SignalR/hubs"></script>
+    <script src="~/Scripts/test/timer.js"></script>
 
-    .bs-dark .navbar-form .search-box {
-        width: 260px;
-        height: 32px;
-    }
+    <style>
 
-    code {
-        font-size: 80%;
-    }
-</style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
 
-<script>
-    tippy('[title]');
-</script>
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 40px;
+            line-height: 40px; /* Vertically center the text there */
+        }
+
+        .bs-dark.navbar-inverse {
+            background-color: #222;
+            border-color: #080808;
+        }
+
+        .bs-dark .navbar-img {
+            padding: 5px 6px !important;
+        }
+
+            .bs-dark .navbar-img img {
+                width: 40px;
+            }
+
+        .bs-dark .dropdown-menu {
+            min-width: 200px;
+            padding: 5px 0;
+            margin: 2px 0 0;
+            background-color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 0, 0, .15);
+            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        }
+
+            .bs-dark .dropdown-menu .divider {
+                border: 1px solid rgba(0, 0, 0, 0.8);
+            }
+
+            .bs-dark .dropdown-menu > li > a {
+                padding: 6px 20px;
+                color: rgba(255, 255, 255, 0.80);
+            }
+
+                .bs-dark .dropdown-menu > li > a:hover,
+                .bs-dark .dropdown-menu > li > a:focus {
+                    color: rgba(255, 255, 255, 0.70);
+                    text-decoration: none;
+                    background-color: transparent;
+                }
+
+            .bs-dark .dropdown-menu > .active > a,
+            .bs-dark .dropdown-menu > .active > a:hover,
+            .bs-dark .dropdown-menu > .active > a:focus {
+                color: rgba(255, 255, 255, 0.70);
+                text-decoration: none;
+                background-color: transparent;
+                outline: 0;
+            }
+
+        .bs-dark .navbar-form {
+            margin: 0;
+            margin-top: 5px;
+            padding: 8px 0px;
+        }
+
+            .bs-dark .navbar-form .search-box {
+                border: 0px;
+                height: 35px;
+                outline: none;
+                width: 320px;
+                padding-right: 3px;
+                padding-left: 15px;
+                margin: 4px;
+                -webkit-border-radius: 22px;
+                -moz-border-radius: 22px;
+                border-radius: 22px;
+            }
+
+            .bs-dark .navbar-form button {
+                border: 0;
+                background: none;
+                padding: 2px 5px;
+                margin-top: 2px;
+                position: relative;
+                left: -34px;
+                margin-bottom: 0;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+
+        .bs-dark .search-box:focus + button {
+            z-index: 3;
+        }
+
+
+        .bs-dark .dropdown:hover {
+            background-color: #000;
+        }
+
+            .bs-dark .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+
+        .bs-dark .navbar-form {
+            padding: 0px;
+        }
+
+            .bs-dark .navbar-form .search-box {
+                width: 260px;
+                height: 32px;
+            }
+
+        code {
+            font-size: 80%;
+        }
+    </style>
+
+    <script>
+        tippy('[title]');
+    </script>
+
+    <style>
+        .ui-chatbox {
+            position: fixed;
+            bottom: 0;
+            padding: 2px;
+            background: #CCCCCC;
+            right: 0%;
+            width: 230px !important;
+            background-color: #6495ed !important;
+            border-radius: 5px 0px 0px;
+        }
+
+        .ui-chatbox-log {
+            padding: 3px;
+            height: 250px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: #FFFFFF;
+        }
+
+        .ui-chatbox-titlebar {
+            padding: 3px;
+            height: 30px;
+            cursor: pointer;
+            background-color: #6495ed !important;
+            border-radius: 5px 0px 0px;
+        }
+
+        .ui-chatbox-input {
+            padding: 3px;
+            border-top: 1px solid grey;
+            overflow: hidden;
+        }
+
+        .chatMsgYour {
+            background-color: #4D7AFB;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 6px;
+            padding-top: 0px !important;
+            padding-bottom: 2px !important;
+            font-size: 13px;
+        }
+
+        .chatMsgHis {
+            background-color: #F1F0F0;
+            border-radius: 10px;
+            padding: 6px;
+            padding-top: 0px !important;
+            padding-bottom: 2px !important;
+            font-size: 13px;
+        }
+    </style>
 
 </body>
 

@@ -26,6 +26,7 @@ namespace LofovaChyse.Controllers
             {
                 if (typeData == "komentEdit")
                 {
+                   
                     Edit(int.Parse(type), description);
                 }
                 else

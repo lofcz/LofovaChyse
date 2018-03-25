@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Services;
 using DataAccess.Dao;
 using DataAccess.Models;
+using LofovaChyse.Controllers;
 
 namespace LofovaChyse.Class
 {
@@ -458,18 +459,30 @@ namespace LofovaChyse.Class
             return "[UNDEFINED-VOUCHER-GENERAL]";
         }
 
-        public static string RestoreChat()
+        [Authorize]
+        public static string RestoreChat(string name)
         {
             string s = "";
 
             KnihovnaUserDao ud = new KnihovnaUserDao();
             ChatZpravyDao d = new ChatZpravyDao();
             List<ChatZpravy> l = d.GetAll() as List<ChatZpravy>;
+            KnihovnaUser cu = ud.GetByLogin(name);
 
             foreach (ChatZpravy z in l)
             {
                 KnihovnaUser u = ud.GetbyId(z.UserFrom);
-                s += u.Name + ": " + z.Text + "<br/>";
+
+                // Zpráva od teve
+                if (u.Id == cu.Id)
+                {
+                    s += "<span class='float-right chatMsgYour'>" + z.Text +"</span><br/>";
+                }
+                else
+                {
+                    s += "<img src='" + ("Uploads/KnihovnaUzivatele/" + GetMiniaturePicture(u.Login)) + "' /> <span class='chatMsgHis'>" + z.Text + "</span><br/>";
+                }
+                
             }
 
             return s;
