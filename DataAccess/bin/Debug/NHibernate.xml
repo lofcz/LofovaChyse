@@ -8153,11 +8153,23 @@
         </member>
         <member name="M:NHibernate.Dialect.BitwiseFunctionOperation.#ctor(System.String)">
             <summary>
-            Creates an instance of this class using the provided function name
+            Creates an instance of this class using the provided function name.
             </summary>
             <param name="functionName">
-            The bitwise function name as defined by the SQL-Dialect
+            The bitwise function name as defined by the SQL-Dialect.
             </param>
+        </member>
+        <member name="M:NHibernate.Dialect.BitwiseFunctionOperation.ReturnType(NHibernate.Type.IType,NHibernate.Engine.IMapping)">
+            <inheritdoc />
+        </member>
+        <member name="P:NHibernate.Dialect.BitwiseFunctionOperation.HasArguments">
+            <inheritdoc />
+        </member>
+        <member name="P:NHibernate.Dialect.BitwiseFunctionOperation.HasParenthesesIfNoArguments">
+            <inheritdoc />
+        </member>
+        <member name="M:NHibernate.Dialect.BitwiseFunctionOperation.Render(System.Collections.IList,NHibernate.Engine.ISessionFactoryImplementor)">
+            <inheritdoc />
         </member>
         <member name="T:NHibernate.Dialect.BitwiseNativeOperation">
             <summary>
@@ -8166,21 +8178,33 @@
         </member>
         <member name="M:NHibernate.Dialect.BitwiseNativeOperation.#ctor(System.String)">
             <summary>
-            creates an instance using the giving token
+            Creates an instance using the giving token.
             </summary>
             <param name="sqlOpToken">
-            The operation token
+            The operation token.
             </param>
             <remarks>
-            Use this constructor only if the token DOES NOT represent a NOT-Operation
+            Use this constructor only if the token DOES NOT represent an unary operator.
             </remarks>
         </member>
         <member name="M:NHibernate.Dialect.BitwiseNativeOperation.#ctor(System.String,System.Boolean)">
             <summary>
-            creates an instance using the giving token and the flag indicating a NOT-Operation
+            Creates an instance using the giving token and the flag indicating if it is an unary operator.
             </summary>
-            <param name="sqlOpToken"></param>
-            <param name="isNot"></param>
+            <param name="sqlOpToken">The operation token.</param>
+            <param name="isNot">Whether the operation is unary or not.</param>
+        </member>
+        <member name="M:NHibernate.Dialect.BitwiseNativeOperation.ReturnType(NHibernate.Type.IType,NHibernate.Engine.IMapping)">
+            <inheritdoc />
+        </member>
+        <member name="P:NHibernate.Dialect.BitwiseNativeOperation.HasArguments">
+            <inheritdoc />
+        </member>
+        <member name="P:NHibernate.Dialect.BitwiseNativeOperation.HasParenthesesIfNoArguments">
+            <inheritdoc />
+        </member>
+        <member name="M:NHibernate.Dialect.BitwiseNativeOperation.Render(System.Collections.IList,NHibernate.Engine.ISessionFactoryImplementor)">
+            <inheritdoc />
         </member>
         <member name="T:NHibernate.Dialect.DB2400Dialect">
             <summary>
@@ -21858,6 +21882,16 @@
             <param name="name">The parameter's name.</param>
             <param name="values">The values to be expanded into an SQL IN list.</param>
             <returns>This FilterImpl instance (for method chaining).</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="name"/> or <paramref name="values"/> are <see langword="null" />.</exception>
+        </member>
+        <member name="M:NHibernate.Impl.FilterImpl.GetParameterSpan(System.String)">
+            <summary>
+            Get the span of a value list parameter by name. <see langword="null" /> if the parameter is not a value list
+            or if there is no such parameter.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <returns>The parameter span, or <see langword="null" /> if the parameter is not a value list or
+            if there is no such parameter.</returns>
         </member>
         <member name="M:NHibernate.Impl.FilterImpl.Validate">
             <summary>

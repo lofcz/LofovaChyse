@@ -155,7 +155,6 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\System.Web.WebPages.Deploymen
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\System.Web.WebPages.Razor.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Z.Expressions.Eval.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Iesi.Collections.xml
-C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csprojResolveAssemblyReference.cache
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csproj.CoreCompileInputs.cache
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.pdb
@@ -172,3 +171,6 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.Owin.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Microsoft.Owin.Security.xml
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\Remotion.Linq.EagerFetching.xml
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csproj.CopyComplete
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\lof\Documents\LofovaChyse\LofovaChyse\obj\Debug\LofovaChyse.csprojAssemblyReference.cache
