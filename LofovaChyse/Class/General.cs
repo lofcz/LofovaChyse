@@ -480,7 +480,7 @@ namespace LofovaChyse.Class
                 }
                 else
                 {
-                    s += "<img src='" + ("Uploads/KnihovnaUzivatele/" + GetMiniaturePicture(u.Login)) + "' /> <span class='chatMsgHis'>" + z.Text + "</span><br/>";
+                    s += "<img src='" + ("/Uploads/KnihovnaUzivatele/" + GetMiniaturePicture(u.Login)) + "' /> <span class='chatMsgHis'>" + z.Text + "</span><br/>";
                 }
                 
             }

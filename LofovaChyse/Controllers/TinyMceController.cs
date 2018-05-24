@@ -28,9 +28,36 @@ namespace LofovaChyse.Controllers
         {
             //Response.AppendHeader("Access-Control-Allow-Origin", "*");
 
-            var location = SaveFile(Server.MapPath("~/Uploads/UsersContent/"), file);
+            string loc = SaveFile(Server.MapPath("~/Uploads/UsersContent/"), file);
 
-            return Json(new {location}, JsonRequestBehavior.AllowGet);
+            return Json(new { location = loc});
+        }
+
+        public string Upload(HttpPostedFileBase file)
+        {
+            string path;
+            string saveloc = "~/Uploads/UsersContent";
+            string relativeloc = "/Uploads/UsersContent";
+            string filename = file.FileName;
+
+            if (file.ContentLength > 0)
+            {
+                try
+                {
+                    path = Path.Combine(HttpContext.Server.MapPath(saveloc), Path.GetFileName(filename));
+                    file.SaveAs(path);
+                }
+                catch (Exception e)
+                {
+                    return "<script>alert('Failed: " + e + "');</script>";
+                }
+            }
+            else
+            {
+                return "<script>alert('Failed: Unkown Error. This form only accepts valid images.');</script>";
+            }
+
+            return "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('" + relativeloc + filename + "').closest('.mce-window').find('.mce-primary').click();</script>";
         }
 
         /// <summary>
