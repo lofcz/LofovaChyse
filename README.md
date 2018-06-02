@@ -39,7 +39,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - Uvítací text
     - Profilový obrázek
     - Ocenění
-    - Nálada / nabídky práce
+    - Nálada / nabídky práce (ajax)
   - Zeď
   - Ban
 - Úrovně přístupu, autentifikace
@@ -67,6 +67,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
 - Menu autorouting
 - Hlavní zeď aktivity, automaticky generované (novinky)
 - Vouchery / dárkové poukazy
+- Instantní chat **WIP**
 
 ## Lokální setup: 
 Prerekvizity:
