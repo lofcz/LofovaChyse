@@ -149,7 +149,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
                     {
                         Image image = Image.FromStream(picture.InputStream);
-                        Image smalImage = ImageHelper.ScaleImage(image, 200, 200);
+                        Image smalImage = ImageHelper.ResizeImageHighQuality(image, 200, 200);
 
 
                         Bitmap btmBitmap = new Bitmap(smalImage);
@@ -225,7 +225,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                 if (picture != null)
                 {
                     Image image = Image.FromStream(picture.InputStream);
-                    Image smalImage = ImageHelper.ScaleImage(image, 200, 200);
+                    Image smalImage = ImageHelper.ResizeImageHighQuality(image, 200, 200);
 
                     Bitmap btmBitmap = new Bitmap(smalImage);
                     Guid guid = Guid.NewGuid();
@@ -266,7 +266,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                 if (picture != null)
                 {
                     Image image = Image.FromStream(picture.InputStream);
-                    Image smalImage = ImageHelper.ScaleImage(image, 32, 32);
+                    Image smalImage = ImageHelper.ResizeImageHighQuality(image, 32, 32);
 
                     Bitmap btmBitmap = new Bitmap(smalImage);
                     Guid guid = Guid.NewGuid();
@@ -331,7 +331,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
             s.Name = text;
 
             Image image = Image.FromStream(picture.InputStream);
-            Image smalImage = ImageHelper.ScaleImage(image, 120, 120);
+            Image smalImage = ImageHelper.ResizeImageHighQuality(image, 120, 120);
 
             Bitmap btmBitmap = new Bitmap(smalImage);
             Guid guid = Guid.NewGuid();
@@ -406,7 +406,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
                     {
                         Image image = Image.FromStream(picture.InputStream);
-                        Image smalImage = ImageHelper.ScaleImage(image, 64, 64);
+                        Image smalImage = ImageHelper.ResizeImageHighQuality(image, 64, 64);
 
 
                         Bitmap btmBitmap = new Bitmap(smalImage);
@@ -458,7 +458,7 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     if (picture.ContentType == "image/jpeg" || picture.ContentType == "image/png")
                     {
                         Image image = Image.FromStream(picture.InputStream);
-                        Image smalImage = ImageHelper.ScaleImage(image, 64, 64);
+                        Image smalImage = ImageHelper.ResizeImageHighQuality(image, 64, 64);
 
 
                         Bitmap btmBitmap = new Bitmap(smalImage);

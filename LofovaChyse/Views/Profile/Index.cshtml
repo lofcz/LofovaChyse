@@ -46,6 +46,32 @@
 
 }
 
+<style>
+    .nadpisProfil {
+        display: inline-block;
+    }
+
+    .profilHorniPolozky {
+        float: right;
+        position: relative;
+        color: darkgray;
+    }
+
+    .profilHorniPolozkyIkony {
+        font-size: 2em;
+        cursor: pointer;
+    }
+
+    .profilHorniPolozkyZamceno {
+        opacity: 0.2;
+    }
+
+    .profilIkonaAktivni {
+        opacity: 1;
+        color: darkgray;
+    }
+</style>
+
 <script>
     function onAdd() {
         jQuery('#friendRequest').remove();
@@ -57,22 +83,59 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body" id="modalContent">
-
                 </div>
             </div>
         </div>
     </div>
 
-    <h2>Profil uživatele @Model.Name</h2>
-    <p>Jste přátelé? @friendMessage</p>
-    @if (canAdd)
+    @if (ViewBag.Owner)
     {
-        <div id="friendRequest">
-            @Ajax.ActionLink("Přidat přítele", "CallGeneral", "Home", new {user1 = User.Identity.Name, user2 = Model.Login}, new AjaxOptions() {}, new {onclick="onAdd()"})
-            <br/>
-        </div>
+        <h2 class="nadpisProfil">Vítej na svém profilu</h2>
+    }
+    else
+    {
+        <h2>Profil uživatele @Model.Name</h2>
+        <p>Jste přátelé? @friendMessage</p>
+
+        if (canAdd)
+        {
+            <div id="friendRequest">
+                @Ajax.ActionLink("Přidat přítele", "CallGeneral", "Home", new { user1 = User.Identity.Name, user2 = Model.Login }, new AjaxOptions() { }, new { onclick = "onAdd()" })
+                <br />
+            </div>
+        }
     }
     
+    <div id="polozkyProfilu" class="profilHorniPolozky">
+        
+        <div class="profilHorniPolozkyIkony" id="profilIkony">
+            <a href="@Url.Action("Index")" title="Profil" data-tippy-placement="bottom"><i class="fas fa-address-card fa-fw profilIkonaAktivni"></i></a>
+            <a title="Zeď" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(1)"><i class="fas fa-comments fa-fw"></i></a>
+            <a title="Galerie" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(2)"><i class="fas fa-images fa-fw"></i></a>
+            <a title="Snippet" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(3)"><i class="fas fa-file-code fa-fw"></i></a>
+            <a title="SoundUp" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(4)"><i class="fas fa-music fa-fw"></i></a>
+        </div>
+    </div>
+    
+    <script>
+        function akcePolozkyProfilu(index) {
+            if (index !== 0) {
+                if (@Model.AuthLevel == 0) {
+                    swal({
+                        title: "Nedostatečné ověření",
+                        text: '@Html.Raw(Texty.ProfilSluzbyNedostatecneOvereni)',
+                        type: 'warning',
+                        html: true
+                    });
+                } else {
+                    if (index == 1) {
+                        window.location = '@Url.Action("ViewWall", new { id = Model.Id })';
+                    }
+                }
+            }
+        }
+    </script>
+
     <p>Seznam tvých rolí:</p>
     <ul>
         @foreach (KnihovnaUserRole r in tvojeRole)
@@ -82,26 +145,35 @@
             </li>
         }
     </ul>
-    <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub> <sub style="float: right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new {id = Model.Id}) | Galerie | Snippety</sub>
-    <br/>
+
+    <div id="moznostiKontaktu">
+        <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub>
+
+    </div>
+
+    <br />
+    <br />
+    <sub style="float: right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new { id = Model.Id }) | Galerie | Snippety</sub>
     <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float: right">Získaná ocenění:</sub>
-    <br/>
+    <br />
     <div class="col-sm-12">
         @foreach (KnihovnaOceneni o in ViewBag.Oceneni as List<KnihovnaOceneni>)
         {
-            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float: right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id"/>
+            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float: right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id" />
         }
-        <br/>
+        <br />
     </div>
-    <br/>
+    <br />
     <sub>Přidal se: @Model.JoinedDateTime</sub>
-
     @if (ViewBag.Owner)
     {
         <p>Jsi vlastník tohoto profilu!</p>
         <p>Uživatelské ID: @Model.Id</p>
         <p>Heslo: @Model.Password</p>
         <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
+        <p>Zkušenosti: @Model.Exp</p>
+        <p>Počet komentářů: @Model.CommentsNumber</p>
+        <p>Reputace: @Model.LikesNumber</p>
 
         <div>
             <p id="ajaxNalada">Nálada: @Model.NeedJob</p>
@@ -113,11 +185,11 @@
         <div class="row">
             @if (User.Identity.IsAuthenticated)
             {
-                using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
+                using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
                 {
                     <div class="form-group">
                         <div>
-                            @Html.TextAreaFor(x => x.WelcomeText, new {@class = "form-control formatedtext"})
+                            @Html.TextAreaFor(x => x.WelcomeText, new { @class = "form-control formatedtext" })
                         </div>
                     </div>
 
@@ -131,7 +203,7 @@
         </div>
 
         <script type="text/javascript">
-            $(function() {
+            $(function () {
                 $("#welcomeText").html("");
             });
 
@@ -141,6 +213,7 @@
         </script>
 
         <style>
+
             .mce-path { /* CSS */
                 display: none !important;
             }
@@ -163,7 +236,7 @@
     }
     else
     {
-        <hr/>
+        <hr />
         <p>@Html.Raw(Model.WelcomeText)</p>
     }
 </div>
@@ -203,3 +276,12 @@
 
     //openModelWindow();
 </script>
+
+@{
+    if (Model.AuthLevel == 0)
+    {
+        <script>
+            $(".profilHorniPolozkyIkony i").addClass("profilHorniPolozkyZamceno");
+        </script>
+    }
+}

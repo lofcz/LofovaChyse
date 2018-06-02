@@ -857,6 +857,7 @@
     <Compile Include="Class\KnihovnaRoleProvider.cs" />
     <Compile Include="Class\NovinkyGenerator.cs" />
     <Compile Include="Class\Sklonovani.cs" />
+    <Compile Include="Class\Texty.cs" />
     <Compile Include="Class\UserStats.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
@@ -932,6 +933,7 @@
     <Folder Include="Areas\Admin\Views\Login\" />
     <Folder Include="Models\" />
     <Folder Include="Uploads\Book\" />
+    <Folder Include="Uploads\KnihovnaUzivateleBig\" />
     <Folder Include="Uploads\KnihovnaUzivatele\" />
     <Folder Include="Uploads\Novinky\" />
     <Folder Include="Uploads\Odznaky\" />
