@@ -73,66 +73,228 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body" id="modalContent">
-
                 </div>
             </div>
         </div>
     </div>
-
     <h1>Novinky</h1>
 
+    <style>
+            @@media only screen and (max-width : 540px)
+            {
+                .chat-sidebar
+                {
+                    display: none !important;
+                }
 
-    <script type="text/javascript">
-        $(document).ready(function() {
+                .chat-popup
+                {
+                    display: none !important;
+                }
+            }
 
-            var counter = 0;
-            var idList = new Array();
+            body
+            {
+                background-color: #e9eaed;
+            }
 
-            var broadcastMessageCallback = function(from, msg) {
-                for (var i = 0; i < idList.length; i++) {
-                    chatboxManager.addBox(idList[i]);
-                    $("#" + idList[i]).chatbox("option", "boxManager").addMsg(from, msg);
+            .chat-sidebar
+            {
+                width: 200px;
+                position: fixed;
+                height: 100%;
+                right: 0px;
+                top: 0px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border: 1px solid rgba(29, 49, 91, .3);
+            }
+
+            .sidebar-name
+            {
+                padding-left: 10px;
+                padding-right: 10px;
+                margin-bottom: 4px;
+                font-size: 12px;
+            }
+
+            .sidebar-name span
+            {
+                padding-left: 5px;
+            }
+
+            .sidebar-name a
+            {
+                display: block;
+                height: 100%;
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .sidebar-name:hover
+            {
+                background-color:#e1e2e5;
+            }
+
+            .sidebar-name img
+            {
+                width: 32px;
+                height: 32px;
+                vertical-align:middle;
+            }
+
+            .popup-box
+            {
+                display: none;
+                position: fixed;
+                bottom: 0px;
+                right: 220px;
+                height: 285px;
+                background-color: rgb(237, 239, 244);
+                width: 300px;
+                border: 1px solid rgba(29, 49, 91, .3);
+            }
+
+            .popup-box .popup-head
+            {
+                background-color: #6d84b4;
+                padding: 5px;
+                color: white;
+                font-weight: bold;
+                font-size: 14px;
+                clear: both;
+            }
+
+            .popup-box .popup-head .popup-head-left
+            {
+                float: left;
+            }
+
+            .popup-box .popup-head .popup-head-right
+            {
+                float: right;
+                opacity: 1;
+            }
+
+            .popup-box .popup-head .popup-head-right a
+            {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .popup-box .popup-messages
+            {
+                height: 100%;
+                overflow-y: scroll;
+            }
+
+
+
+    </style>
+
+    <ul>
+        <li onclick="startChat()"><a href="javascript:registerPopup('matej', 'Matěj Štágl');">Matěj</a></li>
+        <li><a href="javascript:registerPopup('standa', 'Stanislav Knitzl');">Standa</a></li>
+        <li>Ivan</li>
+    </ul>
+
+    <script>
+        Array.remove = function (array, from, to) {
+            var rest = array.slice((to || from) + 1 || array.length);
+            array.length = from < 0 ? array.length + from : from;
+            return array.push.apply(array, rest);
+        };
+
+        var popupsCount = 0;
+        var popups = [];
+
+        function closeChat(id) {
+            for (var i = 0; i < popups.length; i++) {
+                if (id == popups[i]) {
+                    Array.remove(popups, i);
+                    document.getElementById(id).style.display = "none";
+                    alert("match");
+                    calculatePopups();
+
+                }
+            }
+        }
+
+        function displayPopups() {
+            var right = 200;
+
+            for (var i = 0; i < popupsCount; i++) {
+                if (popups[i] != undefined) {
+                    var e = document.getElementById(popups[i]);
+                    e.style.right = right + "px";
+                    right += 350;
+                    e.style.display = "block";
                 }
             }
 
 
-            // chatboxManager is excerpt from the original project
-            // the code is not very clean, I just want to reuse it to manage multiple chatboxes
-            chatboxManager.init({ messageSent: broadcastMessageCallback });
+            for (var j = i; j < popups.lenght; j++) {
+                var e = document.getElementById(popups[j]);
+                e.style.display = "none";
+            }
 
-            $("#link_add").click(function(event, ui) {
-                counter++;
-                var id = "box" + counter;
-                idList.push(id);
-                chatboxManager.addBox(id,
-                    {
-                        dest: "dest" + counter, // not used in demo
-                        title: "box" + counter,
-                        first_name: "First" + counter,
-                        last_name: "Last" + counter
-                        //you can add your own options too
-                    });
-                event.preventDefault();
-            });
 
-        });
+        }
+
+        function registerPopup(id, name) {
+            for (var i = 0; i < popups.lenght; i++) {
+                if (id == popups[i]) {
+                    Array.remove(popups, i);
+                    popups.unshift(id);
+
+                    calculatePopups();
+                }
+            }
+
+            var element = '<div class="popup-box chat-popup" id="' + id + '">';
+            element = element + '<div class="popup-head">';
+            element = element + '<div class="popup-head-left">' + name + '</div>';
+            element = element + '<div class="popup-head-right"><a href="javascript:closeChat(\'' + id + '\');">&#10005;</a></div>';
+            element = element + '<div style="clear: both"></div></div><div class="popup-messages"></div></div>';
+
+            document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
+
+            popups.unshift(id);
+
+            calculatePopups();
+        }
+
+        function calculatePopups() {
+            var w = window.innerWidth - 200;
+
+            popupsCount = parseInt(w / 320);
+            displayPopups();
+        }
+
+
+
+
+
+        function startChat() {
+            if ($("#mainChat_matej").lenght <= 0) {
+
+            }
+        }
     </script>
 
     <div>
         <a href="@Url.Action("Vypis", "Home")">Vypis</a>
     </div>
-
     <p>
         <a id="link_add" href="#">Add Chatbox</a>
     </p>
     <p onclick="inputFunction()">Uplatnit voucher</p>
-
-    @using (Html.BeginForm("Eval", "Home", FormMethod.Post, new {@class = "form-horizontal"})) // Umožní zpracovat nahrané soubory
+    @using (Html.BeginForm("Eval", "Home", FormMethod.Post, new { @class = "form-horizontal" })) // Umožní zpracovat nahrané soubory
     {
         <div class="form-group">
             <label class="col-sm-2 control-label">C#:</label>
             <div class="col-sm-10">
-                @Html.TextArea("popis", @"// Na vstupu dostaneš List<int> inputList, obsahující n čísel. Vrať ho seřazený", new {@class = "form-control formatedtext", id = "myTextarea"})
+                @Html.TextArea("popis", @"// Na vstupu dostaneš List<int> inputList, obsahující n čísel. Vrať ho seřazený", new { @class = "form-control formatedtext", id = "myTextarea" })
             </div>
         </div>
 
@@ -142,7 +304,6 @@
             </div>
         </div>
     }
-
 </div>
 
 <i id="nameData" class=""></i>
@@ -171,9 +332,9 @@
 </script>
 
 <span id="newTime">dsadas</span>
-<textarea id="chatText" data-test="@User.Identity.Name"></textarea>
-<input type="button" id="btnClick22" value="Send Message" /><br />
-<span id="messageShit">Message here</span>
+<textarea id="chatTex222" data-test="@User.Identity.Name"></textarea>
+<input type="button" id="btnClick222" value="Send Message" /><br />
+<span id="messageShit22">Message here</span>
 
 <button class="btn" title="I'm a tooltip!">Text</button>
 

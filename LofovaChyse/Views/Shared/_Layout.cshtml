@@ -259,28 +259,42 @@
         <br />
     </header>
 
-
+    <!-- CHAT -->
     @if (User.Identity.IsAuthenticated)
     {
         <div class="ui-chatbox" style="display: none; " id="mainChat">
             <div class="ui-chatbox-titlebar">
                 <p style="color: #ffffff">Matěj</p>
             </div>
-            <div class="ui-chatbox-log">
+            <div class="ui-chatbox-log" id="chatMain">
                 @Html.Raw(General.RestoreChat(User.Identity.Name))
             </div>
 
             <div class="ui-chatbox-input">
-                <input style="width: 70%; z-index: 3;" type="text" />
-                <button class="float-right btn btn-sm btn-light" style="z-index: 4;">Odeslat</button>
+                <input style="width: 70%;" type="text" data-test="@User.Identity.Name" id="chatText"/>
+                <button class="float-right btn btn-sm btn-light" style="z-index: 10;" id="btnClick22" onclick="">Odeslat</button>
             </div>
         </div>
     }
 
 <script>
     $( document ).ready(function() {
-        $("#mainChat").show(500);
+        //$("#mainChat").show(500);
     });
+
+    function refChat(fid) {
+            setTimeout(function() {
+        jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("RestoreChat", "Chat")',
+            data: { name: fid },
+            success: function(result) {
+                document.getElementById("chatMain").innerHTML = result;
+                document.getElementById("chatText").value = "";
+            }
+                });
+            }, 50);
+    }
 </script>
 
 
@@ -462,7 +476,7 @@
 
     <style>
         .ui-chatbox {
-            position: fixed;
+            position: relative;
             bottom: 0;
             padding: 2px;
             background: #CCCCCC;

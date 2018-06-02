@@ -14,14 +14,27 @@
 
     // Client method to broadcast the message
     myHub.client.hello = function (message) {
+      //  alert("něco se děje U");
 
-        $("#messageShit").append("<p>" + message + "</p>");
+        jQuery.ajax({
+            type: "POST",
+            url: '/Chat/RestoreChat',
+            data: { name: "" },
+            success: function (result) {
+                //alert("pass2");
+               // alert(result);
+                $("#chatMain").html(result);
+                $("#chatText").html('');
+            }
+        });
+
+       // $("#chatMain").append("<p>" + message + "</p>");
     };
 
     //Button click jquery handler
-    $(document).on('click', '#btnClick22', function () {
+    jQuery(document).on('click', '#btnClick22', function () {
         // Call SignalR hub method
-
+        //alert("pass1");
         var text = jQuery("#chatText").val();
         var name = jQuery("#chatText").attr("data-test");
 

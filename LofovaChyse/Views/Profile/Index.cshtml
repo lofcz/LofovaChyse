@@ -104,7 +104,7 @@
         <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
 
         <div>
-            <p>Nálada: @Model.NeedJob</p>
+            <p id="ajaxNalada">Nálada: @Model.NeedJob</p>
             <button class="btn btn-default" onclick="openModelWindow()" id="loadPartialView2">[Upravit]</button>
         </div>
 
@@ -201,5 +201,5 @@
             });
     });
 
-    openModelWindow();
+    //openModelWindow();
 </script>

@@ -81,6 +81,7 @@
 
         jQuery("input[name='radio1']").change(function () {
             jQuery(this).closest("form").submit();
+            jQuery("#ajaxNalada").html("Nálada: " + jQuery("input[name='radio1']:checked").val().replace(/[^0-9]/g, ''));
         });
 
     });
