@@ -27,7 +27,13 @@
     <property name="PrimaryIp" column="primaryIp" />
     <property name="RateRemains" column="rateRemains" />
     <property name="Age" column="age" />
-    <property name="Birthday" column="birthday" />
+    <property name="DisplayAge" column="displayAge" />
+    <property name="DisplayName" column="displayName" />
+    <property name="Education" column="education" />
+    <property name="Hobbies" column="hobbies" />
+    <property name="Literature" column="literature" />
+    <property name="Music" column="music" />
+    <property name="Movies" column="movies" />
 
     <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
   </class>

@@ -921,6 +921,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Profile\ViewAchievements.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -933,6 +934,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Login\" />
     <Folder Include="Models\" />
+    <Folder Include="Uploads\Achievementy\" />
     <Folder Include="Uploads\Book\" />
     <Folder Include="Uploads\KnihovnaUzivateleBig\" />
     <Folder Include="Uploads\KnihovnaUzivatele\" />

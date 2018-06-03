@@ -487,5 +487,73 @@ namespace LofovaChyse.Class
 
             return s;
         }
+
+        public static string AuthLevelToString(int authLevel)
+        {
+            string r = "[NEZNÁMÝ]";
+
+            if (authLevel == 0)
+            {
+                r = "Bez ověření";
+            }
+
+            if (authLevel == 1)
+            {
+                r = "A";
+            }
+
+            if (authLevel == 2)
+            {
+                r = "B";
+            }
+
+            if (authLevel == 3)
+            {
+                r = "C";
+            }
+
+            if (authLevel == 4)
+            {
+                r = "D";
+            }
+
+            if (authLevel == 5)
+            {
+                r = "E";
+            }
+
+            if (authLevel == 6)
+            {
+                r = "F";
+            }
+            return r;
+        }
+
+        public static string JobToString(int job)
+        {
+            string r = "Nehledá práci";
+
+            if (job == 1)
+            {
+                r = "Rád by se zapojil do nějakého projektu!";
+            }
+
+            if (job == 2)
+            {
+                r = "Nabízí participaci na komerčním projektu";
+            }
+
+            if (job == 3)
+            {
+                r = "Nehledá práci. Nicméně se mu stále můžeš ozvat.";
+            }
+
+            if (job == 4)
+            {
+                r = "Momentálně je pracovně vytížený. Je možné, že na tvoje zprávy odpoví se zpožděním.";
+            }
+
+            return r;
+        }
     }
 }

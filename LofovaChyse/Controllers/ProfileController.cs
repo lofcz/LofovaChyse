@@ -98,5 +98,12 @@ namespace LofovaChyse.Controllers
 
             return Redirect(Request.UrlReferrer.ToString());
         }
+
+        [Authorize]
+        public ActionResult ViewAchievements(string user)
+        {
+            KnihovnaUser u = new KnihovnaUserDao().GetByLogin(user);
+            return PartialView(u);
+        }
     }
 }

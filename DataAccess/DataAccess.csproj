@@ -102,6 +102,7 @@
     <Compile Include="Dao\BookVersionDao.cs" />
     <Compile Include="Dao\ChatZpravyDao.cs" />
     <Compile Include="Dao\DaoBase.cs" />
+    <Compile Include="Dao\KnihovnaAchievementyDao.cs" />
     <Compile Include="Dao\KnihovnaKategorieDao.cs" />
     <Compile Include="Dao\KnihovnaKomentareDao.cs" />
     <Compile Include="Dao\KnihovnaKomentareLikesDao.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Models\BookSekce.cs" />
     <Compile Include="Models\BookVersion.cs" />
     <Compile Include="Models\ChatZpravy.cs" />
+    <Compile Include="Models\KnihovnaAchievementy.cs" />
     <Compile Include="Models\KnihovnaKategorie.cs" />
     <Compile Include="Models\KnihovnaKomentare.cs" />
     <Compile Include="Models\KnihovnaKomentareLikes.cs" />
@@ -174,6 +176,7 @@
     <None Include="Scripts\jquery-3.3.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Mappings\KnihovnaAchievemeny.hbm.xml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <EmbeddedResource Include="Mappings\BookOdznak.hbm.xml" />

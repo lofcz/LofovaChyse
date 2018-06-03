@@ -17,6 +17,15 @@ namespace DataAccess.Models
         public virtual string Login { get; set; }
         public virtual string Password { get; set; }
         public virtual KnihovnaRole Role { get; set; }
+        public virtual int Age { get; set; }
+        public virtual DateTime Birthday { get; set; }
+        public virtual bool DisplayAge { get; set; }
+        public virtual bool DisplayName { get; set; }
+        public virtual string Education { get; set; }
+        public virtual string Hobbies { get; set; }
+        public virtual string Literature { get; set; }
+        public virtual string Music { get; set; }
+        public virtual string Movies { get; set; }
 
         [AllowHtml]
         public virtual string WelcomeText { get; set; }

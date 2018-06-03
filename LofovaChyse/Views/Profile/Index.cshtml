@@ -53,6 +53,31 @@
         popisOk = false;
     }
 
+    string age = "";
+
+    if (!String.IsNullOrEmpty(Model.Age.ToString()))
+    {
+        age = ", " + Model.Age.ToString();
+    }
+
+    string seznamRoli = "";
+
+    foreach (KnihovnaUserRole r in tvojeRole)
+    {
+        seznamRoli += General.UserRoleName(r) + ", ";
+    }
+
+    seznamRoli = seznamRoli.Remove(seznamRoli.Length - 2);
+
+    string infoString = "Informace";
+    string statString = "Statistiky";
+
+    if (ViewBag.Owner)
+    {
+        infoString = "Informace o tobě";
+        statString = "Tvoje statistiky";
+    }
+
 }
 
 <style>
@@ -121,6 +146,39 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
     }
 
+    .circle-iconFriend {
+        background: #FEFEFE;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        padding: 8px;
+        height: 48px !important;
+        width: 48px !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .circle-iconMini {
+        background: #FEFEFE;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        padding: 4px;
+        height: 30px !important;
+        width: 30px !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .circle-iconSmallest {
+        background: #FEFEFE;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        padding: 2px;
+        height: 24px !important;
+        width: 24px !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+    }
+
     .profilAuthorLine {
         position: relative;
         right: 10px;
@@ -135,12 +193,54 @@
         height: 8px;
     }
 
+    .column {
+        width: 50%;
+        padding: 10px;
+    }
+
+    .rightcolumn {
+        float: right !important;
+    }
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+
+    .fa-crown:hover {
+        color: #C2B280 !important;
+    }
+
+    .fa-cogs:hover {
+        color: #FFBA00 !important;
+    }
+
+    .superSmall {
+        font-size: 0.8em;
+    }
+
+    .profilOceneni {
+        position: relative;
+        bottom: 10px;
+    }
+
 </style>
 
 <script>
     function onAdd() {
         jQuery('#friendRequest').remove();
         swal("Požadavek odeslán", "Dostaneš upozornění jakmile bude vyřízen", "success");
+
+        jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("CallGeneral", "Home")',
+            data: { user1: '@User.Identity.Name', user2: '@Model.Login'}
+        });
     }
 </script>
 <div id="ajaxContent">
@@ -159,26 +259,33 @@
     }
     else
     {
-        <h2 class="nadpisProfil">Profil uživatele @Model.Name</h2>
-       
-
-        if (canAdd)
-        {
-            <div id="friendRequest">
-                @Ajax.ActionLink("Přidat přítele", "CallGeneral", "Home", new { user1 = User.Identity.Name, user2 = Model.Login }, new AjaxOptions() { }, new { onclick = "onAdd()" })
-                <br />
-            </div>
-        }
+            <h2 class="nadpisProfil">Profil uživatele @Model.Name</h2>
     }
     
     <div id="polozkyProfilu" class="profilHorniPolozky">
         
         <div class="profilHorniPolozkyIkony" id="profilIkony">
+
+            @if (canAdd)
+            {
+                <a title="Přidat do přátel" data-tippy-placement="bottom" onclick="onAdd()" id="friendRequest"><i class="fas fa-user-friends fa-fw profilIkonaAktivni circle-iconFriend"></i></a>
+            }
+
+            @if (!ViewBag.Owner)
+            {
+                <a title="Odeslat zprávu" data-tippy-placement="bottom"><i class="fas fa-envelope fa-fw profilIkonaAktivni circle-iconFriend"></i></a>
+            }
+
             <a href="@Url.Action("Index")" title="Profil" data-tippy-placement="bottom"><i class="fas fa-address-card fa-fw profilIkonaAktivni circle-icon"></i></a>
-            <a title="Zeď" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(1)"><i class="fas fa-comments fa-fw circle-icon"></i></a>
-            <a title="Galerie" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(2)"><i class="fas fa-images fa-fw circle-icon" ></i></a>
-            <a title="Snippet" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(3)"><i class="fas fa-file-code fa-fw circle-icon"></i></a>
-            <a title="SoundUp" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(4)"><i class="fas fa-music fa-fw circle-icon"></i></a>
+
+            @if (ViewBag.Owner || Model.AuthLevel > 0)
+            {
+                <a title="Zeď" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(1)"><i class="fas fa-comments fa-fw circle-icon"></i></a>
+                <a title="Galerie" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(2)"><i class="fas fa-images fa-fw circle-icon"></i></a>
+                <a title="Snippet" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(3)"><i class="fas fa-file-code fa-fw circle-icon"></i></a>
+                <a title="SoundUp" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(4)"><i class="fas fa-music fa-fw circle-icon"></i></a>
+            }
+
         </div>
     </div>
 
@@ -193,11 +300,106 @@
             @if (popisOk)
             { 
                 <br />
-                <span class="profilAuthorLine"><i>- @Model.Name @Model.Surname</i></span>
+                <span class="profilAuthorLine"><i>- @Model.Name @Model.Surname @age <br/><span class="superSmall">@seznamRoli</span></i></span>
             }
         </div>
     </div>
     
+    <br />
+    <br />
+    <!-- Tvoje statistiky -->
+    <div class="row">
+        <div class="column">
+            <h4>@statString</h4>
+
+            <ul class="fa-ul" style="font-size: 1.3em;">
+                <li><a title="Vyjadřuje důvěryhodnost uživatele. Existuje 7 úrovní ověření: 0, A-F. Přechod na novou úroveň ti vždy odemkne nové funkce!"><i class="fa-li fas fa-crown circle-iconMini"></i></a>Úroveň ověření: <b>@General.AuthLevelToString(Model.AuthLevel)</b></li>
+                <li><a title="Zkušenosti získáváš po obdržení kladného hodnocení, za publikování komentářů / příspěvků, účast v soutěžích. Vyjadřují úroveň tvých schopností."><i class="fa-li fas fa-cogs circle-iconMini"></i></a>Zkušenosti: <b>@Model.Exp</b></li>
+                <li><a title="Reputace se ti zvedá po získání hodnocení <b>super</b> a <b>to mi pomohlo</b>. Je potřeba k postupu na vyšší úroveň ověření a k žádostem o speciální posty jako redaktror nebo moderátor."><i class="fa-li fas fa-heart circle-iconMini"></i></a>Reputace: <b>@Model.Reputation</b></li>
+            </ul>
+        </div>
+    
+        <div class="column">
+            <h4 class="rightcolumn">Získaná ocenění</h4>               
+            <br/>
+            <br/>
+            
+            <div>
+                @if ((ViewBag.Oceneni as List<KnihovnaOceneni>).Count > 0)
+                {
+                     foreach (KnihovnaOceneni o in ViewBag.Oceneni as List<KnihovnaOceneni>)
+                     {
+                         <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated profilOceneni" style="float: right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id"/>
+                    }
+                }
+                else
+                {
+                    <i class="rightcolumn">@Model.Name ještě nezískal žádná ocenění</i>
+                }
+            </div>     
+            
+        </div>
+    </div>
+    
+    <br />
+    <br />
+    <!-- Informace a úspěchy-->
+    <div class="row">
+        <div class="column">
+            <h4>@infoString</h4>
+
+            <ul class="fa-ul" style="font-size: 1.1em;">
+
+                <li><i class="fa-li fas fa-briefcase circle-iconSmallest"></i><i>@General.JobToString(Model.NeedJob)</i></li>
+
+                @if (!String.IsNullOrEmpty(Model.Education))
+                {
+                    <li><i class="fa-li fas fa-graduation-cap circle-iconSmallest"></i><i>Vzdělání: @Model.Education</i></li>
+
+                }
+                @if (!String.IsNullOrEmpty(Model.Hobbies))
+                {
+                    <li><i class="fa-li fas fa-dove circle-iconSmallest"></i><i>Koníčky: @Model.Hobbies</i></li>
+
+                }
+                @if (!String.IsNullOrEmpty(Model.Literature))
+                {
+                    <li><i class="fa-li fas fa-book-open circle-iconSmallest"></i><i>Literatura: @Model.Literature</i></li>
+
+                }
+                @if (!String.IsNullOrEmpty(Model.Music))
+                {
+                    <li><i class="fa-li fas fa-headphones circle-iconSmallest"></i><i>Hudba: @Model.Music</i></li>
+
+                }
+                @if (!String.IsNullOrEmpty(Model.Movies))
+                {
+                    <li><i class="fa-li fas fa-video circle-iconSmallest"></i><i>Filmy: @Model.Movies</i></li>
+
+                }
+            </ul>
+        </div>
+    
+        <div class="column">
+            <h4 class="rightcolumn">Dosažené úspěchy</h4>               
+            <br/>
+            <br/>
+            
+            <div>
+                @if (!ViewBag.Owner)
+                {
+                    <i class="rightcolumn">@Model.Name ještě nezískal žádné úspěchy</i>
+                }
+                else
+                {
+                    <i class="rightcolumn" onclick="openModelWindowZZ('@Model.Login')">Ještě jsi nezískal žádné úspěchy. <br/>Klikni aby ses dozvěděl jak na to!</i>
+                }
+            </div>     
+            
+        </div>
+    </div>
+    
+
     <!-- XP Bar-->
     <div id="containerAnimated">
         
@@ -205,7 +407,16 @@
    
     <script >
 
+        function openModelWindowZZ(login) {
+        
+            jQuery.get('@Url.Action("ViewAchievements", "Profile")',
+                { user: login },
+                function(response) {
+                    jQuery("#modalContent").html(response);
+                });
 
+            jQuery('#myModal').modal('toggle');
+        }
 
         $(document).ready(function () {
             var bar = new ProgressBar.Line("#containerAnimated", {
@@ -274,15 +485,6 @@
         }
     </script>
 
-    <p>Seznam tvých rolí:</p>
-    <ul>
-        @foreach (KnihovnaUserRole r in tvojeRole)
-        {
-            <li>
-                @General.UserRoleName(r)
-            </li>
-        }
-    </ul>
 
     <div id="moznostiKontaktu">
         <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub>
@@ -294,13 +496,6 @@
     <sub style="float: right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new { id = Model.Id }) | Galerie | Snippety</sub>
     <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float: right">Získaná ocenění:</sub>
     <br />
-    <div class="col-sm-12">
-        @foreach (KnihovnaOceneni o in ViewBag.Oceneni as List<KnihovnaOceneni>)
-        {
-            <img src="@Url.Content("~/Uploads/Odznaky/" + o.Image)" class="animated" style="float: right" title="@o.Name" data-tippy-placement="bottom" onclick="openModelWindow()" id="loadPartialView" mydata="@o.Id" />
-        }
-        <br />
-    </div>
     <br />
     <sub>Přidal se: @Model.JoinedDateTime</sub>
     @if (ViewBag.Owner)
