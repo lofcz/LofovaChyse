@@ -668,6 +668,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\prism.js" />
+    <Content Include="Scripts\progressbar.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\test\timer.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />

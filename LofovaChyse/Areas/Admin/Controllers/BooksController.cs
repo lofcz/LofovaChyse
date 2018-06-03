@@ -237,6 +237,8 @@ namespace LofovaChyse.Areas.Admin.Controllers
                     btmBitmap.Dispose();
                     image.Dispose();
 
+
+
                     System.IO.File.Delete(Server.MapPath("~/Uploads/Book/") + book.ImageName);
 
                     book.ImageName = imageName;
@@ -276,7 +278,19 @@ namespace LofovaChyse.Areas.Admin.Controllers
                         ImageFormat.Png); // Je potřeba namapovat cestu!
 
                     btmBitmap.Dispose();
+
+                    // HiRes save
+                    Image bigImage = ImageHelper.ResizeImageHighQuality(image, 200, 200);
+                    Bitmap btmBitmap2 = new Bitmap(bigImage);
+
+                    string imageName2 = guid.ToString() + ".png";
+                    btmBitmap2.Save(Server.MapPath("~/Uploads/KnihovnaUzivateleBig/") + imageName2, ImageFormat.Png);
+
+                    btmBitmap2.Dispose();
+                    bigImage.Dispose();
+
                     image.Dispose();
+
 
                     user.ImageName = imageName;
                     // System.IO.File.Delete(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + user.ImageName);

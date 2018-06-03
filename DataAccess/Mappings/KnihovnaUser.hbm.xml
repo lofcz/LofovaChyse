@@ -26,6 +26,8 @@
     <property name="LastLogin" column="lastLogin" />
     <property name="PrimaryIp" column="primaryIp" />
     <property name="RateRemains" column="rateRemains" />
+    <property name="Age" column="age" />
+    <property name="Birthday" column="birthday" />
 
     <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
   </class>

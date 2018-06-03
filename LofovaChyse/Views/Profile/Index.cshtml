@@ -44,10 +44,24 @@
 
     List<KnihovnaUserRole> tvojeRole = General.GetUserRoles(Model.Login);
 
+    string profilText = Model.WelcomeText;
+    bool popisOk = true;
+
+    if (String.IsNullOrEmpty(profilText))
+    {
+        profilText = "Tento uživatel nám toho zatím o sobě moc neřekl. Ale můžeš se zeptat!";
+        popisOk = false;
+    }
+
 }
 
 <style>
     .nadpisProfil {
+        display: inline-block;
+        font-size: 2.3em;
+    }
+
+    .nadpisDalsiInfo {
         display: inline-block;
     }
 
@@ -55,6 +69,7 @@
         float: right;
         position: relative;
         color: darkgray;
+
     }
 
     .profilHorniPolozkyIkony {
@@ -68,8 +83,58 @@
 
     .profilIkonaAktivni {
         opacity: 1;
-        color: darkgray;
+        color: #888;
     }
+
+    .profilObrazekVeliky {
+        border-radius: 100px;
+        border: 1px solid #ddd;
+        padding: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin: 30px;
+
+    }
+
+    .profilPredstaveni {   
+        position: relative;
+        top: 50px;
+        font-size: 1.4em;
+        display: block;
+        padding-right: 10px;
+        height: auto;
+    }
+
+    .profilKontajnerObrazek {
+        display: inline-flex;
+        position: relative;
+        top: 10px;
+    }
+
+    .circle-icon {
+        background: #FEFEFE;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        padding: 8px;
+        height: 48px !important;
+        width: 48px !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .profilAuthorLine {
+        position: relative;
+        right: 10px;
+        font-size: 0.9em;
+        display: block;
+        top: 40px;
+    }
+
+    #containerAnimated {
+        margin: 20px;
+        width: 400px;
+        height: 8px;
+    }
+
 </style>
 
 <script>
@@ -94,8 +159,8 @@
     }
     else
     {
-        <h2>Profil uživatele @Model.Name</h2>
-        <p>Jste přátelé? @friendMessage</p>
+        <h2 class="nadpisProfil">Profil uživatele @Model.Name</h2>
+       
 
         if (canAdd)
         {
@@ -109,15 +174,88 @@
     <div id="polozkyProfilu" class="profilHorniPolozky">
         
         <div class="profilHorniPolozkyIkony" id="profilIkony">
-            <a href="@Url.Action("Index")" title="Profil" data-tippy-placement="bottom"><i class="fas fa-address-card fa-fw profilIkonaAktivni"></i></a>
-            <a title="Zeď" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(1)"><i class="fas fa-comments fa-fw"></i></a>
-            <a title="Galerie" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(2)"><i class="fas fa-images fa-fw"></i></a>
-            <a title="Snippet" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(3)"><i class="fas fa-file-code fa-fw"></i></a>
-            <a title="SoundUp" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(4)"><i class="fas fa-music fa-fw"></i></a>
+            <a href="@Url.Action("Index")" title="Profil" data-tippy-placement="bottom"><i class="fas fa-address-card fa-fw profilIkonaAktivni circle-icon"></i></a>
+            <a title="Zeď" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(1)"><i class="fas fa-comments fa-fw circle-icon"></i></a>
+            <a title="Galerie" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(2)"><i class="fas fa-images fa-fw circle-icon" ></i></a>
+            <a title="Snippet" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(3)"><i class="fas fa-file-code fa-fw circle-icon"></i></a>
+            <a title="SoundUp" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(4)"><i class="fas fa-music fa-fw circle-icon"></i></a>
+        </div>
+    </div>
+
+    
+    <!-- Obrázek uživatele veliký-->
+    <div id="obrazekUzivatele" class="profilKontajnerObrazek">
+        <img src="@Url.Content("~/Uploads/KnihovnaUzivateleBig/" + General.GetMiniaturePicture(Model.Login))" class="profilObrazekVeliky"/>
+        
+        <div>
+            <i class="profilPredstaveni">@Html.Raw(profilText)</i>
+            
+            @if (popisOk)
+            { 
+                <br />
+                <span class="profilAuthorLine"><i>- @Model.Name @Model.Surname</i></span>
+            }
         </div>
     </div>
     
-    <script>
+    <!-- XP Bar-->
+    <div id="containerAnimated">
+        
+    </div> 
+   
+    <script >
+
+
+
+        $(document).ready(function () {
+            var bar = new ProgressBar.Line("#containerAnimated", {
+                strokeWidth: 4,
+                easing: 'easeInOut',
+                duration: 2500,
+                color: '#FFEA82',
+                trailColor: '#eee',
+                trailWidth: 1,
+                text: {
+                    style: {
+                        // Text color.
+                        // Default: same as stroke color (options.color)
+                        color: '#999',
+                        position: 'relative',
+                        right: '0',
+                        top: '30px',
+                        padding: 0,
+                        margin: 0,
+                        transform: null
+                    },
+                    autoStyleContainer: false
+                },
+                svgStyle: {width: '100%', height: '100%'},
+                from: {color: '#66666'},
+                to: {color: '#00FF00'},
+                step: (state, bar) => {
+                    bar.path.setAttribute('stroke', state.color);
+                    bar.setText('Zkušenosti: ' + Math.round(bar.value() * 100) + ' %');
+                }
+            });
+
+            bar.animate(1.0);
+
+        var elem = document.getElementById("myBar");
+
+        $("#zkusenostiBar").fadeIn(500);
+
+        var width = 1;
+        var id = setInterval(frame, 10);
+        function frame() {
+            if (width >= 40) {
+                clearInterval(id);
+            } else {
+                width++; 
+                elem.style.width = width + '%'; 
+            }
+        }
+    });
+
         function akcePolozkyProfilu(index) {
             if (index !== 0) {
                 if (@Model.AuthLevel == 0) {
@@ -195,7 +333,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-default">Upravit text</button>
+                            <button type="submit" class="btn btn-default" style="z-index: 1">Upravit text</button>
                         </div>
                     </div>
                 }
