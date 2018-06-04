@@ -1,4 +1,5 @@
-﻿
+﻿@using LofovaChyse.Class
+
 @{
     ViewBag.Title = "NastavNaladu";
 
@@ -85,9 +86,31 @@
 
         jQuery("input[name='radio1']").change(function () {
             jQuery(this).closest("form").submit();
+            
+            var job = jQuery("input[name='radio1']:checked").val().replace(/[^0-9]/g, '');
+            var r = "";
 
-            jQuery("#ajaxNalada").html("Nálada: " + jQuery("input[name='radio1']:checked").val().replace(/[^0-9]/g, ''));
+            if (job == 1)
+            {
+                r = "Rád by se zapojil do nějakého projektu!";
+            }
 
+            if (job == 2)
+            {
+                r = "Nabízí participaci na komerčním projektu";
+            }
+
+            if (job == 3)
+            {
+                r = "Nehledá práci. Nicméně se mu stále můžeš ozvat.";
+            }
+
+            if (job == 4)
+            {
+                r = "Momentálně je pracovně vytížený. Je možné, že na tvoje zprávy odpoví se zpožděním.";
+            }
+
+            jQuery("#loadPartialView2").html(r);
         });
 
     });

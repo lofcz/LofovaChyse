@@ -105,5 +105,65 @@ namespace LofovaChyse.Controllers
             KnihovnaUser u = new KnihovnaUserDao().GetByLogin(user);
             return PartialView(u);
         }
+
+        [Authorize]
+        public JsonResult ProfilUpdateVzdelani(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.Education = value;
+            d.Update(u);
+
+            return Json(new { });
+        }
+
+        [Authorize]
+        public JsonResult ProfilUpdateKonicky(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.Hobbies = value;
+            d.Update(u);
+
+            return Json(new { });
+        }
+
+        [Authorize]
+        public JsonResult ProfilUpdateKnihy(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.Literature = value;
+            d.Update(u);
+
+            return Json(new { });
+        }
+
+        [Authorize]
+        public JsonResult ProfilUpdateFilmy(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.Movies = value;
+            d.Update(u);
+
+            return Json(new { });
+        }
+
+        [Authorize]
+        public JsonResult ProfilUpdateHudba(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.Music = value;
+            d.Update(u);
+
+            return Json(new { });
+        }
     }
 }

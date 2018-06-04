@@ -856,6 +856,7 @@
     <Compile Include="Class\ImageHelper.cs" />
     <Compile Include="Class\KnihovnaMembershipProvider.cs" />
     <Compile Include="Class\KnihovnaRoleProvider.cs" />
+    <Compile Include="Class\LevelUp.cs" />
     <Compile Include="Class\NovinkyGenerator.cs" />
     <Compile Include="Class\Sklonovani.cs" />
     <Compile Include="Class\Texty.cs" />

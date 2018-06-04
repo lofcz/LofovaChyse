@@ -26,6 +26,7 @@ namespace DataAccess.Models
         public virtual string Literature { get; set; }
         public virtual string Music { get; set; }
         public virtual string Movies { get; set; }
+        public virtual int Elan { get; set; }
 
         [AllowHtml]
         public virtual string WelcomeText { get; set; }

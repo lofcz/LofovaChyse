@@ -406,9 +406,9 @@
 			$(".select2-body-container").html('');
 		},
 		getHtml : function getHtml(value, span) {
-            var buttonValidate = '<span class="validate input-group-addon  edit-validate-' + this.options.validateClass + '"><i class="fas fa-check"></span>'; 
+            var buttonValidate = '<span class="validate input-group-addon  edit-validate-' + this.options.validateClass + '"><i class="fas fa-user-check"></span>'; 
 			if(this.options.saveOptions == 'block'){
-                buttonValidate = '<div class="save-options"><button class="validate edit-validate-' + this.options.validateClass + '"><i class="fas fa-check"></i></button><button class="edit-cancel-default"><i class="fas fa-times"></button></div>';
+                buttonValidate = '<div class="save-options"><button class="validate edit-validate-' + this.options.validateClass + '"><i class="fas fa-user-check"></i></button><button class="edit-cancel-default"><i class="fas fa-times"></button></div>';
 			}
 			
 			var html = $('<div class="input-group input-group-sm select2-bootstrap-append select2-bootstrap-prepend edit-form" ></div>');

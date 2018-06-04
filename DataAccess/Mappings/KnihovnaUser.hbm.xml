@@ -34,7 +34,7 @@
     <property name="Literature" column="literature" />
     <property name="Music" column="music" />
     <property name="Movies" column="movies" />
-
+    <property name="Elan" column="elan" />
     <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
   </class>
 
