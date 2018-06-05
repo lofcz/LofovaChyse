@@ -156,7 +156,9 @@
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\fonts\octicons.svg" />
+    <Content Include="Content\imagehover.css" />
     <Content Include="Content\octicons.css" />
+    <Content Include="Content\pretty-checkbox.css" />
     <Content Include="Content\prism.css" />
     <Content Include="Content\signin.css" />
     <Content Include="Content\Site.css" />
@@ -179,6 +181,7 @@
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-confirmation.js" />
+    <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -923,6 +926,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Profile\ViewAchievements.cshtml" />
+    <Content Include="Views\Profile\NastavitInformace.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

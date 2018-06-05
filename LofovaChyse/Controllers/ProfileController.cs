@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using DataAccess.Dao;
 using DataAccess.Models;
+using LofovaChyse.Class;
 
 namespace LofovaChyse.Controllers
 {
@@ -107,6 +110,14 @@ namespace LofovaChyse.Controllers
         }
 
         [Authorize]
+        public ActionResult NastavitInformace(string user)
+        {
+            KnihovnaUser u = new KnihovnaUserDao().GetByLogin(user);
+            return PartialView(u);
+        }
+        
+
+        [Authorize]
         public JsonResult ProfilUpdateVzdelani(string value)
         {
             KnihovnaUserDao d = new KnihovnaUserDao();
@@ -124,7 +135,7 @@ namespace LofovaChyse.Controllers
             KnihovnaUserDao d = new KnihovnaUserDao();
             KnihovnaUser u = d.GetByLogin(User.Identity.Name);
 
-            u.Hobbies = value;
+            u.Hobbies = value.Replace(",", ", ");
             d.Update(u);
 
             return Json(new { });
@@ -165,5 +176,60 @@ namespace LofovaChyse.Controllers
 
             return Json(new { });
         }
+
+        [Authorize]
+        public JsonResult ProfilUpdateText(string value)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            u.WelcomeText = value;
+            d.Update(u);
+
+            return Json(new { });
+        }
+
+        [Authorize]
+        public ActionResult EditImage(HttpPostedFileBase picture)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+
+            if (picture != null)
+            {
+                Image image = Image.FromStream(picture.InputStream);
+                Image smalImage = ImageHelper.ResizeImageHighQuality(image, 32, 32);
+
+                Bitmap btmBitmap = new Bitmap(smalImage);
+                Guid guid = Guid.NewGuid();
+
+                string imageName = guid.ToString() + ".png";
+                btmBitmap.Save(Server.MapPath("~/Uploads/KnihovnaUzivatele/") + imageName, ImageFormat.Png);
+
+                btmBitmap.Dispose();
+
+                // HiRes save
+                Image bigImage = ImageHelper.ResizeImageHighQuality(image, 200, 200);
+                Bitmap btmBitmap2 = new Bitmap(bigImage);
+
+                string imageName2 = guid.ToString() + ".png";
+                btmBitmap2.Save(Server.MapPath("~/Uploads/KnihovnaUzivateleBig/") + imageName2, ImageFormat.Png);
+
+                btmBitmap2.Dispose();
+                bigImage.Dispose();
+
+                image.Dispose();
+
+
+                u.ImageName = imageName;
+            }
+
+
+            d.Update(u);
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        
+
     }
 }

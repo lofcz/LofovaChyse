@@ -175,7 +175,9 @@
 				}
 			});
 		},
-		submitEditable : function submitEditable(element, textToDisplay, valueToSubmit) {
+        submitEditable: function submitEditable(element, textToDisplay, valueToSubmit) {
+            var realVal = valueToSubmit;
+
 			// on affecte la nouvelle valeur et on active le span
 			var validationResult = this.options.validateValue(valueToSubmit);
 			if (validationResult.success) {
@@ -227,10 +229,10 @@
 						this.options.beforeSendUpdate(this.$element, dataToSend);
 					}
 
-					$.ajax({
+                    $.ajax({
 						method : "POST",
 						url : _this.options.url,
-						data : dataToSend,
+                        data: { value: realVal.toString() }, // zasranej zmrde, array[] --> "1, 2, 3" 
 						dataType : _this.options.dataType,
 						
 					     // processData: false,
@@ -638,7 +640,7 @@
 				html.removeClass("input-group-sm");
 				html.find(".bootstrap-tagsinput").addClass("form-control");
 				html.find(".validate").click(function() {
-					var allTags = tagsInput.tagsinput('items');
+                    var allTags = tagsInput.tagsinput('items');
 					_this.submitEditable(span, allTags.join(_this.options.multipleSeparator), allTags);
 				});
 				break;

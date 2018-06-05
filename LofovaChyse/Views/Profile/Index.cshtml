@@ -1,4 +1,5 @@
-﻿@using DataAccess.Models
+﻿@using System.Web.UI.WebControls
+@using DataAccess.Models
 @using LofovaChyse.Class
 @model DataAccess.Models.KnihovnaUser
 @{
@@ -270,6 +271,10 @@
             data: { user1: '@User.Identity.Name', user2: '@Model.Login'}
         });
     }
+
+    function getImage() {
+
+    }
 </script>
 <div id="ajaxContent">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -327,7 +332,7 @@
         <img src="@Url.Content("~/Uploads/KnihovnaUzivateleBig/" + General.GetMiniaturePicture(Model.Login))" class="profilObrazekVeliky" />
 
         <div>
-            <i class="profilPredstaveni">@Html.Raw(profilText)</i>
+            <i class="profilPredstaveni" id="hlavniText">@Html.Raw(profilText)</i>
 
             @if (popisOk)
             {
@@ -336,8 +341,45 @@
             }
         </div>
     </div>
-    <!-- Vysvětlivky pro edit mód-->
-<div class="card">
+
+<!-- Editování textu a podpisu-->
+<div style="display: none;" class="row" id="nastaveniTextu">
+    <ul class="fa-ul" style="font-size: 1.1em;">
+
+        <li><i class="fa-li fas fa-feather circle-iconSmallest"></i><i class="napoveda" onclick="$('#editTextu').fadeToggle(500); $('#editTextu2').fadeToggle(500)">Upravit text</i></li>
+        <li><i class="fa-li fas fa-image circle-iconSmallest"></i><i class="napoveda" onclick="$('#editFotky').fadeToggle(500);">Změnit profilovou fotku</i></li>
+    </ul>
+        
+    <br />
+    <br />
+    
+</div>
+
+<div style="display: none" id="editTextu"><i>@Html.Raw(Model.WelcomeText)</i>
+</div>
+<div style="display: none" id="editTextu2">
+    <p>Počítadlo znaků:</p>
+</div>
+
+<!--Upload obrázku-->
+<div style="display: none" id="editFotky">
+    @{
+        using (Html.BeginForm("EditImage", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
+        {
+            <div class="form-group">
+                <input type="file" name="picture" id="picture" class="form-control-file" />
+            </div>
+
+            <input type="submit" value="Nahrát" class="btn btn-primary" />
+            <br />
+            <br />
+            <br />
+        }
+    }
+</div>
+
+<!-- Vysvětlivky pro edit mód-->
+<div class="card" style="display: none" id="napovedaMain">
     <div class="card-body">
         <h5>Upravuješ svůj profil. Tuto rychlou nápovědu aktivuješ kliknutím na příslušnou otázku.</h5>
         <div class="row">
@@ -477,69 +519,67 @@
     <br />
     <br />
     <!-- Informace a úspěchy-->
-    <div class="row">
-        <div class="column">
-            <h4>@infoString</h4>
+<div class="row">
+    <div class="column">
+        <h4>@infoString</h4>
 
-            <ul class="fa-ul" style="font-size: 1.1em;">
+        <ul class="fa-ul" style="font-size: 1.1em;">
 
-                <li><i class="fa-li fas fa-briefcase circle-iconSmallest"></i><i onclick="openModelWindow()" id="loadPartialView2">@General.JobToString(Model.NeedJob)</i></li>
 
-                @if (!String.IsNullOrEmpty(Model.Education))
-                {
-                    <li>
-                        <i class="fa-li fas fa-graduation-cap circle-iconSmallest"></i> <tag><i>Vzdělání:</i></tag>
-                        <i id="toEdit">@Model.Education</i>
-                    </li>
+            <li style="display: none" id="nastaveniInformaci"><i class="fa-li fas fa-cog circle-iconSmallest"></i><i class="napoveda" onclick="openModelWindowInfo('@Model.Login')">Nastavit viditelné informace</i></li>
+            <li><i class="fa-li fas fa-briefcase circle-iconSmallest"></i><i onclick="openModelWindow()" id="loadPartialView2">@General.JobToString(Model.NeedJob)</i></li>
 
-                }
-                @if (!String.IsNullOrEmpty(Model.Hobbies))
-                {
-                    <li><i class="fa-li fas fa-dove circle-iconSmallest"></i><tag><i>Koníčky: </i></tag><i id="toEdit2">@Model.Hobbies</i></li>
+            @if (!String.IsNullOrEmpty(Model.Education))
+            {
+                <li>
+                    <i class="fa-li fas fa-graduation-cap circle-iconSmallest"></i> <tag><i>Vzdělání:</i></tag>
+                    <i id="toEdit">@Model.Education</i>
+                </li>
 
-                }
-                @if (!String.IsNullOrEmpty(Model.Literature))
-                {
-                    <li><i class="fa-li fas fa-book-open circle-iconSmallest"></i><tag><i>Literatura: </i></tag><i id="toEdit3">@Model.Literature</i></li>
+            }
+            @if (!String.IsNullOrEmpty(Model.Hobbies))
+            {
+                <li><i class="fa-li fas fa-dove circle-iconSmallest"></i><tag><i>Koníčky: </i></tag><i id="toEdit2">@Model.Hobbies</i></li>
 
-                }
-                @if (!String.IsNullOrEmpty(Model.Music))
-                {
-                    <li><i class="fa-li fas fa-headphones circle-iconSmallest"></i><tag><i>Hudba: </i></tag><i id="toEdit4">@Model.Music</i></li>
+            }
+            @if (!String.IsNullOrEmpty(Model.Literature))
+            {
+                <li><i class="fa-li fas fa-book-open circle-iconSmallest"></i><tag><i>Literatura: </i></tag><i id="toEdit3">@Model.Literature</i></li>
 
-                }
-                @if (!String.IsNullOrEmpty(Model.Movies))
-                {
-                    <li><i class="fa-li fas fa-video circle-iconSmallest"></i><tag><i>Filmy: </i></tag><i id="toEdit5">@Model.Movies</i></li>
+            }
+            @if (!String.IsNullOrEmpty(Model.Music))
+            {
+                <li><i class="fa-li fas fa-headphones circle-iconSmallest"></i><tag><i>Hudba: </i></tag><i id="toEdit4">@Model.Music</i></li>
 
-                }
-            </ul>
-        </div>
+            }
+            @if (!String.IsNullOrEmpty(Model.Movies))
+            {
+                <li><i class="fa-li fas fa-video circle-iconSmallest"></i><tag><i>Filmy: </i></tag><i id="toEdit5">@Model.Movies</i></li>
 
-        <div class="column">
-            <h4 class="rightcolumn">Dosažené úspěchy</h4>
-            <br />
-            <br />
+            }
 
-            <div>
-                @if (!ViewBag.Owner)
-                {
-                    <i class="rightcolumn">@Model.Name ještě nezískal žádné úspěchy</i>
-                }
-                else
-                {
-                    <i class="rightcolumn" onclick="openModelWindowZZ('@Model.Login')">Ještě jsi nezískal žádné úspěchy. <br />Klikni aby ses dozvěděl jak na to!</i>
-                }
-            </div>
-
-        </div>
+            <li><i class="fa-li fas fa-clock circle-iconSmallest"></i><tag><i>Přidal se: </i></tag><i>@Model.JoinedDateTime.ToString("D")</i></li>
+        </ul>
     </div>
 
+    <div class="column">
+        <h4 class="rightcolumn">Dosažené úspěchy</h4>
+        <br />
+        <br />
 
-    <!-- XP Bar-->
-    <div id="containerAnimated">
+        <div>
+            @if (!ViewBag.Owner)
+            {
+                <i class="rightcolumn">@Model.Name ještě nezískal žádné úspěchy</i>
+            }
+            else
+            {
+                <i class="rightcolumn" onclick="openModelWindowZZ('@Model.Login')">Ještě jsi nezískal žádné úspěchy. <br />Klikni aby ses dozvěděl jak na to!</i>
+            }
+        </div>
 
     </div>
+</div>
 
     <script>
 
@@ -549,17 +589,15 @@
 
                     if (nastaveni === 0) {
 
+                        $("#napovedaMain").show(500);
+                        $("#nastaveniTextu").show(500);
+                        $("#nastaveniInformaci").show(500);
+
                         nastaveni = 1;
-                        swal({
-                            title: "Upravuješ profil",
-                            text: 'Položky upravuješ tím, že na ně klikneš a přepíšeš je. Opětovným kliknutím na toto tlačítko zrušíš mód úprav.',
-                            type: 'info',
-                            html: true
-                        });
 
                         $(function() {
                             $("#toEdit").editstrap({
-                                type: 'text',
+                                type: 'tags',
                                 validateClass: 'success',
                                 saveOptions: 'block',
                                 title: 'Upravit',
@@ -571,15 +609,16 @@
                                     element.html("Aktualizováno");
                                     element.addClass('edit-has-succes');
                                     element.show().delay(1000).fadeOut();
-                                }
+                                },
+                                multipleSeparator:', '
                             });
                         });
 
                         $(function() {
                             $("#toEdit2").editstrap({
-                                type: 'text',
-                                validateClass: 'success',
+                                type: 'tags',
                                 saveOptions: 'block',
+                                validateClass: 'success',
                                 title: 'Upravit',
                                 editClasses: 'fas fa-wrench',
                                 url: '@Url.Action("ProfilUpdateKonicky", "Profile")',
@@ -589,13 +628,14 @@
                                     element.html("Aktualizováno");
                                     element.addClass('edit-has-succes');
                                     element.show().delay(1000).fadeOut();
-                                }
+                                },
+                                multipleSeparator:', '
                             });
                         });
 
                         $(function() {
                             $("#toEdit3").editstrap({
-                                type: 'text',
+                                type: 'tags',
                                 validateClass: 'success',
                                 saveOptions: 'block',
                                 title: 'Upravit',
@@ -607,13 +647,14 @@
                                     element.html("Aktualizováno");
                                     element.addClass('edit-has-succes');
                                     element.show().delay(1000).fadeOut();
-                                }
+                                },
+                                multipleSeparator:', '
                             });
                         });
 
                         $(function() {
                             $("#toEdit4").editstrap({
-                                type: 'text',
+                                type: 'tags',
                                 validateClass: 'success',
                                 saveOptions: 'block',
                                 title: 'Upravit',
@@ -625,14 +666,15 @@
                                     element.html("Aktualizováno");
                                     element.addClass('edit-has-succes');
                                     element.show().delay(1000).fadeOut();
-                                }
+                                },
+                                multipleSeparator:', '
                             });
                         });
 
 
                         $(function() {
                             $("#toEdit5").editstrap({
-                                type: 'text',
+                                type: 'tags',
                                 validateClass: 'success',
                                 saveOptions: 'block',
                                 title: 'Upravit',
@@ -644,9 +686,32 @@
                                     element.html("Aktualizováno");
                                     element.addClass('edit-has-succes');
                                     element.show().delay(1000).fadeOut();
+                                },
+                                multipleSeparator:', '
+                            });
+                        });
+
+                        $(function() {
+                            $("#editTextu").editstrap({
+                                type: 'textArea',
+                                validateClass: 'success',
+                                saveOptions: 'block',
+                                title: 'Upravit',
+                                editClasses: 'fas fa-wrench',
+                                url: '@Url.Action("ProfilUpdateText", "Profile")',
+                                emptyField: 'No data',
+                                displaySuccess: function(editable, value, text) {
+                                    var element = editable.parent().parent().find(".result-message");
+                                    element.html("Aktualizováno");
+                                    element.addClass('edit-has-succes');
+                                    element.show().delay(500).fadeOut();
+
+                                    $("#hlavniText").html($("#editTextu").html());
+                                    $("#editTextu").delay(500).fadeOut();
                                 }
                             });
                         });
+
                     } else {
                         location.reload();
                     }
@@ -655,6 +720,17 @@
                 function openModelWindowZZ(login) {
 
                     jQuery.get('@Url.Action("ViewAchievements", "Profile")',
+                        { user: login },
+                        function(response) {
+                            jQuery("#modalContent").html(response);
+                        });
+
+                    jQuery('#myModal').modal('toggle');
+                }
+
+                function openModelWindowInfo(login) {
+
+                    jQuery.get('@Url.Action("NastavitInformace", "Profile")',
                         { user: login },
                         function(response) {
                             jQuery("#modalContent").html(response);
@@ -730,95 +806,6 @@
                 }
     </script>
 
-
-    <div id="moznostiKontaktu">
-        <sub><a href="#">Poslat zprávu</a> | <a href="#">Další kontakty</a></sub>
-
-    </div>
-
-    <br />
-    <br />
-    <sub style="float: right"><strong>Profil</strong> | @Html.ActionLink("Zeď", "ViewWall", new { id = Model.Id }) | Galerie | Snippety</sub>
-    <sub>Úroveň ověření: <strong>@Model.AuthLevel</strong> (@Model.Exp xp)</sub> <sub style="float: right">Získaná ocenění:</sub>
-    <br />
-    <br />
-    <sub>Přidal se: @Model.JoinedDateTime</sub>
-    @if (ViewBag.Owner)
-    {
-        <p>Jsi vlastník tohoto profilu!</p>
-        <p>Uživatelské ID: @Model.Id</p>
-        <p>Heslo: @Model.Password</p>
-        <p>Úroveň oprávnění: @Model.Role.RoleDescription</p>
-        <p>Zkušenosti: @Model.Exp</p>
-        <p>Počet komentářů: @Model.CommentsNumber</p>
-        <p>Reputace: @Model.LikesNumber</p>
-
-        <div>
-            <p id="ajaxNalada">Nálada: @Model.NeedJob</p>
-            <button class="btn btn-default">[Upravit]</button>
-        </div>
-
-
-        <p>Nastav si text pro návštěvy:</p>
-        <div class="row">
-            @if (User.Identity.IsAuthenticated)
-            {
-                using (Html.BeginForm("EditProfile", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
-                {
-                    <div class="form-group">
-                        <div>
-                            @Html.TextAreaFor(x => x.WelcomeText, new { @class = "form-control formatedtext" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-default" style="z-index: 1">Upravit text</button>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-
-        <script type="text/javascript">
-            $(function () {
-                $("#welcomeText").html("");
-            });
-
-            //  jQuery('#myModal').on('hidden.bs.modal', function () {
-            //      location.reload();
-            //  })
-        </script>
-
-        <style>
-
-            .mce-path { /* CSS */
-                display: none !important;
-            }
-        </style>
-        <script src="@Url.Content("~/Scripts/tinymce/tinymce.js")"></script>
-        <script>
-            tinymce.init({
-                selector: '.formatedtext',
-                branding: false,
-                plugins:
-                'code,emoticons,lists,advlist,autolink,autoresize,autosave,codesample,textcolor,colorpicker,fullscreen,hr,image,link,media,preview,searchreplace,table,textpattern,wordcount',
-                toolbar:
-                'image,code,emoticons,bulllist,numlist,restoredraft,codesample,forecolor,backcolor,fullscreen,preview,searchreplace',
-                width: '100%',
-                language: 'cs'
-
-
-            });
-        </script>
-    }
-    else
-    {
-        <hr />
-        <p>@Html.Raw(Model.WelcomeText)</p>
-    }
-</div>
-
 <script type="text/javascript">
     function openModelWindow() {
 
@@ -862,4 +849,4 @@
             $(".profilHorniPolozkyIkony i").addClass("profilHorniPolozkyZamceno");
         </script>
     }
-}
+}</div>
