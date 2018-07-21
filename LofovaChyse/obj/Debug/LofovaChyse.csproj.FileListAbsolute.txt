@@ -89,15 +89,12 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\Microsoft.CodeAnalysis
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\Microsoft.Win32.Primitives.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.AppContext.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Collections.Immutable.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Console.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
-C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Diagnostics.Process.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Diagnostics.StackTrace.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.IO.FileSystem.dll
-C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.IO.FileSystem.Primitives.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.IO.Pipes.AccessControl.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.IO.Pipes.dll
@@ -110,7 +107,6 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Security.Crypto
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Security.Principal.Windows.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Text.Encoding.CodePages.dll
-C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Threading.Thread.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.ValueTuple.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Xml.ReaderWriter.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Xml.XmlDocument.dll

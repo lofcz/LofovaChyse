@@ -494,7 +494,7 @@ namespace LofovaChyse.Class
 
             if (authLevel == 0)
             {
-                r = "Bez ověření";
+                r = "0";
             }
 
             if (authLevel == 1)
@@ -550,7 +550,7 @@ namespace LofovaChyse.Class
 
             if (job == 4)
             {
-                r = "Momentálně je pracovně vytížený. Je možné, že na tvoje zprávy odpoví se zpožděním.";
+                r = "Momentálně je <b>pracovně vytížený</b>. Je možné, že na tvoje zprávy odpoví se zpožděním.";
             }
 
             return r;

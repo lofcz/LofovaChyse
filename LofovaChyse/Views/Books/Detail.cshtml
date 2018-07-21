@@ -314,7 +314,7 @@
 
                         <div class="card-title mt-0" style="font-size: 12px;">
                             <div class="commenterImage" style="display: table-cell">
-                                <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + komentar.OwnerId.ImageName)" style="width: 36px; height: 36px; margin-top: 0px"/>
+                                <img src="@Url.Content("~/Uploads/KnihovnaUzivatele/" + komentar.OwnerId.ImageName)" style="width: 36px; height: 36px; margin-top: 0px; border-radius: 50%;"/>
                             </div>
                             <div class="commentText">
                                 @Html.ActionLink(komentar.OwnerId.Name, "Index", "Profile", new {id = komentar.OwnerId.Id}, new {@class = "tippy h5", title = "<strong>" + komentar.OwnerId.Name + "</strong> <small> (registrovaný " + komentar.OwnerId.JoinedDateTime.ToString("dd MMMM, yyyy") + ")</small>" + "</br>Komentáře: " + komentar.OwnerId.CommentsNumber + "</br>Reputace: " + komentar.OwnerId.Reputation + "</br>Postoj k práci: " + komentar.OwnerId.NeedJob, data_tippy_interactiveBorder = "15", data_tippy_arrowType = "round", data_tippy_theme = "light", data_tippy_arrowTransform = "scale(2, 2.5)", dat_tippy_distance = "25", data_tippy_animation = "scale", data_tippy_interactive = "true", data_tippy_arrow = "true", data_tippy_placement = "left"})

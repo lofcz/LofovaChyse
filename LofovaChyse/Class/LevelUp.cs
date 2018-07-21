@@ -20,24 +20,24 @@ namespace LofovaChyse.Class
             Pozadavky[0, 1] = 1;
 
             // B
-            Pozadavky[1, 0] = 10;
-            Pozadavky[1, 1] = 1;
+            Pozadavky[1, 0] = 50;
+            Pozadavky[1, 1] = 15;
 
             // C
-            Pozadavky[2, 0] = 10;
-            Pozadavky[2, 1] = 1;
+            Pozadavky[2, 0] = 120;
+            Pozadavky[2, 1] = 40;
 
             // D 
-            Pozadavky[3, 0] = 10;
-            Pozadavky[3, 1] = 1;
+            Pozadavky[3, 0] = 250;
+            Pozadavky[3, 1] = 100;
 
             // E
-            Pozadavky[4, 0] = 10;
-            Pozadavky[4, 1] = 1;
+            Pozadavky[4, 0] = 500;
+            Pozadavky[4, 1] = 200;
 
             // F
-            Pozadavky[5, 0] = 10;
-            Pozadavky[5, 1] = 1;
+            Pozadavky[5, 0] = 1000;
+            Pozadavky[5, 1] = 500;
 
 
             // String pro level up teaser:
@@ -96,6 +96,11 @@ namespace LofovaChyse.Class
                 tvarRep = "body";
             }
 
+            if (repDif > 4)
+            {
+                tvarRep = "bodů";
+            }
+
             // Sestavíme string
             if (xp < Pozadavky[lvl, 0] && rep < Pozadavky[lvl, 1]) // V případě, že chybí oba staty
             {
@@ -111,7 +116,7 @@ namespace LofovaChyse.Class
             }
 
             // Přidáme získané výhody
-            r += "<br/><small>Na další úrovni získáš " + LevelUpTeaser[lvl] + "</small>";
+            r += "<br/><small>Na další úrovni získáš " + LevelUpTeaser[lvl] + ".</small>";
 
 
             // Uživatel má max lvl

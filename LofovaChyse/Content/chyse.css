@@ -171,6 +171,7 @@
     height: 20px !important;
     position: relative;
     top: -2px;
+    border-radius: 50%;
 }
 
 strong {
