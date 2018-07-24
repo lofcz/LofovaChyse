@@ -40,8 +40,12 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - Profilový obrázek
     - Ocenění
     - Nálada / nabídky práce (ajax)
+    - Komunitní projekty
+    - Koníčky, vzdělání, literatura, hudba, filmy (custom fields)
+    - Nastavení viditelných informací
   - Zeď
   - Ban
+  - Xp, Level, Úroveň přístupu, Reputace, Obliba tvorby
 - Úrovně přístupu, autentifikace
 - AJAX validace + WYSIWYG editor (sbohem bb)
 - Linkování k databázi
