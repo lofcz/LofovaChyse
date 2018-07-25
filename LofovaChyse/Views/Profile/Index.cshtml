@@ -53,7 +53,7 @@
 
     if (Model.DisplayTextNo)
     {
-        profilText = "Uživatel skryl svůj medailonek";
+        profilText = "Uživatel skryl svůj medailonek ";
     }
 
     bool popisOk = true;
@@ -897,11 +897,33 @@
                         element.addClass('edit-has-succes');
                         element.show().delay(500).fadeOut();
 
-                        $("#hlavniText").html($("#editTextu").html());
+                        var canEditText;
+
+                        jQuery.ajax({
+                            type: "GET",
+                            url: '@Url.Action("GetDisplayText", "Profile")',
+                            data: { id: '@Model.Id' }
+                        }).done(function (data) {
+                            canEditText = data;
+
+                            if (!strToBool(canEditText)) {
+                                $("#hlavniText").html($("#editTextu").html());
+                            }
+
+                            });
+
                         $("#editTextu").delay(500).fadeOut();
+                        $("#editTextu2").delay(500).fadeOut();
+
+
                     }
                 });
             });
+
+            function strToBool(s) {
+                var regex = /^\s*(true|1|on)\s*$/i;
+                return regex.test(s);
+            }
 
         } else {
             location.reload();

@@ -78,6 +78,14 @@ namespace LofovaChyse.Controllers
             return View(knihovnaZed);
         }
 
+        public bool GetDisplayText(int id)
+        {
+            KnihovnaUserDao k = new KnihovnaUserDao();
+            KnihovnaUser u = k.GetbyId(id);
+
+            return u.DisplayTextNo;
+        }
+
         [Authorize]
         public ActionResult AddToWall(KnihovnaZed zed, int userId)
         {

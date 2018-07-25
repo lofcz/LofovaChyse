@@ -136,6 +136,8 @@
 
 
     function setDisplay(id, state, sid) {
+        var welcomeText = `@Html.Raw(Model.WelcomeText)`;
+
         jQuery.ajax({
             type: "POST",
             url: '@Url.Action("SetInformationVisibility", "Profile")',
@@ -143,11 +145,11 @@
         });
         if (sid == 'myCheckbox10') {
             if (state) {
-                $("#hlavniText").text('Sample text');
+                $("#hlavniText").text('Uživatel skryl svůj medailonek');
             } 
 
             if (!state) {
-                alert("asd");
+                $("#hlavniText").text(welcomeText);
             }
         }
     }
