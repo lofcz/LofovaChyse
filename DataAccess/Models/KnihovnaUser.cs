@@ -48,6 +48,20 @@ namespace DataAccess.Models
         public virtual string PrimaryIp { get; set; }
         public virtual int RateRemains { get; set; }
 
+        public virtual bool DisplayJob { get; set; }
+        public virtual bool DisplayEducation { get; set; }
+        public virtual bool DisplayHobbies { get; set; }
+        public virtual bool DisplayBooks { get; set; }
+        public virtual bool DisplayMusic { get; set; }
+        public virtual bool DisplayMovies { get; set; }
+        public virtual bool DisplayProfileViews { get; set; }
+        public virtual bool DisplayPrivateProfile { get; set; }
+        public virtual bool DisplayTextNo { get; set; }
+        public virtual bool DisplayStatisticsNo { get; set; }
+        public virtual bool DisplayMedalsNo { get; set; }
+        public virtual bool DisplayHelpNo { get; set; }
+
+
         // Internal shit
         public virtual string _ChatID { get; set; }
     }

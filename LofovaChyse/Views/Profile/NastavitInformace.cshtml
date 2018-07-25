@@ -1,4 +1,5 @@
-﻿
+﻿@model DataAccess.Models.KnihovnaUser
+
 @{
     ViewBag.Title = "NastavitInformace";
 }
@@ -10,42 +11,42 @@
 
     <h6>Zobrazit veřejně:</h6>
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox1" />
         <div class="state">
             <label>Postoj k pracovním nabídkám</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox2"/>
         <div class="state">
             <label>Dosažené vzdělání</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox"onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox3" />
         <div class="state">
             <label>Tvé koníčky</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox4"/>
         <div class="state">
             <label>Oblíbenou literaturu</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox5"/>
         <div class="state">
             <label>Preferovanou hudbu</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox6"/>
         <div class="state">
             <label>Skvělé filmy</label>
         </div>
@@ -55,21 +56,21 @@
 
     <h6>Nastavení podpisu pod textem pro návštevy:</h6>
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox7"/>
         <div class="state">
             <label>Přiložit jméno a příjmení</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox8"/>
         <div class="state">
             <label>Uvést i věk</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox9"/>
         <div class="state">
             <label>Zobrazit počet návštěv profilu</label>
         </div>
@@ -79,35 +80,35 @@
 
     <h6>Dodatečné nastavení:</h6>
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox14"/>
         <div class="state">
             <label>Privátní profil - nikdo si tě nemůže zobrazit</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox10"/>
         <div class="state">
             <label>Nezobrazit text pro návštěvy</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox11"/>
         <div class="state">
             <label>Skrýt statistiky před návštěvníky</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox12"/>
         <div class="state">
             <label>Skrýt ocenění a úspěchy</label>
         </div>
     </div>
     <br />
     <div class="pretty p-switch p-fill">
-        <input type="checkbox" />
+        <input type="checkbox" onchange="setDisplay('@Model.Id',this.checked, id)" id="myCheckbox13"/>
         <div class="state">
             <label>Zobrazit nápovědu při úpravě profilu</label>
         </div>
@@ -116,3 +117,43 @@
 
 <br/>
 <small>Nastavení se aktualizuje při volbě. Okno zavřeš kliknutím mimo.</small>
+
+<script>
+    $('#myCheckbox1').prop('checked', strToBool('@Model.DisplayJob'));
+    $('#myCheckbox2').prop('checked', strToBool('@Model.DisplayEducation'));
+    $('#myCheckbox3').prop('checked', strToBool('@Model.DisplayHobbies'));
+    $('#myCheckbox4').prop('checked', strToBool('@Model.DisplayBooks'));
+    $('#myCheckbox5').prop('checked', strToBool('@Model.DisplayMusic'));
+    $('#myCheckbox6').prop('checked', strToBool('@Model.DisplayMovies'));
+    $('#myCheckbox7').prop('checked', strToBool('@Model.DisplayName'));
+    $('#myCheckbox8').prop('checked', strToBool('@Model.DisplayAge'));
+    $('#myCheckbox9').prop('checked', strToBool('@Model.DisplayProfileViews'));
+    $('#myCheckbox10').prop('checked', strToBool('@Model.DisplayTextNo'));
+    $('#myCheckbox11').prop('checked', strToBool('@Model.DisplayStatisticsNo'));
+    $('#myCheckbox12').prop('checked', strToBool('@Model.DisplayMedalsNo'));
+    $('#myCheckbox13').prop('checked', strToBool('@Model.DisplayHelpNo'));
+    $('#myCheckbox14').prop('checked', strToBool('@Model.DisplayPrivateProfile'));
+
+
+    function setDisplay(id, state, sid) {
+        jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("SetInformationVisibility", "Profile")',
+            data: { id: id, state: state, checkId: sid}
+        });
+        if (sid == 'myCheckbox10') {
+            if (state) {
+                $("#hlavniText").text('Sample text');
+            } 
+
+            if (!state) {
+                alert("asd");
+            }
+        }
+    }
+
+    function strToBool(s) {
+        var regex = /^\s*(true|1|on)\s*$/i;
+        return regex.test(s);
+    }
+</script>

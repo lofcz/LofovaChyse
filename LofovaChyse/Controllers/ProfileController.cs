@@ -115,7 +115,32 @@ namespace LofovaChyse.Controllers
             KnihovnaUser u = new KnihovnaUserDao().GetByLogin(user);
             return PartialView(u);
         }
-        
+
+        public JsonResult SetInformationVisibility(string id, string state, string checkId)
+        {
+            KnihovnaUserDao d = new KnihovnaUserDao();
+            KnihovnaUser u = d.GetbyId(int.Parse(id));
+
+            if (checkId == "myCheckbox1") { u.DisplayJob = Boolean.Parse(state);}
+            if (checkId == "myCheckbox2") { u.DisplayEducation = Boolean.Parse(state); }
+            if (checkId == "myCheckbox3") { u.DisplayHobbies = Boolean.Parse(state); }
+            if (checkId == "myCheckbox4") { u.DisplayBooks = Boolean.Parse(state); }
+            if (checkId == "myCheckbox5") { u.DisplayMusic = Boolean.Parse(state); }
+            if (checkId == "myCheckbox6") { u.DisplayMovies = Boolean.Parse(state); }
+            if (checkId == "myCheckbox7") { u.DisplayName = Boolean.Parse(state); }
+            if (checkId == "myCheckbox8") { u.DisplayAge = Boolean.Parse(state); }
+            if (checkId == "myCheckbox9") { u.DisplayProfileViews = Boolean.Parse(state); }
+            if (checkId == "myCheckbox10") { u.DisplayTextNo = Boolean.Parse(state); }
+            if (checkId == "myCheckbox11") { u.DisplayStatisticsNo = Boolean.Parse(state); }
+            if (checkId == "myCheckbox12") { u.DisplayMedalsNo = Boolean.Parse(state); }
+            if (checkId == "myCheckbox13") { u.DisplayHelpNo = Boolean.Parse(state); }
+            if (checkId == "myCheckbox14") { u.DisplayPrivateProfile = Boolean.Parse(state); }
+
+            d.Update(u);
+
+            return Json(new { });
+        }
+
 
         [Authorize]
         public JsonResult ProfilUpdateVzdelani(string value)

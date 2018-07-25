@@ -861,6 +861,7 @@
     <Compile Include="Class\LevelUp.cs" />
     <Compile Include="Class\NovinkyGenerator.cs" />
     <Compile Include="Class\Sklonovani.cs" />
+    <Compile Include="Class\Structs.cs" />
     <Compile Include="Class\Texty.cs" />
     <Compile Include="Class\UserStats.cs" />
     <Compile Include="Controllers\BooksController.cs" />

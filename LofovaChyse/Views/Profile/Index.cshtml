@@ -1,6 +1,7 @@
 ﻿@using System.Web.UI.WebControls
 @using DataAccess.Models
 @using LofovaChyse.Class
+
 @model DataAccess.Models.KnihovnaUser
 @{
     ViewBag.Title = "Index";
@@ -40,7 +41,6 @@
             {
                 friendMessage = "Žádost byla odeslána a čeká na vyřízení";
             }
-
         }
 
         need = LevelUp.GetNeededStats(Model.Login);
@@ -48,7 +48,14 @@
 
     List<KnihovnaUserRole> tvojeRole = General.GetUserRoles(Model.Login);
 
+
     string profilText = Model.WelcomeText;
+
+    if (Model.DisplayTextNo)
+    {
+        profilText = "Uživatel skryl svůj medailonek";
+    }
+
     bool popisOk = true;
 
     if (String.IsNullOrEmpty(profilText))
@@ -68,7 +75,7 @@
 
     foreach (KnihovnaUserRole r in tvojeRole)
     {
-        seznamRoli += General.UserRoleName(r) + ", ";
+        seznamRoli += General.UserRoleName(r).ToLower() + ", ";
     }
 
     seznamRoli = seznamRoli.Remove(seznamRoli.Length - 2);
@@ -82,6 +89,12 @@
         statString = "Tvoje statistiky";
     }
 
+    List<Structs.UserOptionalFields> modelDodatecneInformace = new List<Structs.UserOptionalFields>();
+    modelDodatecneInformace.Add(new Structs.UserOptionalFields(Model.Education, "Vzdělání", "fas fa-graduation-cap"));
+    modelDodatecneInformace.Add(new Structs.UserOptionalFields(Model.Hobbies, "Koníčky", "fas fa-gamepad"));
+    modelDodatecneInformace.Add(new Structs.UserOptionalFields(Model.Literature, "Literatura", "fas fa-book"));
+    modelDodatecneInformace.Add(new Structs.UserOptionalFields(Model.Movies, "Filmy", "fas fa-video"));
+
 }
 
 <style>
@@ -93,15 +106,12 @@
         color: #333;
     }
 
-    .nadpisDalsiInfo {
-        display: inline-block;
-    }
+    .nadpisDalsiInfo { display: inline-block; }
 
     .profilHorniPolozky {
         float: right;
         position: relative;
         color: darkgray;
-
     }
 
     .profilHorniPolozkyIkony {
@@ -109,9 +119,7 @@
         cursor: pointer;
     }
 
-    .profilHorniPolozkyZamceno {
-        opacity: 0.2;
-    }
+    .profilHorniPolozkyZamceno { opacity: 0.2; }
 
     .profilIkonaAktivni {
         opacity: 1;
@@ -122,12 +130,11 @@
         border-radius: 100px;
         border: 1px solid #ddd;
         padding: 5px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
         margin: 30px;
-
     }
 
-    .profilPredstaveni {   
+    .profilPredstaveni {
         position: relative;
         top: 50px;
         font-size: 1.4em;
@@ -136,36 +143,49 @@
         height: auto;
     }
 
-    .textZaklad { 
-        font-size: 1.1em;
-    }
+    .textZaklad { font-size: 1.1em; }
 
     .profilKontajnerObrazek {
-        display: inline-flex;
+        display: block;
         position: relative;
         top: 10px;
     }
 
     .circle-icon {
         background: #FEFEFE;
-        border-radius: 50%;
+        border-radius: 30px;
         text-align: center;
         vertical-align: middle;
         padding: 8px;
+        padding-right: 15px;
+        padding-left: 15px;
+        font-weight: 600;
         height: 48px !important;
         width: 48px !important;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+        font-size: 0.6em;
+        transition: all 0.3s ease;
     }
+
+        .circle-icon:hover {
+            background: #EFEFEE;
+        }
 
     .circle-iconFriend {
         background: #FEFEFE;
         border-radius: 50%;
         text-align: center;
         vertical-align: middle;
-        padding: 8px;
-        height: 48px !important;
-        width: 48px !important;
+        padding: 15px;
+        padding-left: 20px;
+        height: 64px !important;
+        width: 64px !important;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .circle-iconFriend:hover {
+        background: #EFEFEE;
     }
 
     /* .circle-iconMini {
@@ -185,7 +205,7 @@
         color: #9C9C9C;
     }
 
-        .circle-iconInfo {
+    .circle-iconInfo {
         background: #FEFEFE;
         border-radius: 50%;
         text-align: center;
@@ -194,7 +214,6 @@
         height: 30px !important;
         width: 30px !important;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
-        
     }
 
     .circle-iconSmallest {
@@ -202,10 +221,11 @@
         border-radius: 50%;
         text-align: center;
         vertical-align: middle;
-        padding: 2px;
+        padding: 4px;
         height: 24px !important;
         width: 24px !important;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1);
+        color: #565656;
     }
 
     .profilAuthorLine {
@@ -228,9 +248,7 @@
         padding: 10px;
     }
 
-    .rightcolumn {
-        float: right !important;
-    }
+    .rightcolumn { float: right !important; }
 
     .row:after {
         content: "";
@@ -238,33 +256,19 @@
         clear: both;
     }
 
-    li {
-        margin-bottom: 5px;
-    }
+    li { margin-bottom: 5px; }
 
-    .fa-crown:hover {
-        color: #C2B280 !important;
-    }
+    .fa-crown:hover { color: #C2B280 !important; }
 
-    .fa-star:hover {
-        color: #FFD300 !important;
-    }
+    .fa-star:hover { color: #FFD300 !important; }
 
-    .fa-splat:hover {
-        color: #FFBA00 !important;
-    }
+    .fa-splat:hover { color: #FFBA00 !important; }
 
-    .superSmall {
-        font-size: 0.8em;
-    }
+    .superSmall { font-size: 0.8em; }
 
-    .profilOceneni {
-        margin-bottom: 20px;
-    }
+    .profilOceneni { margin-bottom: 20px; }
 
-    .updateCheck {
-        color: green !important;
-    }
+    .updateCheck { color: green !important; }
 
     .napoveda:hover {
         text-decoration: underline;
@@ -276,10 +280,18 @@
         color: #333;
     }
 
-    .customSvg {
-        margin-left: 0px !important;
+    .customSvg { margin-left: 0px !important; }
+
+    .editIcon {
+        float: right;
+        position: absolute;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
     }
 
+    .editIcon:hover {
+        opacity: 1;
+    }
 
 </style>
 
@@ -306,7 +318,7 @@
         jQuery.ajax({
             type: "POST",
             url: '@Url.Action("CallGeneral", "Home")',
-            data: { user1: '@User.Identity.Name', user2: '@Model.Login'}
+            data: { user1: '@User.Identity.Name', user2: '@Model.Login' }
         });
     }
 
@@ -338,208 +350,270 @@
 
         <div class="profilHorniPolozkyIkony" id="profilIkony">
 
-            @if (canAdd)
-            {
-                <a title="Přidat do přátel" data-tippy-placement="bottom" onclick="onAdd()" id="friendRequest"><i class="fas fa-user-friends fa-fw profilIkonaAktivni circle-iconFriend"></i></a>
-            }
 
-            @if (!ViewBag.Owner)
-            {
-                <a title="Odeslat zprávu" data-tippy-placement="bottom"><i class="fas fa-envelope fa-fw profilIkonaAktivni circle-iconFriend"></i></a>
-            }
-
-            <a href="@Url.Action("Index")" title="Profil" data-tippy-placement="bottom"><i class="fas fa-address-card fa-fw profilIkonaAktivni circle-icon"></i></a>
 
             @if (ViewBag.Owner || Model.AuthLevel > 0)
             {
-                if (ViewBag.Owner)
-                {
-                    <a title="Nastavení" data-tippy-placement="bottom" onclick="toggleNastaveni()"><i class="fas fa-wrench fa-fw circle-icon"></i></a>
-                }
+                <a onclick="akcePolozkyProfilu(1)">
+                    <span class="circle-icon"><i class="fas fa-th-list fa-fw"></i> Zeď</span>
+                </a>
+                <a onclick="akcePolozkyProfilu(2)">
+                    <span class="circle-icon"><i class="fas fa-images fa-fw"></i> Galerie</span>
+                </a>
+                <a onclick="akcePolozkyProfilu(3)">
+                    <span class="circle-icon"><i class="fas fa-file-code fa-fw"></i> Snippet</span>
+                </a>
+                <a onclick="akcePolozkyProfilu(4)">
+                    <span class="circle-icon"><i class="fas fa-music fa-fw"></i> SoundUp</span>
+                </a>
 
-                <a title="Zeď" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(1)"><i class="fas fa-comments fa-fw circle-icon"></i></a>
-                <a title="Galerie" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(2)"><i class="fas fa-images fa-fw circle-icon"></i></a>
-                <a title="Snippet" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(3)"><i class="fas fa-file-code fa-fw circle-icon"></i></a>
-                <a title="SoundUp" data-tippy-placement="bottom" onclick="akcePolozkyProfilu(4)"><i class="fas fa-music fa-fw circle-icon"></i></a>
+                <br />
             }
 
         </div>
     </div>
+<br/>
+<br/>
+<div style="background: rgba(255, 255, 255, 0.9); border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.1); z-index: -20;">
+    
+@if (ViewBag.Owner)
+{
+    <div style="position: relative; left: calc(100% - 30px); top: 10px; z-index: 2;" onclick="toggleNastaveni()"><a class="editIcon"><i class="fas fa-user-edit fa-fw"></i></a></div>
+}
 
-    <!-- Obrázek uživatele veliký-->
+<!-- Obrázek uživatele veliký-->
 <div id="obrazekUzivatele" class="profilKontajnerObrazek">
     <div class="row">
+        <i class="fa fa-quote-left" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.5; bottom: 160px; left: 30%"></i>
+
         <div class="col-4">
             <img src="@Url.Content("~/Uploads/KnihovnaUzivateleBig/" + General.GetMiniaturePicture(Model.Login))" class="profilObrazekVeliky"/>
+
         </div>
-
         <div class="col-8">
-            <div style="position: relative">
-                <i class="fa fa-quote-left" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.05; bottom: -100px; left: -40px;"></i>
-            </div>
-            <i class="profilPredstaveni" id="hlavniText">@Html.Raw(profilText)</i>
 
-            @if (popisOk)
-            {
-                <br/>
-                <span class="profilAuthorLine"><i>- @Model.Name @Model.Surname @age <br/></i></span>
-            }
+            <i class="profilPredstaveni" id="hlavniText">@Html.Raw(profilText)</i>
+            <div style="position: relative">
+
+            </div>
+                @if (popisOk)
+                {
+                    <br/>
+                    <span class="profilAuthorLine">
+                        <i>~ @Model.Name @Model.Surname @age <br/></i>
+                    </span>
+                }
+
+                @if (canAdd)
+                {
+                    <a onclick="onAdd()" id="friendRequest" style="position: absolute; top: 180px; left: -170px;">
+                        <i class="fas fa-user-plus fa-fw profilIkonaAktivni circle-iconFriend"></i>
+                    </a>
+                }
         </div>
     </div>
 </div>
 
-    <!-- Editování textu a podpisu-->
-    <div style="display: none;" class="row" id="nastaveniTextu">
-        <ul class="fa-ul" style="font-size: 1.1em;">
+<!-- Editování textu a podpisu-->
+<div style="display: none;" class="col-12" id="nastaveniTextu">
+    <ul class="Flexul fa-ul col-12" style="font-size: 1.1em;">
+        <li class="col-4 col Flexli">
+            <i class="fa-li fas fa-feather circle-iconSmallest"></i><i class="napoveda" onclick="$('#editTextu').fadeToggle(500);$('#editTextu2').fadeToggle(500);">Upravit text</i>
+        </li>
+        <li class="col-4 col Flexli">
+            <i class="fa-li fas fa-image circle-iconSmallest"></i><i class="napoveda" onclick="$('#editFotky').fadeToggle(500);">Změnit profilovou fotku</i>
+        </li>
 
-            <li><i class="fa-li fas fa-feather circle-iconSmallest"></i><i class="napoveda" onclick="$('#editTextu').fadeToggle(500); $('#editTextu2').fadeToggle(500)">Upravit text</i></li>
-            <li><i class="fa-li fas fa-image circle-iconSmallest"></i><i class="napoveda" onclick="$('#editFotky').fadeToggle(500);">Změnit profilovou fotku</i></li>
-        </ul>
+        <li class="col-4 col Flexli">
+            <i class="fa-li fas fa-cog circle-iconSmallest"></i><i class="napoveda" onclick="openModelWindowInfo('@Model.Login')">Nastavit viditelné informace</i>
+        </li>
+    </ul>
+    <br/>
+    <br/>
+</div>
 
-        <br />
-        <br />
-
+<div class="col-12">
+    <div style="display: none; border: 1px solid rgba(0, 0, 0, 0.2); padding: 2px;" id="editTextu"><i>@Html.Raw(Model.WelcomeText)</i>
     </div>
+</div>
 
-    <div style="display: none" id="editTextu">
-        <i>@Html.Raw(Model.WelcomeText)</i>
-    </div>
-    <div style="display: none" id="editTextu2">
-        <p>Počítadlo znaků:</p>
-    </div>
+<div style="display: none" id="editTextu2">
+    <p>Počítadlo znaků:</p>
+</div>
 
-    <!--Upload obrázku-->
-    <div style="display: none" id="editFotky">
-        @{
-            using (Html.BeginForm("EditImage", "Profile", FormMethod.Post, new { @class = "col-md-12", enctype = "multipart/form-data" })) // Umožní zpracovat nahrané soubory
-            {
-                <div class="form-group">
-                    <input type="file" name="picture" id="picture" class="form-control-file" />
+<!--Upload obrázku-->
+<div style="display: none" id="editFotky">
+    @{
+        using (Html.BeginForm("EditImage", "Profile", FormMethod.Post, new {@class = "col-md-12", enctype = "multipart/form-data"})) // Umožní zpracovat nahrané soubory
+        {
+            <div class="file-upload">
+                <div class="file-select">
+                    <div class="file-select-button" id="fileName">Vyber soubor</div>
+                    <div class="file-select-name" id="noFile">Žádný soubor nevybrán</div> 
+                    <input type="file" name="picture" id="picture">
                 </div>
+            </div>
 
-                <input type="submit" value="Nahrát" class="btn btn-primary" />
-                <br />
-                <br />
-                <br />  
-            }
+            <input type="submit" value="Nahrát" class="btn btn-primary"/>
+            <br/>
+            <br/>
+            <br/>
         }
-    </div>
+    }
+</div>
 
-    <!-- Vysvětlivky pro edit mód-->
-    <div class="card" style="display: none" id="napovedaMain">
-        <div class="card-body">
-            <h5>Upravuješ svůj profil. Tuto rychlou nápovědu aktivuješ kliknutím na příslušnou otázku.</h5>
-            <div class="row">
-                <div class="col-md-4">
-                    <i class="napoveda" onclick="help1()">Co jsou to statistiky?</i>
-                    <br />
-                    <i class="napoveda" onclick="help4()">Správa přátel</i>
-                </div>
+<!-- Vysvětlivky pro edit mód-->
+<div class="card" style="display: none" id="napovedaMain">
+    <div class="card-body">
+        <h5>Upravuješ svůj profil. Tuto rychlou nápovědu aktivuješ kliknutím na příslušnou otázku.</h5>
+        <div class="row">
+            <div class="col-md-4">
+                <i class="napoveda" onclick="help1()">Co jsou to statistiky?</i>
+                <br/>
+                <i class="napoveda" onclick="help4()">Správa přátel</i>
+            </div>
 
-                <div class="col-md-4">
-                    <i class="napoveda" onclick="help2()">Jak fungují úspěchy a ocenění?</i>
-                    <br />
-                    <i class="napoveda" onclick="help5()">Mohu omezit viditelnost svého profilu?</i>
-                </div>
+            <div class="col-md-4">
+                <i class="napoveda" onclick="help2()">Jak fungují úspěchy a ocenění?</i>
+                <br/>
+                <i class="napoveda" onclick="help5()">Mohu omezit viditelnost svého profilu?</i>
+            </div>
 
-                <div class="col-md-4">
-                    <i class="napoveda" onclick="help3()">Změna informací o tobě</i>
-                    <br />
-                    <i class="napoveda" onclick="help6()">Jak vypnu zobrazení této nápovědy?</i>
-                </div>
+            <div class="col-md-4">
+                <i class="napoveda" onclick="help3()">Změna informací o tobě</i>
+                <br/>
+                <i class="napoveda" onclick="help6()">Jak vypnu zobrazení této nápovědy?</i>
             </div>
         </div>
     </div>
+</div>
 
 
-    <br />
-    <br />
+<br/>
+<br/>
+<br/>
+<br/>
 
-    <script>
-        function help1() {
-            swal({
-                title: "",
-                text: 'Statistiky slouží k zobrazení tvého postupu. Základní jsou <b>zkušenosti</b> a <b>reputace</b>. Dohromady určují tvoji <b>úroveň ověření</b>. Čím je vyšší, tím více funkcí můžeš používat. Poslední statistika je <b>elán</b>. Ten získáváš za sdílení tvé tvorby a jakmile přesáhneš určitý milník, odemkne se ti vylepšení (více místa na soundUpu, neomezený počet přátel..)',
-                type: 'info',
-                confirmButtonText: "Zpět",
-                html: true
-            });
-        }
+<script>
+    function help1() {
+        swal({
+            title: "",
+            text:
+                'Statistiky slouží k zobrazení tvého postupu. Základní jsou <b>zkušenosti</b> a <b>reputace</b>. Dohromady určují tvoji <b>úroveň ověření</b>. Čím je vyšší, tím více funkcí můžeš používat. Poslední statistika je <b>elán</b>. Ten získáváš za sdílení tvé tvorby a jakmile přesáhneš určitý milník, odemkne se ti vylepšení (více místa na soundUpu, neomezený počet přátel..)',
+            type: 'info',
+            confirmButtonText: "Zpět",
+            html: true
+        });
+    }
 
-        function help2() {
-            swal({
-                title: "",
-                text: '<b>Ocenění</b> získáváš za účast či obsazení prvních míst v soutěžích, za dlouhotrvající přínos síti či jiné významné údalosti. Pokud je ti ocenění uděleno, získáš k němu automaticky i příslušný balík krevitů, zkušeností či elánu. <br/><b>Úspěchy</b> naproti tomu získáváš automaticky, za splnění úkolů (10 příspěvků, 100 zkušeností, první účast v soutěži..) Velikost medaile je oproti ocenění menší a spojená odměna obvykle také.',
-                type: 'info',
-                confirmButtonText: "Zpět",
-                html: true
-            });
-        }
+    function help2() {
+        swal({
+            title: "",
+            text:
+                '<b>Ocenění</b> získáváš za účast či obsazení prvních míst v soutěžích, za dlouhotrvající přínos síti či jiné významné údalosti. Pokud je ti ocenění uděleno, získáš k němu automaticky i příslušný balík krevitů, zkušeností či elánu. <br/><b>Úspěchy</b> naproti tomu získáváš automaticky, za splnění úkolů (10 příspěvků, 100 zkušeností, první účast v soutěži..) Velikost medaile je oproti ocenění menší a spojená odměna obvykle také.',
+            type: 'info',
+            confirmButtonText: "Zpět",
+            html: true
+        });
+    }
 
-        function help3() {
-            swal({
-                title: "",
-                text: 'Pokud klikneš na nadpis <b>"Informace o tobě"</b>, můžeš si zvolit, které položky chceš veřejně zobrazit. Máš také možnost si nastavit svůj postoj k pracovním nabídkám, který se zobrazuje vždy jako první.',
-                type: 'info',
-                confirmButtonText: "Zpět",
-                html: true
-            });
-        }
-        function help4() {
-            swal({
-                title: "",
-                text: 'Dole v profilu se ti zobrazuje tvůj seznam přátel. Spravovat je můžeš jednoduše kliknutím na profilovou fotku v seznamu.',
-                type: 'info',
-                confirmButtonText: "Zpět",
-                html: true
-            });
-        }
+    function help3() {
+        swal({
+            title: "",
+            text:
+                'Pokud klikneš na nadpis <b>"Informace o tobě"</b>, můžeš si zvolit, které položky chceš veřejně zobrazit. Máš také možnost si nastavit svůj postoj k pracovním nabídkám, který se zobrazuje vždy jako první.',
+            type: 'info',
+            confirmButtonText: "Zpět",
+            html: true
+        });
+    }
 
-        function help5() {
-            swal({
-                title: "",
-                text: 'Jakmile získáš úroveň ověření <b>C+</b>, máš možnost umístit uživatele na svůj osobní blacklist. Nebudou poté moci tvůj profil navštívit nebo tě kontaktovat. Nicméně tvé zkrácené info u náhledu autora budou stále vidět (úroveň, zkušenosti, reputace, elán).',
-                type: 'info',
-                confirmButtonText: "Zpět",
-                html: true
-            });
-        }
+    function help4() {
+        swal({
+            title: "",
+            text:
+                'Dole v profilu se ti zobrazuje tvůj seznam přátel. Spravovat je můžeš jednoduše kliknutím na profilovou fotku v seznamu.',
+            type: 'info',
+            confirmButtonText: "Zpět",
+            html: true
+        });
+    }
 
-        function help6() {
-            swal({
-                title: "",
-                text: 'Jednoduše v nastavení odškrtni možnost <b>"zobrazit nápovědu"</b>',
-                type: 'info',
-                confirmButtonText: "Zpět",
-                html: true
-            });
-        }
-    </script>
+    function help5() {
+        swal({
+            title: "",
+            text:
+                'Jakmile získáš úroveň ověření <b>C+</b>, máš možnost umístit uživatele na svůj osobní blacklist. Nebudou poté moci tvůj profil navštívit nebo tě kontaktovat. Nicméně tvé zkrácené info u náhledu autora budou stále vidět (úroveň, zkušenosti, reputace, elán).',
+            type: 'info',
+            confirmButtonText: "Zpět",
+            html: true
+        });
+    }
 
-    <!-- Tvoje statistiky -->
+    function help6() {
+        swal({
+            title: "",
+            text: 'Jednoduše v nastavení odškrtni možnost <b>"zobrazit nápovědu"</b>',
+            type: 'info',
+            confirmButtonText: "Zpět",
+            html: true
+        });
+    }
+</script>
+
+<!-- Tvoje statistiky -->
 <div class="row">
     <div class="col-3" style="position: relative; bottom: 30px;">
-            
+
         <div style="text-align: center;">
             <h3>@Model.Name</h3>
             <p style="color: #9B9B9B;">@seznamRoli</p>
         </div>
 
         <ul class="fa-ul" style="font-size: 1.3em;">
-            <li><a title="Vyjadřuje důvěryhodnost uživatele. Existuje 7 úrovní ověření: 0, A-F. Přechod na novou úroveň ti vždy odemkne nové funkce!"><i class="fa-li fa fa-user-check circle-iconMini"></i></a>Úroveň ověření: <b class="rightcolumn">@General.AuthLevelToString(Model.AuthLevel)</b></li>
+            <li>
+                <a title="Vyjadřuje důvěryhodnost uživatele. Existuje 7 úrovní ověření: 0, A-F. Přechod na novou úroveň ti vždy odemkne nové funkce!">
+                    <i class="fa-li fa fa-user-check circle-iconMini"></i>
+                </a>Úroveň ověření: <b class="rightcolumn">@General.AuthLevelToString(Model.AuthLevel)</b>
+            </li>
             @if (Model.Exp > 0)
             {
-                <li><a title="Zkušenosti získáváš po obdržení kladného hodnocení, za publikování komentářů / příspěvků, účast v soutěžích. Vyjadřují úroveň tvých schopností."><i class="fa-li fac fa-splat circle-iconMini customSvg"></i></a>Zkušenosti: <b class="rightcolumn">@Model.Exp</b></li>}
+                <li>
+                    <a title="Zkušenosti získáváš po obdržení kladného hodnocení, za publikování komentářů / příspěvků, účast v soutěžích. Vyjadřují úroveň tvých schopností.">
+                        <i class="fa-li fac fa-splat circle-iconMini customSvg"></i>
+                    </a>Zkušenosti: <b class="rightcolumn">@Model.Exp</b>
+                </li>
+            }
             @if (Model.Reputation > 0)
             {
-                <li><a title="Reputace se ti zvedá po získání hodnocení <b>super</b> a <b>to mi pomohlo</b>. Je potřeba k postupu na vyšší úroveň ověření a k žádostem o speciální posty jako redaktror nebo moderátor."><i class="fa-li fas fa-heart circle-iconMini"></i></a>Reputace: <b class="rightcolumn">@Model.Reputation</b></li>}
+                <li>
+                    <a title="Reputace se ti zvedá po získání hodnocení <b>super</b> a <b>to mi pomohlo</b>. Je potřeba k postupu na vyšší úroveň ověření a k žádostem o speciální posty jako redaktror nebo moderátor.">
+                        <i class="fa-li fas fa-id-card circle-iconMini"></i>
+                    </a>Reputace: <b class="rightcolumn">@Model.Reputation</b>
+                </li>
+            }
             @if (Model.Elan > 0)
             {
-                <li><a title="Elán získáváš za zveřejňování tvé tvorby na zdi, galerii, snippetu a soundUpu. Vyjadřuje tvoji tvořivost. Elán je potřeba k navýšení maximálního počtu přátel, odemčení doplňků na profilu a vylepšení úložiště v soundUpu."><i class="fa-li fas fa-star circle-iconMini"></i></a>Obliba tvorby: <b class="rightcolumn">@Model.Reputation</b></li>}
+                <li>
+                    <a title="Elán získáváš za zveřejňování tvé tvorby na zdi, galerii, snippetu a soundUpu. Vyjadřuje tvoji tvořivost. Elán je potřeba k navýšení maximálního počtu přátel, odemčení doplňků na profilu a vylepšení úložiště v soundUpu.">
+                        <i class="fa-li fas fa-thumbs-up circle-iconMini"></i>
+                    </a>Obliba tvorby: <b class="rightcolumn">@Model.Reputation</b>
+                </li>
+            }
         </ul>
 
+        @if (!ViewBag.Owner)
+        {
+            <div style="position: relative;">
+
+                <a class="profilHorniPolozkyIkony" style=" position: absolute; z-index: 3; left: 50px;">
+                    <span class="circle-icon" style="color: #9c9c9c"><i class="fas fa-envelope fa-fw"></i> Poslat zprávu</span>
+                </a>
+            </div>
+        }
+
     </div>
-    
+
     <div class="col-1">
 
     </div>
@@ -547,25 +621,25 @@
     <div class="col-4">
         <h4 class="">Komunitní odznaky</h4>
         <div style="position: relative">
-            <i class="fa fa-certificate" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.05; bottom: -1px; left: -40px;"></i>
+            <i class="fa fa-certificate" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.5; bottom: -1px; left: -40px;"></i>
         </div>
-            <div>
-                @if (!ViewBag.Owner)
-                {
-                    <i class="">@Model.Name ještě nezískal žádné odznaky</i>
-                }
-                else
-                {
-                    <i class="" onclick="openModelWindowZZ('@Model.Login')">Ještě jsi nezískal žádné odznaky. <br />Klikni aby ses dozvěděl jak na to!</i>
-                }
-            </div>
+        <div>
+            @if (!ViewBag.Owner)
+            {
+                <i class="">@Model.Name ještě nezískal žádné odznaky</i>
+            }
+            else
+            {
+                <i class="" onclick="openModelWindowZZ('@Model.Login')">Ještě jsi nezískal žádné odznaky. <br/>Klikni aby ses dozvěděl jak na to!</i>
+            }
+        </div>
 
-        </div>
+    </div>
 
     <div class="col-4">
         <h4 class="">Ocenění</h4>
         <div style="position: relative">
-            <i class="fa fa-trophy" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.05; bottom: -1px; left: -40px;"></i>
+            <i class="fa fa-trophy" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.5; bottom: -1px; left: -40px;"></i>
         </div>
 
 
@@ -585,7 +659,7 @@
 
     </div>
 
-    </div>
+</div>
 
 <div class="row">
     <div class="col-3">
@@ -600,339 +674,374 @@
     <div class="col-1">
 
     </div>
-    
+
     <div class="col-4">
+        <h4 class="">Pracovní nabídky</h4>
         <div style="position: relative">
-            <i class="fa fa-briefcase" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.05; bottom: -40px; left: -40px;"></i>
+            <i class="fa fa-briefcase" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.5; bottom: -40px; left: -40px;"></i>
         </div>
         <p class="textZaklad" onclick="openModelWindow()" id="loadPartialView2">@Html.Raw(General.JobToString(Model.NeedJob))</p>
     </div>
-    
+
     <div class="col-4">
         <h4 class="">Projekty</h4>
         <div style="position: relative">
-            <i class="fa fa-clipboard" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.05; bottom: -1px; left: -30px;"></i>
+            <i class="fa fa-clipboard" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.5; bottom: -40px; left: -30px;"></i>
         </div>
         <p>Zatím ses nepodílel na žádném projektu</p>
     </div>
 </div>
 
-<br />
-        <br />
-        <!-- Informace a úspěchy-->
+<br/>
+<br/>
+<!-- Informace a úspěchy-->
 
-    
-        <div class="row">
-            <div class="column">
-                <h4>@infoString</h4>
+<style>
+    .label:after {
+        content: '\A';
+        white-space: pre;
+    }
+
+    .flexi {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .Flexul {
+        display: flex;
+        flex-flow: wrap;
+    }
+
+    .Flexli {
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+
+        <h4 class="col-8" style="visibility: hidden">@infoString</h4>
+        <br/>
+    </div>
 
 
-                <ul class="fa-ul" style="font-size: 1.1em;">
+    <div class="row">
+        <div class="col-4"></div>
 
 
-                    <li style="display: none" id="nastaveniInformaci"><i class="fa-li fas fa-cog circle-iconSmallest"></i><i class="napoveda" onclick="openModelWindowInfo('@Model.Login')">Nastavit viditelné informace</i></li>
+        <ul class="col-8 Flexul" style="font-size: 1.1em; list-style-type: none;">
+            @{ int i = 0; }
 
-                    @if (!String.IsNullOrEmpty(Model.Education))
+            @foreach (Structs.UserOptionalFields s in modelDodatecneInformace)
+            {
+                string offset = "";
+                string col = "";
+
+                if (!String.IsNullOrEmpty(s.Value))
+                {
+                    string itemID = "toEdit" + (i + 1).ToString();
+
+                    if (i % 2 == 1)
                     {
-                        <li>
-                            <i class="fa-li fas fa-graduation-cap circle-iconSmallest"></i> <tag><i>Vzdělání:</i></tag>
-                            <i id="toEdit">@Model.Education</i>
-                        </li>
-
+                        offset = "offset-1";
+                        col = "col-6";
                     }
-                    @if (!String.IsNullOrEmpty(Model.Hobbies))
+                    else
                     {
-                        <li><i class="fa-li fas fa-dove circle-iconSmallest"></i><tag><i>Koníčky: </i></tag><i id="toEdit2">@Model.Hobbies</i></li>
-
-                    }
-                    @if (!String.IsNullOrEmpty(Model.Literature))
-                    {
-                        <li><i class="fa-li fas fa-book-open circle-iconSmallest"></i><tag><i>Literatura: </i></tag><i id="toEdit3">@Model.Literature</i></li>
-
-                    }
-                    @if (!String.IsNullOrEmpty(Model.Music))
-                    {
-                        <li><i class="fa-li fas fa-headphones circle-iconSmallest"></i><tag><i>Hudba: </i></tag><i id="toEdit4">@Model.Music</i></li>
-
-                    }
-                    @if (!String.IsNullOrEmpty(Model.Movies))
-                    {
-                        <li><i class="fa-li fas fa-video circle-iconSmallest"></i><tag><i>Filmy: </i></tag><i id="toEdit5">@Model.Movies</i></li>
-
+                        col = "col-5";
                     }
 
-                    <li><i class="fa-li fas fa-clock circle-iconSmallest"></i><tag><i>Přidal se: </i></tag><i>@Model.JoinedDateTime.ToString("D")</i></li>
-                </ul>
-            </div>
-        </div>
+                    <li class="col-6 col Flexli" style="float: left; margin-bottom: 100px; position: relative; margin-top: 50px;">
+                        <div style="position: relative">
+                            <i class="@s.Icon" style="z-index: -1; position: absolute; font-size: 100px; opacity: 0.5; bottom: -50px; left: -40px;"></i>
+                        </div>
+                        <span style="" class="label"><b>@s.Key</b></span>
+                        <i style="" id="@itemID">@s.Value</i>
 
-        <script>
-
-            var nastaveni = 0;
-
-            function toggleNastaveni() {
-
-                if (nastaveni === 0) {
-
-                    $("#napovedaMain").show(500);
-                    $("#nastaveniTextu").show(500);
-                    $("#nastaveniInformaci").show(500);
-
-                    nastaveni = 1;
-
-                    $(function() {
-                        $("#toEdit").editstrap({
-                            type: 'tags',
-                            validateClass: 'success',
-                            saveOptions: 'block',
-                            title: 'Upravit',
-                            editClasses: 'fas fa-wrench',
-                            url: '@Url.Action("ProfilUpdateVzdelani", "Profile")',
-                            emptyField: 'No data',
-                            displaySuccess: function(editable, value, text) {
-                                var element = editable.parent().parent().find(".result-message");
-                                element.html("Aktualizováno");
-                                element.addClass('edit-has-succes');
-                                element.show().delay(1000).fadeOut();
-                            },
-                            multipleSeparator:', '
-                        });
-                    });
-
-                    $(function() {
-                        $("#toEdit2").editstrap({
-                            type: 'tags',
-                            saveOptions: 'block',
-                            validateClass: 'success',
-                            title: 'Upravit',
-                            editClasses: 'fas fa-wrench',
-                            url: '@Url.Action("ProfilUpdateKonicky", "Profile")',
-                            emptyField: 'No data',
-                            displaySuccess: function(editable, value, text) {
-                                var element = editable.parent().parent().find(".result-message");
-                                element.html("Aktualizováno");
-                                element.addClass('edit-has-succes');
-                                element.show().delay(1000).fadeOut();
-                            },
-                            multipleSeparator:', '
-                        });
-                    });
-
-                    $(function() {
-                        $("#toEdit3").editstrap({
-                            type: 'tags',
-                            validateClass: 'success',
-                            saveOptions: 'block',
-                            title: 'Upravit',
-                            editClasses: 'fas fa-wrench',
-                            url: '@Url.Action("ProfilUpdateKnihy", "Profile")',
-                            emptyField: 'No data',
-                            displaySuccess: function(editable, value, text) {
-                                var element = editable.parent().parent().find(".result-message");
-                                element.html("Aktualizováno");
-                                element.addClass('edit-has-succes');
-                                element.show().delay(1000).fadeOut();
-                            },
-                            multipleSeparator:', '
-                        });
-                    });
-
-                    $(function() {
-                        $("#toEdit4").editstrap({
-                            type: 'tags',
-                            validateClass: 'success',
-                            saveOptions: 'block',
-                            title: 'Upravit',
-                            editClasses: 'fas fa-wrench',
-                            url: '@Url.Action("ProfilUpdateHudba", "Profile")',
-                            emptyField: 'No data',
-                            displaySuccess: function(editable, value, text) {
-                                var element = editable.parent().parent().find(".result-message");
-                                element.html("Aktualizováno");
-                                element.addClass('edit-has-succes');
-                                element.show().delay(1000).fadeOut();
-                            },
-                            multipleSeparator:', '
-                        });
-                    });
-
-
-                    $(function() {
-                        $("#toEdit5").editstrap({
-                            type: 'tags',
-                            validateClass: 'success',
-                            saveOptions: 'block',
-                            title: 'Upravit',
-                            editClasses: 'fas fa-wrench',
-                            url: '@Url.Action("ProfilUpdateFilmy", "Profile")',
-                            emptyField: 'No data',
-                            displaySuccess: function(editable, value, text) {
-                                var element = editable.parent().parent().find(".result-message");
-                                element.html("Aktualizováno");
-                                element.addClass('edit-has-succes');
-                                element.show().delay(1000).fadeOut();
-                            },
-                            multipleSeparator:', '
-                        });
-                    });
-
-                    $(function() {
-                        $("#editTextu").editstrap({
-                            type: 'textArea',
-                            validateClass: 'success',
-                            saveOptions: 'block',
-                            title: 'Upravit',
-                            editClasses: 'fas fa-wrench',
-                            url: '@Url.Action("ProfilUpdateText", "Profile")',
-                            emptyField: 'No data',
-                            displaySuccess: function(editable, value, text) {
-                                var element = editable.parent().parent().find(".result-message");
-                                element.html("Aktualizováno");
-                                element.addClass('edit-has-succes');
-                                element.show().delay(500).fadeOut();
-
-                                $("#hlavniText").html($("#editTextu").html());
-                                $("#editTextu").delay(500).fadeOut();
-                            }
-                        });
-                    });
-
-                } else {
-                    location.reload();
+                        <div class="w-100"></div>
+                    </li>
+                    i++;
                 }
             }
+        </ul>
+    </div>
 
-            function openModelWindowZZ(login) {
+</div>
 
-                jQuery.get('@Url.Action("ViewAchievements", "Profile")',
-                    { user: login },
-                    function(response) {
-                        jQuery("#modalContent").html(response);
-                    });
+<br/>
+<br/>
 
-                jQuery('#myModal').modal('toggle');
-            }
+<script>
 
-            function openModelWindowInfo(login) {
+    var nastaveni = 0;
 
-                jQuery.get('@Url.Action("NastavitInformace", "Profile")',
-                    { user: login },
-                    function(response) {
-                        jQuery("#modalContent").html(response);
-                    });
+    function toggleNastaveni() {
 
-                jQuery('#myModal').modal('toggle');
-            }
+        if (nastaveni === 0) {
 
-            $(document).ready(function () {
-                var bar = new ProgressBar.Line("#containerAnimated", {
-                    strokeWidth: 4,
-                    easing: 'easeInOut',
-                    duration: 2500,
-                    color: '#FFEA82',
-                    trailColor: '#eee',
-                    trailWidth: 1,
-                    text: {
-                        style: {
-                            // Text color.
-                            // Default: same as stroke color (options.color)
-                            color: '#999',
-                            position: 'relative',
-                            right: '0',
-                            top: '30px',
-                            padding: 0,
-                            margin: 0,
-                            transform: null
-                        },
-                        autoStyleContainer: false
+            $("#napovedaMain").show(500);
+            $("#nastaveniTextu").show(500);
+            $("#nastaveniInformaci").show(500);
+
+            nastaveni = 1;
+
+            $(function() {
+                $("#toEdit1").editstrap({
+                    type: 'tags',
+                    validateClass: 'success',
+                    saveOptions: 'block',
+                    title: 'Upravit',
+                    editClasses: 'fas fa-wrench',
+                    url: '@Url.Action("ProfilUpdateVzdelani", "Profile")',
+                    emptyField: 'No data',
+                    displaySuccess: function(editable, value, text) {
+                        var element = editable.parent().parent().find(".result-message");
+                        element.html("Aktualizováno");
+                        element.addClass('edit-has-succes');
+                        element.show().delay(1000).fadeOut();
                     },
-                    svgStyle: {width: '100%', height: '100%'},
-                    from: {color: '#66666'},
-                    to: {color: '#00FF00'},
-                    step: (state, bar) => {
-                        bar.path.setAttribute('stroke', state.color);
-                        bar.setText('Zkušenosti: ' + Math.round(bar.value() * 100) + ' %');
+                    multipleSeparator: ', '
+                });
+            });
+
+            $(function() {
+                $("#toEdit2").editstrap({
+                    type: 'tags',
+                    saveOptions: 'block',
+                    validateClass: 'success',
+                    title: 'Upravit',
+                    editClasses: 'fas fa-wrench',
+                    url: '@Url.Action("ProfilUpdateKonicky", "Profile")',
+                    emptyField: 'No data',
+                    displaySuccess: function(editable, value, text) {
+                        var element = editable.parent().parent().find(".result-message");
+                        element.html("Aktualizováno");
+                        element.addClass('edit-has-succes');
+                        element.show().delay(1000).fadeOut();
+                    },
+                    multipleSeparator: ', '
+                });
+            });
+
+            $(function() {
+                $("#toEdit3").editstrap({
+                    type: 'tags',
+                    validateClass: 'success',
+                    saveOptions: 'block',
+                    title: 'Upravit',
+                    editClasses: 'fas fa-wrench',
+                    url: '@Url.Action("ProfilUpdateKnihy", "Profile")',
+                    emptyField: 'No data',
+                    displaySuccess: function(editable, value, text) {
+                        var element = editable.parent().parent().find(".result-message");
+                        element.html("Aktualizováno");
+                        element.addClass('edit-has-succes');
+                        element.show().delay(1000).fadeOut();
+                    },
+                    multipleSeparator: ', '
+                });
+            });
+
+            $(function() {
+                $("#toEdit4").editstrap({
+                    type: 'tags',
+                    validateClass: 'success',
+                    saveOptions: 'block',
+                    title: 'Upravit',
+                    editClasses: 'fas fa-wrench',
+                    url: '@Url.Action("ProfilUpdateHudba", "Profile")',
+                    emptyField: 'No data',
+                    displaySuccess: function(editable, value, text) {
+                        var element = editable.parent().parent().find(".result-message");
+                        element.html("Aktualizováno");
+                        element.addClass('edit-has-succes');
+                        element.show().delay(1000).fadeOut();
+                    },
+                    multipleSeparator: ', '
+                });
+            });
+
+
+            $(function() {
+                $("#toEdit5").editstrap({
+                    type: 'tags',
+                    validateClass: 'success',
+                    saveOptions: 'block',
+                    title: 'Upravit',
+                    editClasses: 'fas fa-wrench',
+                    url: '@Url.Action("ProfilUpdateFilmy", "Profile")',
+                    emptyField: 'No data',
+                    displaySuccess: function(editable, value, text) {
+                        var element = editable.parent().parent().find(".result-message");
+                        element.html("Aktualizováno");
+                        element.addClass('edit-has-succes');
+                        element.show().delay(1000).fadeOut();
+                    },
+                    multipleSeparator: ', '
+                });
+            });
+
+            $(function() {
+                $("#editTextu").editstrap({
+                    type: 'textArea',
+                    validateClass: 'success',
+                    saveOptions: 'block',
+                    title: 'Upravit',
+                    editClasses: 'fas fa-wrench',
+                    url: '@Url.Action("ProfilUpdateText", "Profile")',
+                    emptyField: 'No data',
+                    displaySuccess: function(editable, value, text) {
+                        var element = editable.parent().parent().find(".result-message");
+                        element.html("Aktualizováno");
+                        element.addClass('edit-has-succes');
+                        element.show().delay(500).fadeOut();
+
+                        $("#hlavniText").html($("#editTextu").html());
+                        $("#editTextu").delay(500).fadeOut();
                     }
                 });
-
-                bar.animate(1.0);
-
-                var elem = document.getElementById("myBar");
-
-                $("#zkusenostiBar").fadeIn(500);
-
-                var width = 1;
-                var id = setInterval(frame, 10);
-                function frame() {
-                    if (width >= 40) {
-                        clearInterval(id);
-                    } else {
-                        width++;
-                        elem.style.width = width + '%';
-                    }
-                }
             });
 
-            function akcePolozkyProfilu(index) {
-                if (index !== 0) {
-                    if (@Model.AuthLevel == 0) {
-                        swal({
-                            title: "Nedostatečné ověření",
-                            text: '@Html.Raw(Texty.ProfilSluzbyNedostatecneOvereni)',
-                            type: 'warning',
-                            html: true
-                        });
-                    } else {
-                        if (index == 1) {
-                            window.location = '@Url.Action("ViewWall", new { id = Model.Id })';
-                        }
-                    }
-                }
-            }
-        </script>
+        } else {
+            location.reload();
+        }
+    }
 
-        <script type="text/javascript">
-            function openModelWindow() {
+    function openModelWindowZZ(login) {
 
-                jQuery('#myModal').modal('toggle');
-            }
-        </script>
-
-        <script>
-            tippy('[title]')
-        </script>
-
-        <script type="text/javascript">
-            jQuery("#loadPartialView").click(function() {
-
-                var u = jQuery(this).attr('mydata');
-
-
-                jQuery.get('@Url.Action("Test", "Home")',
-                    { Id: u },
-                    function(response) {
-                        jQuery("#modalContent").html(response);
-                    });
+        jQuery.get('@Url.Action("ViewAchievements", "Profile")',
+            { user: login },
+            function(response) {
+                jQuery("#modalContent").html(response);
             });
 
-            jQuery("#loadPartialView2").click(function() {
+        jQuery('#myModal').modal('toggle');
+    }
 
-                jQuery.get('@Url.Action("NastavNaladu", "Home")',
-                    {},
-                    function(response) {
-                        jQuery("#modalContent").html(response);
-                    });
+    function openModelWindowInfo(login) {
+
+        jQuery.get('@Url.Action("NastavitInformace", "Profile")',
+            { user: login },
+            function(response) {
+                jQuery("#modalContent").html(response);
             });
 
-            //openModelWindow();
-        </script>
+        jQuery('#myModal').modal('toggle');
+    }
 
-        @{
-            if (Model.AuthLevel == 0)
+    $(document).ready(function() {
+        var bar = new ProgressBar.Line("#containerAnimated",
             {
-                <script>
-                    $(".profilHorniPolozkyIkony i").addClass("profilHorniPolozkyZamceno");
-                </script>
+                strokeWidth: 4,
+                easing: 'easeInOut',
+                duration: 2500,
+                color: '#FFEA82',
+                trailColor: '#eee',
+                trailWidth: 1,
+                text: {
+                    style: {
+                        // Text color.
+                        // Default: same as stroke color (options.color)
+                        color: '#999',
+                        position: 'relative',
+                        right: '0',
+                        top: '30px',
+                        padding: 0,
+                        margin: 0,
+                        transform: null
+                    },
+                    autoStyleContainer: false
+                },
+                svgStyle: { width: '100%', height: '100%' },
+                from: { color: '#66666' },
+                to: { color: '#00FF00' },
+                step: (state, bar) => {
+                    bar.path.setAttribute('stroke', state.color);
+                    bar.setText('Zkušenosti: ' + Math.round(bar.value() * 100) + ' %');
+                }
+            });
+
+        bar.animate(1.0);
+
+        var elem = document.getElementById("myBar");
+
+        $("#zkusenostiBar").fadeIn(500);
+
+        var width = 1;
+        var id = setInterval(frame, 10);
+
+        function frame() {
+            if (width >= 40) {
+                clearInterval(id);
+            } else {
+                width++;
+                elem.style.width = width + '%';
             }
         }
-    </div>
+    });
+
+    function akcePolozkyProfilu(index) {
+        if (index !== 0) {
+            if (@Model.AuthLevel == 0) {
+                swal({
+                    title: "Nedostatečné ověření",
+                    text: '@Html.Raw(Texty.ProfilSluzbyNedostatecneOvereni)',
+                    type: 'warning',
+                    html: true
+                });
+            } else {
+                if (index == 1) {
+                    window.location = '@Url.Action("ViewWall", new {id = Model.Id})';
+                }
+            }
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function openModelWindow() {
+
+        jQuery('#myModal').modal('toggle');
+    }
+</script>
+
+<script>
+    tippy('[title]')
+</script>
+
+<script type="text/javascript">
+    jQuery("#loadPartialView").click(function() {
+
+        var u = jQuery(this).attr('mydata');
+
+
+        jQuery.get('@Url.Action("Test", "Home")',
+            { Id: u },
+            function(response) {
+                jQuery("#modalContent").html(response);
+            });
+    });
+
+    jQuery("#loadPartialView2").click(function() {
+
+        jQuery.get('@Url.Action("NastavNaladu", "Home")',
+            {},
+            function(response) {
+                jQuery("#modalContent").html(response);
+            });
+    });
+
+    //openModelWindow();
+</script>
+
+@{
+    if (Model.AuthLevel == 0)
+    {
+        <script>
+            $(".profilHorniPolozkyIkony i").addClass("profilHorniPolozkyZamceno");
+        </script>
+    }
+}
+</div>
+</div>

@@ -35,6 +35,20 @@
     <property name="Music" column="music" />
     <property name="Movies" column="movies" />
     <property name="Elan" column="elan" />
+
+    <property name="DisplayJob" column="displayJob" />
+    <property name="DisplayEducation" column="displayEducation" />
+    <property name="DisplayHobbies" column="displayHobbies" />
+    <property name="DisplayBooks" column="displayBooks" />
+    <property name="DisplayMusic" column="displayMusic" />
+    <property name="DisplayMovies" column="displayMovies" />
+    <property name="DisplayProfileViews" column="displayProfileViews" />
+    <property name="DisplayPrivateProfile" column="displayPrivateProfile" />
+    <property name="DisplayTextNo" column="displayTextNo" />
+    <property name="DisplayStatisticsNo" column="displayStatisticsNo" />
+    <property name="DisplayMedalsNo" column="displayMedalsNo" />
+    <property name="DisplayHelpNo" column="displayHelpNo" />
+
     <many-to-one name="Role" column="role_id" foreign-key="role_id"></many-to-one>
   </class>
 
