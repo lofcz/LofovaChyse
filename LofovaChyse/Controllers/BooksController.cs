@@ -17,7 +17,7 @@ namespace LofovaChyse.Controllers
         // GET: Books
         public ActionResult Index(int? page, int? cat)
         {
-            int itemsOnPage = 2;
+            int itemsOnPage = 5;
             int pg = page.HasValue ? page.Value : 1;
             int totalBooks;
 
@@ -63,6 +63,7 @@ namespace LofovaChyse.Controllers
             ViewBag.Pages = (int)Math.Ceiling((double)totalBooks / (double)itemsOnPage);
             ViewBag.CurrentPage = pg;
             ViewBag.PerPage = itemsOnPage;
+            ViewBag.total = totalBooks;
 
             if (Request.IsAjaxRequest())
             {
@@ -70,7 +71,13 @@ namespace LofovaChyse.Controllers
             }
 
             return View(u); // Passnu třídu
-        }                                                                                               
+        }
+
+        public ActionResult SearchModal()
+        {
+            return PartialView();
+        }
+
         public bool CurrentUserRatedComent(KnihovnaKomentare komentar)
         {
             if (User.Identity.IsAuthenticated)
@@ -480,11 +487,13 @@ namespace LofovaChyse.Controllers
         }
 
         [Authorize(Roles = "knihovnik")]
-        public ActionResult Create()
+        public ActionResult Create(int categoryId = 0)
         {
             BookCategoryDao bookCategoryDao = new BookCategoryDao();
             IList<BookCategory> categories = bookCategoryDao.GetAll();
             ViewBag.Categories = categories;
+
+            ViewBag.kategorie = categoryId;
 
             return View();
         }
@@ -493,17 +502,28 @@ namespace LofovaChyse.Controllers
         [Authorize(Roles = "knihovnik")]
         public ActionResult Add(Book book, HttpPostedFileBase picture, int categoryId)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
+                KnihovnaUserDao d = new KnihovnaUserDao();
+                KnihovnaUser u = d.GetByLogin(User.Identity.Name);
+                KnihovnaKategorieDao k = new KnihovnaKategorieDao();
+
                 Book b = new Book()
                 {
                     Name = book.Name,
                     Author = book.Author,
                     PublishedYear = book.PublishedYear,
                     Id = Books.Counter(),
-                    Description = book.Description
+                    Description = book.Description,
+                    OwnerId =  u,
+                    Kategorie = k.GetbyId(2),
+                    LastEditDateTime = DateTime.Now,
+                    Version = 1,
+                    IsPayed = false,
+                    UnlockPrice = 0,
+                    MinimalLevel = 0
                 };
-               
+
 
                 if (picture != null)
                 {
@@ -529,21 +549,20 @@ namespace LofovaChyse.Controllers
                 }
 
                 BookCategoryDao bookCategoryDao = new BookCategoryDao();
-                BookCategory bookCategory = bookCategoryDao.GetbyId(categoryId);
+                BookCategory bookCategory = bookCategoryDao.GetbyId(5);
 
                 b.Category = bookCategory;
+                b.Author = "nějaká děvka";
+                b.SectionId = categoryId;
 
                 BookDao bookDao = new BookDao();
                 bookDao.Create(b);
 
-                KnihovnaUserDao d = new KnihovnaUserDao();
-                KnihovnaUser u = d.GetByLogin(User.Identity.Name);
-                UserStats.NewPost(u);
 
                 // Notifikace
                 TempData["scs"] = "V pořádku";
             }
-            else
+           // else
             {
                 return View("Create", book); // Vrátím vstupní data
             }

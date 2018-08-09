@@ -457,9 +457,10 @@
 				textArea.css('height', 'auto');
 				textArea.val(value);
 				textArea.attr('placeholder', _this.options.placeholder);
-				textArea.attr('rows', _this.options.textAreaRows);
+                textArea.attr('rows', _this.options.textAreaRows);
+			    textArea.attr('id', _this.options.textAreaId);
 				html.append(textArea);
-				html.append(buttonValidate);
+                html.append(buttonValidate);
 				
 
 				html.find(".validate").click(function() {
@@ -800,7 +801,7 @@
 		language : 'en',
 		dateFormat : 'mm/dd/yyyy',
 		validateClass : 'default',
-		
+		textAreaId: 'myId',
 		appendText : '',
 		prependText : '',
 		multipleSeparator : ' ',

@@ -10,7 +10,7 @@
     <property name="RenderPriority" column="renderPriority" />
     <property name="DebugName" column="debugName" />
     <property name="Restrikce" column="restrikce" />
-
+    <property name="ContainsPosts" column="containsPosts" /> 
 
   </class>
 

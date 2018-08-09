@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "SearchModal";
+}
+
+<h2>Vyhledat příspěvek</h2>
+<br/>
+<div class="panel">
+    <div class="panel-body">
+        @using (Ajax.BeginForm("Search", "Books", new {area="Admin"}, new AjaxOptions() {UpdateTargetId = "ajaxContent", InsertionMode = InsertionMode.Replace, OnComplete = "hideModal()"}))
+        {
+            <input type="text" class="form-control" placeholder="Název příspěvku" name="phrase" id="myInput"/>
+            <input type="submit" class="btn btn-primary" value="Hledat" style="width: 100%;"/>
+        }
+    </div>
+
+</div>
+
+<br/>

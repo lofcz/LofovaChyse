@@ -294,6 +294,16 @@
         opacity: 1;
     }
 
+    .centerHor {
+        display: block;
+    }
+
+    .centerHorInner {
+        position: relative;
+        text-align: center;
+        display: block;
+    }
+
 </style>
 
 <script>
@@ -401,7 +411,7 @@
                 {
                     <br/>
                     <span class="profilAuthorLine">
-                        <i>~ @Model.Name @Model.Surname @age <br/></i>
+                        <i>~ @Model.Name @Model.Surname @age <br/><span class="centerHor"><small class="centerHorInner">@Model.ProfileViews @Sklonovani.Sklonuj("navsteva", Model.ProfileViews)</small></span></i>
                     </span>
                 }
 
@@ -439,9 +449,8 @@
 </div>
 
 <div style="display: none" id="editTextu2">
-    <p>Počítadlo znaků:</p>
 </div>
-
+<br />
 <!--Upload obrázku-->
 <div style="display: none" id="editFotky">
     @{
@@ -774,6 +783,13 @@
 <br/>
 
 <script>
+    $("#pocitadloId").change(function () {
+        alert("Handler for .keydown() called.");
+    });
+
+    function pocitadloZnaku() {
+        alert("asd");
+    }
 
     var nastaveni = 0;
 
@@ -889,6 +905,7 @@
                     validateClass: 'success',
                     saveOptions: 'block',
                     title: 'Upravit',
+                    textAreaId: "pocitadloId",
                     editClasses: 'fas fa-wrench',
                     url: '@Url.Action("ProfilUpdateText", "Profile")',
                     emptyField: 'No data',
@@ -911,7 +928,7 @@
                                 $("#hlavniText").html($("#editTextu").html());
                             }
 
-                            });
+                        });
 
                         $("#editTextu").delay(500).fadeOut();
                         $("#editTextu2").delay(500).fadeOut();

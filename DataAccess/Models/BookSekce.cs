@@ -19,6 +19,7 @@ namespace DataAccess.Models
         public virtual string ImageName { get; set; }
         public virtual int RenderPriority { get; set; }
         public virtual string DebugName { get; set; }
+        public virtual bool ContainsPosts { get; set; }
 
         /*
          * 0 / NULL: Bez

@@ -48,6 +48,20 @@
     ViewBag.PosledniOdznak = posledniOdznak;
 }
 
+<style>
+    .toggleAnswers {
+        color: #656565;
+        line-height: 10px;
+        transition: all 0.3s ease;
+        border-bottom: solid 1px transparent;
+    }
+
+    .toggleAnswers:hover {
+        border-bottom: solid 1px #656565;
+        cursor: pointer;
+    }
+</style>
+
 @if (ViewBag.Access)
 {
     <div id="ajaxContent" class="container-fluid col-md-12">
@@ -191,30 +205,55 @@
             </div>
         </div>
     </div>
+   
 
     @if ((ViewBag.Komentare as IList<KnihovnaKomentare>).Count > 0)
     {
-        KnihovnaKomentare predeslyKomentar = (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray()[0];
-        KnihovnaKomentare dalsiKomentar = (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray()[0];
         int index = 1;
+        ViewBag.ownerId = "";
 
         foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
         {
-            dalsiKomentar = (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray()[Math.Min(index, (ViewBag.Komentare as IList<KnihovnaKomentare>).ToArray().Length - 1)];
+            ViewBag.myId = "idKomentare" + index.ToString();
+            ViewBag.replyId = "komentarReply" + index.ToString();
+            ViewBag.replyIdNumber = "komentarReplyNumber" + index.ToString();
+            ViewBag.replyIdCaret = "komentarReplyCaret" + index.ToString();
 
+            komentar.ChildsNumber = 0;
             ViewBag.myclass = "card mb-2 h-25 pb-1 bg-koment col-12 offset-md-0";
             if (komentar.ReplyId > 0)
             {
-                //ViewBag.myclass = "card mb-0 h-25 pb-1 bg-koment col-11 offset-md-1";
+                ViewBag.myclass = "card mb-1 h-25 pb-1 bg-koment col-12 offset-md-0 odpoved ";
+                ViewBag.dataClass = ViewBag.ownerId;
 
-                //if (dalsiKomentar.ReplyId <= 0)
-                {
-                    ViewBag.myclass = "card mb-1 h-25 pb-1 bg-koment col-12 offset-md-0 odpoved";
-                }
+                <script>
+                    @{
+                        foreach (KnihovnaKomentare k in (ViewBag.Komentare as IList<KnihovnaKomentare>))
+                        {
+                            if (k.Id == komentar.ReplyId)
+                            {
+                                k.HasChilds = true;
+                                k.ChildsNumber++;
+                                break;
+                            }
+                        }
+
+                        ViewBag.temp = "#" + ViewBag.ownerId;
+                    }
+
+                    $("@ViewBag.temp").attr('has-child', '1');
+                </script>
+            }
+            else
+            {
+                ViewBag.ownerId = ViewBag.myId;
+                ViewBag.dataClass = "";
             }
 
+
+
             <div>
-                <div class="@ViewBag.myclass">
+                <div class="@ViewBag.myclass" id="@ViewBag.myId" data-owner="@ViewBag.dataClass">
                     <div class="card-body spaced p-2">
                         @{
                             ViewBag.CanRate = !komentar.AlreadyRated;
@@ -236,27 +275,6 @@
                             ViewBag.Reakce1 = "<i class=\"fas fa-heart fa-lg\"></i>";
                             ViewBag.Reakce2 = "<i class=\"fas fa-cog fa-lg\"></i>";
                             ViewBag.Reakce3 = "<i class=\"fas fa-sun fa-lg\"></i>";
-
-                            /*
-                                if (ViewBag.TempClass1 == " disabled" && ViewBag.RatedIndex == 2)
-                                {
-                                    ViewBag.TempClass1 = "";
-                                }
-
-                                if (ViewBag.TempClass2 == " disabled" && ViewBag.RatedIndex == 0)
-                                {
-                                    ViewBag.TempClass2 = "";
-                                }
-
-                                if (ViewBag.TempClass3 == " disabled" && ViewBag.RatedIndex == 3)
-                                {
-                                    ViewBag.TempClass3 = "";
-                                }
-
-                                if (ViewBag.TempClass4 == " disabled" && ViewBag.RatedIndex == 1)
-                                {
-                                    ViewBag.TempClass4 = "";
-                                }*/
 
                             ViewBag.ReallyRated = 0;
 
@@ -332,7 +350,7 @@
                         </div>
                         <h6 class="card-text small mt-0 ml-0 ctext">@Html.Raw(komentar.Content)</h6>
 
-                        <div id="@string.Format("{0}{1}", "koment", komentar.Id.ToString())">
+                        <div id="@string.Format("{0}{1}", "koment", komentar.Id.ToString())" style="display: inline-block;">
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a class="card-text small mt-0 ml-0 rep" onclick="prepReply(@ViewBag.repID, '@komentar.OwnerId.Name')" style="color: #3dacdc" href="javascript:void(0)">ODPOVĚDĚT</a>
@@ -355,16 +373,61 @@
                             @Ajax.RawActionLink((string) ViewBag.Reakce3, "RateKomentar", "Books", new {id = komentar.Id, bookId = Model.Id, moznost = 2}, new AjaxOptions() {UpdateTargetId = string.Format("{0}{1}", "koment", komentar.Id.ToString()), InsertionMode = InsertionMode.ReplaceWith}, new {@class = "ratingbtn tippy" + ViewBag.TempClass1, title = "<small>" + (komentar.PocetReakci[2] > 0 ? komentar.PocetReakci[2].ToString() + "x" : "") + " </small><b style=\"color: #86d673\">To mě mrzí</b> - soucítím s tebou", data_tippy_placement = "bottom", onclick = "checkFunction(this, '" + ViewBag.ReallyRated + "'" + ",'" + ViewBag.myComment + "'" + ")", id = "mojeid", data_mojedata = @ViewBag.TempClass})
 
                         </div>
+                        
+                        <!-- Možnost schovat rozbalit replies -->
+                        @if (komentar.ReplyId <= 0)
+                        {
+                            <span id="@ViewBag.replyId" onclick="toggleAnswers($(this).parent().parent().attr('id'), id)" style="display: none; float: right" class="toggleAnswers"><small id="@ViewBag.replyIdNumber">16 odpovědí</small> <i id="@ViewBag.replyIdCaret" class="fas fa-caret-up"></i></span>
+                        }
                     </div>
                 </div>
             </div>
 
-            predeslyKomentar = komentar;
             index++;
+            ViewBag.index = index;
         }
+    }
+    
+    @{
+       int ind = 1;
+    }
+    @foreach (KnihovnaKomentare komentar in (ViewBag.Komentare as IList<KnihovnaKomentare>))
+    {
+
+        if (komentar.HasChilds)
+        {
+            string s = "#komentarReply" + ind;
+            string ss = "#komentarReplyNumber" + ind;
+
+            <script>
+                $("@s").show();
+                $("@ss").text("@komentar.ChildsNumber" + " @Sklonovani.Sklonuj("odpovedi", komentar.ChildsNumber)");
+            </script>
+        }
+
+        ind++;
     }
 
     <script>
+        var getNumericPart = function(id) {
+            var $num = id.replace(/[^\d]+/, '');
+            return $num;
+        }
+
+        function toggleAnswers(id, myId) {
+
+            for (var i = 1; i < @ViewBag.index; i++) {
+                var element = $("#idKomentare" + i);
+
+                if (element.attr('data-owner') == id) {
+                    $(element).fadeToggle("fast");
+                }
+            }
+
+            $("#komentarReplyCaret" + getNumericPart(myId)).toggleClass("fa-caret-up");
+            $("#komentarReplyCaret" + getNumericPart(myId)).toggleClass("fa-caret-down");
+        }
+
         function preEdit(commentId, userName, text) {
             document.getElementById("reply").value = arguments[3];
             document.getElementById("type").value = commentId;

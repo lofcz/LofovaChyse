@@ -36,6 +36,8 @@ namespace DataAccess.Models
         }
 
         public virtual int[] PocetReakci { get; set; } = new[] {0, 0, 0, 0};
+        public virtual bool HasChilds { get; set; }
+        public virtual int ChildsNumber { get; set; }
 
     }
 }

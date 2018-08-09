@@ -36,7 +36,8 @@
         @{
             ViewBag.Title = "Index";
 
-            <h2>Nové příspěvky</h2>
+            <h2 style="display: inline-block;">Nové příspěvky</h2>
+            <button class="btn" style="float: right;" onclick="openModelWindowZZ()">Hledat</button>
             <hr />
             <div class="clearfix"></div>
 
@@ -113,7 +114,7 @@
                 <div class="card mb-3 h-25 mt-0">
                     <div class="card-body">
                         <h4 class="card-title">@b.Name</h4>
-                        <p class="card-text">@Html.Raw(LofovaChyse.Class.ImageHelper.StripTagsRegex(b.Description.Substring(0, Math.Min(200, b.Description.Length))))...</p>
+                        <p class="card-text">@Html.Raw(LofovaChyse.Class.ImageHelper.StripTagsRegex(b.Description.Substring(0, Math.Min(500, b.Description.Length))))...</p>
                     </div>
                     <div class="card-footer text-muted">
                         Napsal @b.OwnerId.Name, verze @b.Version.ToString().Replace(",", ".") (@b.LastEditDateTime.ToString("dd MMMM, yyyy"))
@@ -134,9 +135,7 @@
         {
             if (ViewBag.Pages != null && ViewBag.Pages > 1)
             {
-                <p>Počet položek na stránku: @ViewBag.PerPage</p>
-
-                <nav aria-label="...">
+                <nav aria-label="..."  style="display: inline-block">
                     <ul class="pagination">
                         @for (int i = 1; i <= ViewBag.Pages; i++)
                         {
@@ -148,10 +147,39 @@
                 </nav>
             }
         }
+        
+        @if (aktSekce != null && aktSekce.ContainsPosts)
+        {
+         @Html.ActionLink("Přidat příspěvek", "Create", "Books", new {categoryId = ViewBag.Cat}, new {@class = "btn btn-primary", style="float: right"})
+        }
+        
+    @if ((ViewBag.SeznamKategorii as List<BookSekce>).Count == 0)
+    {
+        if (ViewBag.Pages != null && ViewBag.Pages > 1)
+        {
+            <p><i>Počet položek na stránku: @ViewBag.PerPage, celkem @ViewBag.total výsledků</i></p>
+            <br/>
+        }
+    }
+    
     </div>
 
     <script>
         function openModelWindow() {
+            jQuery('#myModal2').modal('toggle');
+        }
+
+        function hideModal() {
+            jQuery('#myModal2').modal('hide');
+        }
+
+        function openModelWindowZZ() {
+            jQuery.get('@Url.Action("SearchModal", "Books")',
+                {  },
+                function(response) {
+                    jQuery("#modalContent").html(response);
+                });
+
             jQuery('#myModal2').modal('toggle');
         }
     </script>
