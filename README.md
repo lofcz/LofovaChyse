@@ -29,6 +29,7 @@ Design dokument: https://docs.google.com/document/d/18cH6fJm2VhxDgQn9-nKaSf13YwZ
     - Odpovědi na komentáře
     - Upravit
     - Smazat
+    - Možnost skrýt/zobrazit odpovědi na komentáře
 - Uživatelé
   - Přihlášení + registrace
   - Odhlášení
