@@ -49,30 +49,22 @@ namespace LofovaChyse.Class
             LevelUpTeaser[5] = "něco F";
         }
 
+        public static void NewPost(KnihovnaUser user, KnihovnaUserDao d)
+        {
+            user.PostsNumber++;
+            d.Update(user);
+        }
+
         public static string GetNeededStats(string login)
         {
             string r = "[chyba v získání potřebných zkušeností";
 
             KnihovnaUserDao d = new KnihovnaUserDao();
             KnihovnaUser u = d.GetByLogin(login);
-
+            
             int xp = u.Exp;
             int rep = u.Reputation;
             int lvl = 0;
-
-            // 1) Získáme level uživatele
-            /*
-            for (var i = 0; i < 6; i++)
-            {
-                if (xp >= Pozadavky[i, 0] && rep >= Pozadavky[i, 1])
-                {
-                    lvl++;
-                }
-                else
-                {
-                    break;
-                }
-            }*/
 
             lvl = u.AuthLevel;
 

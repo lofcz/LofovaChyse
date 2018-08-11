@@ -127,7 +127,7 @@ namespace LofovaChyse.Controllers
                     }
                 }
             }
-
+          
             return r;
         }
         public ActionResult Buy(int id, string userName)
@@ -556,8 +556,26 @@ namespace LofovaChyse.Controllers
                 b.SectionId = categoryId;
 
                 BookDao bookDao = new BookDao();
-                bookDao.Create(b);
+                int identifier = (int)bookDao.Create(b);
 
+                BookVersionDao bv = new BookVersionDao();
+                BookVersion v = new BookVersion();
+
+                v.Text = b.Description;
+                v.ChangedBy = u.Id;
+                v.Date = DateTime.Now;
+                v.Id = Books.Counter();
+                v.IsApproved = true;
+                v.IsSuggestion = false;
+                v.PostId = identifier;
+                v.SumText = "Původní verze";
+                v.Version = 1;
+
+                bv.Create(v);
+
+
+                LevelUp.NewPost(u, d);
+                NovinkyGenerator.PridatNovinku(b, u.Id);
 
                 // Notifikace
                 TempData["scs"] = "V pořádku";
@@ -686,6 +704,12 @@ namespace LofovaChyse.Controllers
         {
             BookVersion v = new BookVersionDao().GetbyId(id);
             return PartialView(v);
+        }
+
+        public JsonResult BookHistoryShowJson(int id)
+        {
+            BookVersion v = new BookVersionDao().GetbyId(id);
+            return Json(new { text = v.Text });
         }
 
         public ActionResult BookHistorySet(int id)

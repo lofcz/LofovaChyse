@@ -79,7 +79,7 @@ namespace LofovaChyse.Class
             {
                 if (existingId == -1)
                 {
-                    text = "Uživatel " + user.Name  + " přidal příspěvek" + postName;
+                    text = "Uživatel " + user.Name  + " přidal příspěvek " + postName;
                 }
                 else
                 {

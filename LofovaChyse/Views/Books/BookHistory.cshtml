@@ -64,7 +64,7 @@
                 </td>
                 <td>@b.Date.ToString("M/d/yy")</td>
                 <td>@Ajax.ActionLink("Zobrazit", "BookHistoryShow", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "obsahKnihy", InsertionMode = InsertionMode.Replace, OnBegin = "openModal" }, new { @class = "btn btn-sm btn-primary" })</td>
-                <td>@Ajax.ActionLink("Nastavit", "BookHistorySet", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "versionTable", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "btn btn-sm btn-success" })</td>
+                <td>@Ajax.ActionLink("Nastavit", "BookHistorySet", "Books", new { id = b.Id }, new AjaxOptions() { UpdateTargetId = "versionTable", InsertionMode = InsertionMode.ReplaceWith }, new { @class = "btn btn-sm btn-success", onclick= "getContent('" + b.Id + "')" })</td>
             </tr>
         }
         </tbody>
@@ -72,3 +72,16 @@
     
     <small>Název verze <b>tučně</b> - veřejně viditelná verze.</small>
 </div>
+
+<script>
+    function getContent(myId) {
+        jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("BookHistoryShow", "Books")',
+            data: { id: myId },
+            success: function (result) {
+                $("#obsahKnihy").html(result);
+            }
+        });
+    }
+</script>
