@@ -925,6 +925,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Profile\ViewAchievements.cshtml" />
     <Content Include="Views\Profile\NastavitInformace.cshtml" />
+    <Content Include="Views\Books\SearchModal.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
@@ -933,7 +934,6 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Views\Books\SearchModal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
