@@ -10,6 +10,7 @@
     ViewBag.BuyId = 0;
     ViewBag.SeznamKategorii = General.GetCurrentCategories(ViewBag.Cat, User.Identity.Name);
     BookSekce aktSekce = new BookSekceDao().GetbyIdNull(ViewBag.Cat);
+    string nazevSekce = "Kategorie";
 
     if (aktSekce != null && !General.AccessMatch(aktSekce.Restrikce, User.Identity.Name))
     {
@@ -19,6 +20,12 @@
             swal("Přístup odmítnut", "Vypadá to, že sem nepatříš", "error")
         </script>
     }
+
+    if (aktSekce != null)
+    {
+        nazevSekce = aktSekce.DebugName;
+    }
+    
 }
 
 @if (ViewBag.Granted)
@@ -36,8 +43,17 @@
         @{
             ViewBag.Title = "Index";
 
-            <h2 style="display: inline-block;">Nové příspěvky</h2>
-            <button class="btn" style="float: right;" onclick="openModelWindowZZ()">Hledat</button>
+            <h2 style="display: inline-block;">@nazevSekce</h2>
+            <div class="profilHorniPolozkyIkony" style="display: inline-block; float: right;">              
+                @{
+                    if (aktSekce != null && aktSekce.ContainsPosts && User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("Create", "Books",  new {categoryId = ViewBag.Cat})" class="blackLink"><span class="circle-icon" onclick="openModelWindowZZ()"><i class="fas fa-align-justify fa-fw"></i> Vytvořit příspěvek</span></a> 
+                    }
+                }
+                <span class="circle-icon" onclick="openModelWindowZZ()"><i class="fas fa-search fa-fw"></i> Hledat</span>
+            </div>
+           
             <hr />
             <div class="clearfix"></div>
 
@@ -107,24 +123,45 @@
                 }
             }
         }
+        
+        <style>
+            .blackLink {
+                color: black;
+                text-decoration: none;
+            }
+
+                .blackLink:hover {
+                    color: #555555;
+                    text-decoration: none;
+                }
+        </style>
 
         @foreach (Book b in Model)
         {
             <div>
                 <div class="card mb-3 h-25 mt-0">
                     <div class="card-body">
-                        <h4 class="card-title">@b.Name</h4>
+                        @{
+                            if (b.ReadButton == "Číst →")
+                            {
+                                <a href="@Url.Action("Detail", "Books", new {id = b.Id, zobrazPopis = true})" class="blackLink"><h4 class="card-title">@b.Name</h4></a>
+                            }
+                            else
+                            {
+                                <h4 class="card-title">@b.Name</h4>
+                            }
+                        }
+                       
                         <p class="card-text">@Html.Raw(LofovaChyse.Class.ImageHelper.StripTagsRegex(b.Description.Substring(0, Math.Min(500, b.Description.Length))))...</p>
                     </div>
-                    <div class="card-footer text-muted">
-                        Napsal @b.OwnerId.Name, verze @b.Version.ToString().Replace(",", ".") (@b.LastEditDateTime.ToString("dd MMMM, yyyy"))
-                        @if (b.ReadButton == "Číst →")
-                        {
-                            @Html.ActionLink(b.ReadButton, "Detail", "Books", new { id = b.Id, zobrazPopis = true }, new { title = b.Name, @class = "btn " + b.TempClass + " float-right btn-sm" })
-                        }
-                        else
-                        {
-                            @Ajax.ActionLink(b.ReadButton, "Buy", "Books", new { id = b.Id, userName = User.Identity.Name }, new AjaxOptions() { UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow" }, new { @class = "btn btn-warning float-right btn-sm" })
+                    <div class="card-footer text-muted" style="margin: 0px; padding-top: 2px; padding-bottom: 2px;">
+                        <span style="font-size: 0.9em;">Přidal @Html.ActionLink(b.OwnerId.Name, "index", "profile", new { id = b.OwnerId.Id }, new { }) @b.LastEditDateTime.ToString("d. MMMM yyyy"), verze @b.Version.ToString().Replace(",", ".")</span>
+
+                        @{
+                            if (b.ReadButton != "Číst →")
+                            {
+                                @Ajax.ActionLink(b.ReadButton, "Buy", "Books", new { id = b.Id, userName = User.Identity.Name }, new AjaxOptions() { UpdateTargetId = "modalContent", InsertionMode = InsertionMode.Replace, OnBegin = "openModelWindow" }, new { @class = "btn btn-warning float-right btn-sm" })
+                            }
                         }
                     </div>
                 </div>
@@ -146,11 +183,6 @@
                     </ul>
                 </nav>
             }
-        }
-        
-        @if (aktSekce != null && aktSekce.ContainsPosts)
-        {
-         @Html.ActionLink("Přidat příspěvek", "Create", "Books", new {categoryId = ViewBag.Cat}, new {@class = "btn btn-primary", style="float: right"})
         }
         
     @if ((ViewBag.SeznamKategorii as List<BookSekce>).Count == 0)
