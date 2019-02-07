@@ -173,3 +173,7 @@ C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Net.Http.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Net.Sockets.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
 C:\Users\lof\Documents\LofovaChyse\LofovaChyse\bin\roslyn\System.Threading.Tasks.Extensions.dll
+C:\Users\lof\Documents\GitHub\LofovaChyseNew\LofovaChyse\obj\Debug\LofovaChyse.csprojAssemblyReference.cache
+C:\Users\lof\Documents\GitHub\LofovaChyseNew\LofovaChyse\obj\Debug\LofovaChyse.csproj.CoreCompileInputs.cache
+C:\Users\lof\Documents\GitHub\LofovaChyseNew\LofovaChyse\obj\Debug\LofovaChyse.dll
+C:\Users\lof\Documents\GitHub\LofovaChyseNew\LofovaChyse\obj\Debug\LofovaChyse.pdb
